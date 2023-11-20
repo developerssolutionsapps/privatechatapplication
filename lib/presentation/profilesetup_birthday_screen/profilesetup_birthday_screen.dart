@@ -114,7 +114,11 @@ class ProfilesetupBirthdayScreen extends StatelessWidget {
                       CustomElevatedButton(
                           width: 226.h,
                           text: "lbl_next".tr,
-                          alignment: Alignment.center),
+                          alignment: Alignment.center,
+                          onPressed:() => NavigatorService.popAndPushNamed(
+              AppRoutes.profilesetupSexScreen
+            )
+                          ),
                       Spacer(flex: 63)
                     ]))));
   }

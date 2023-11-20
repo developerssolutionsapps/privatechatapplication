@@ -197,16 +197,18 @@ class CompanionSNameWhenAcceptedPage extends StatelessWidget {
                                                               .centerLeft,
                                                           children: [
                                                             CustomImageView(
-                                                                imagePath:
-                                                                    ImageConstant
-                                                                        .imgGroup25,
-                                                                height: 16
-                                                                    .adaptSize,
-                                                                width: 16
-                                                                    .adaptSize,
-                                                                alignment:
-                                                                    Alignment
-                                                                        .center),
+                                                              imagePath:
+                                                                  ImageConstant
+                                                                      .imgGroup25,
+                                                              height:
+                                                                  16.adaptSize,
+                                                              width:
+                                                                  16.adaptSize,
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
+                                                              
+                                                            ),
                                                             Align(
                                                                 alignment: Alignment
                                                                     .centerLeft,

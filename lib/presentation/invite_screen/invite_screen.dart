@@ -88,6 +88,9 @@ class InviteScreen extends StatelessWidget {
                   text: "lbl_invite".tr,
                   margin: EdgeInsets.only(right: 49.h),
                   alignment: Alignment.centerRight,
+                  onPressed: () => NavigatorService.pushNamed(
+              AppRoutes.companionSNameWhenAcceptedContainerScreen
+            ),
                 ),
                 Spacer(
                   flex: 48,
