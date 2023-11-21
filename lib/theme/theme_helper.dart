@@ -176,7 +176,7 @@ class ColorSchemes {
     secondaryContainer: Color(0X35C7C7C7),
 
     // On colors(text colors)
-    onPrimary: Color(0XFF493072),
+    onPrimary: Color(0XFF8d31ec),
     onPrimaryContainer: Color(0XFFFFFFFF),
   );
 }

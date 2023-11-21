@@ -15,19 +15,6 @@ class OtpVerificationEnternumberScreen extends StatelessWidget {
           key: key,
         );
 
-  final Country selectedCountry = Country(
-    phoneCode: "91",
-    countryCode: "IN",
-    e164Sc: 0,
-    geographic: true,
-    level: 1,
-    name: "India",
-    example: "India",
-    displayName: "India",
-    displayNameNoCountryCode: "IN",
-    e164Key: "",
-  );
-
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   static Widget builder(BuildContext context) {
@@ -44,14 +31,7 @@ class OtpVerificationEnternumberScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
-    _onTapFunction() => showCountryPicker(
-          context: context,
-          showPhoneCode:
-              true, // optional. Shows phone code before the country name.
-          onSelect: (Country country) {
-            print('Select country: ${country.displayName}');
-          },
-        );
+    
 
     return SafeArea(
       child: Scaffold(
@@ -105,13 +85,22 @@ class OtpVerificationEnternumberScreen extends StatelessWidget {
                     BlocBuilder<OtpVerificationEnternumberBloc,
                         OtpVerificationEnternumberState>(
                       builder: (context, state) {
-                        TextEditingController? _phoneController;
-                        _phoneController?.text = selectedCountry.countryCode;
                         return CustomPhoneNumber(
                           countryCode: state.countryCodeController,
-                          controller:
-                              state.phoneNumberController ?? _phoneController,
-                          onTap: _onTapFunction,
+                          controller: state.phoneNumberController,
+                          onTap: () => showCountryPicker(
+                            context: context,
+                            showPhoneCode:
+                                true, // optional. Shows phone code before the country name.
+                            onSelect: (Country country) {
+                              context
+                                  .read<OtpVerificationEnternumberBloc>()
+                                  .add(
+                                    ChangeCountryEvent(value: country),
+                                  );
+                              // print('Select country: $controller');
+                            },
+                          ),
                         );
                       },
                     ),

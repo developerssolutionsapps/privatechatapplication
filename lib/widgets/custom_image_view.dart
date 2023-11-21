@@ -95,7 +95,7 @@ class CustomImageView extends StatelessWidget {
               imagePath!,
               height: height,
               width: width,
-              fit: fit ?? BoxFit.contain,
+              fit: fit ?? BoxFit.scaleDown,
               color: color,
             ),
           );
@@ -104,7 +104,7 @@ class CustomImageView extends StatelessWidget {
             File(imagePath!),
             height: height,
             width: width,
-            fit: fit ?? BoxFit.cover,
+            fit: fit ?? BoxFit.scaleDown,
             color: color,
           );
         case ImageType.network:
@@ -126,7 +126,7 @@ class CustomImageView extends StatelessWidget {
               placeHolder,
               height: height,
               width: width,
-              fit: fit ?? BoxFit.cover,
+              fit: fit ?? BoxFit.scaleDown,
             ),
           );
         case ImageType.png:
@@ -135,7 +135,7 @@ class CustomImageView extends StatelessWidget {
             imagePath!,
             height: height,
             width: width,
-            fit: fit ?? BoxFit.cover,
+            fit: fit ?? BoxFit.scaleDown,
             color: color,
           );
       }
