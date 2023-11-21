@@ -2,10 +2,12 @@ import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:private_chat/core/app_export.dart';
 import 'package:private_chat/core/utils/validation_functions.dart';
+import 'package:private_chat/presentation/otp_verification_enternumber_screen/bloc/otp_verification_enternumber_bloc.dart';
 import 'package:private_chat/widgets/custom_text_form_field.dart';
 
 // ignore: must_be_immutable
 class CustomPhoneNumber extends StatelessWidget {
+  
   CustomPhoneNumber({
     Key? key,
     required this.controller,
@@ -14,7 +16,7 @@ class CustomPhoneNumber extends StatelessWidget {
   }) : super(
           key: key,
         );
-
+   var coutry="";
   TextEditingController? countryCode;
   TextEditingController? controller;
   void Function()? onTap;
@@ -22,28 +24,11 @@ class CustomPhoneNumber extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.blue,
+      // color: Colors.blue,
       child: Column(
         children: [
           Row(
             children: [
-              Container(
-                child: OutlinedButton(
-                  onPressed: () => showCountryPicker(
-                    context: context,
-                    showPhoneCode:
-                        true, // optional. Shows phone code before the country name.
-                    onSelect: (Country country) {
-                      countryCode?.text = country.phoneCode;
-                      print('Select country: ${country.displayName}');
-                    },
-                  ),
-                  child: Text(
-                    countryCode?.text ?? "+1",
-                    style: TextStyle(color: Colors.black),
-                  ),
-                ),
-              ),
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.only(
@@ -60,6 +45,20 @@ class CustomPhoneNumber extends StatelessWidget {
                     controller: controller,
                     hintText: "msg_your_phone_number".tr,
                     textInputType: TextInputType.phone,
+                    prefix: Container(
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          side: BorderSide(
+                            color: Colors.transparent,
+                          ),
+                        ),
+                        onPressed:onTap,
+                        child: Text(
+                            coutry,
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                    ),
                     suffix: Container(
                       margin: EdgeInsets.only(
                         left: 30.h,

@@ -83,13 +83,16 @@ class ProfilesetupSexScreen extends StatelessWidget {
                               ]),
                               Column(children: [
                                 CustomIconButton(
-                                    height: 64.adaptSize,
-                                    width: 64.adaptSize,
-                                    padding: EdgeInsets.all(11.h),
-                                    decoration:
-                                        IconButtonStyleHelper.outlineGrayTL32,
-                                    child: CustomImageView(
-                                        imagePath: ImageConstant.imgGroup28)),
+                                  height: 64.adaptSize,
+                                  width: 64.adaptSize,
+                                  padding: EdgeInsets.all(11.h),
+                                  decoration:
+                                      IconButtonStyleHelper.outlineGrayTL32,
+                                  child: CustomImageView(
+                                      imagePath: ImageConstant.imgGroup28),
+                                  onTap: () => NavigatorService.popAndPushNamed(
+                                      AppRoutes.inviteScreen),
+                                ),
                                 SizedBox(height: 8.v),
                                 Text("lbl_male".tr,
                                     style: CustomTextStyles
