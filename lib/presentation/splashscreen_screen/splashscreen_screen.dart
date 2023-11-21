@@ -43,6 +43,7 @@ class SplashscreenScreen extends StatelessWidget {
                           imagePath: ImageConstant.imgGroup108,
                           height: 109.v,
                           width: 95.h,
+                          fit: BoxFit.scaleDown,
                           alignment: Alignment.topCenter,
                           margin: EdgeInsets.only(right: 20.h),
                         ),
