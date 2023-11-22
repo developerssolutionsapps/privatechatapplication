@@ -13,14 +13,36 @@ class OtpVerificationEnternumberBloc extends Bloc<
       : super(initialState) {
     on<OtpVerificationEnternumberInitialEvent>(_onInitialize);
     on<ChangeCountryEvent>(_changeCountry);
+    on<ChangeButtonTextEvent>(_changeButtonText);
+    on<ResetPhoneFieldController>(_resetPhoneFieldController);
   }
-  
+
   _changeCountry(
     ChangeCountryEvent event,
     Emitter<OtpVerificationEnternumberState> emit,
   ) {
     emit(state.copyWith(
-      selectedCountry: event.value  ,
+      selectedCountry: event.value,
+    ));
+  }
+
+  _resetPhoneFieldController(
+    ResetPhoneFieldController event,
+    Emitter<OtpVerificationEnternumberState> emit,
+  ) {
+    TextEditingController? newController = state.phoneNumberController;
+    newController?.text = "";
+    emit(state.copyWith(
+      phoneNumberController: newController,
+    ));
+  }
+
+  _changeButtonText(
+    ChangeButtonTextEvent event,
+    Emitter<OtpVerificationEnternumberState> emit,
+  ) {
+    emit(state.copyWith(
+      buttonText: event.code,
     ));
   }
 

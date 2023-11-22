@@ -6,8 +6,7 @@ import 'package:private_chat/presentation/otp_verification_enternumber_screen/bl
 import 'package:private_chat/widgets/custom_text_form_field.dart';
 
 // ignore: must_be_immutable
-class CustomPhoneNumber extends StatelessWidget {
-  
+class CustomPhoneNumber extends StatefulWidget {
   CustomPhoneNumber({
     Key? key,
     required this.controller,
@@ -16,84 +15,136 @@ class CustomPhoneNumber extends StatelessWidget {
   }) : super(
           key: key,
         );
-   var coutry="";
   TextEditingController? countryCode;
   TextEditingController? controller;
+
+  @override
+  State<CustomPhoneNumber> createState() => _CustomPhoneNumberState();
+}
+
+class _CustomPhoneNumberState extends State<CustomPhoneNumber> {
+  var coutry = "";
+
   void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // color: Colors.blue,
-      child: Column(
-        children: [
-          Row(
+    return BlocBuilder<OtpVerificationEnternumberBloc,
+        OtpVerificationEnternumberState>(
+      builder: (context, state) {
+        return Container(
+          // color: Colors.blue,
+          child: Column(
             children: [
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    left: 10.h,
-                    top: 2.v,
-                    bottom: 2.v,
-                  ),
-                  child: CustomTextFormField(
-                    width: 294.h,
-                    textStyle: TextStyle(
-                      color: Colors.black,
-                    ),
-                    hintStyle: TextStyle(color: Colors.black),
-                    controller: controller,
-                    hintText: "msg_your_phone_number".tr,
-                    textInputType: TextInputType.phone,
-                    prefix: Container(
-                      child: OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                          side: BorderSide(
-                            color: Colors.transparent,
-                          ),
-                        ),
-                        onPressed:onTap,
-                        child: Text(
-                            coutry,
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ),
-                    ),
-                    suffix: Container(
-                      margin: EdgeInsets.only(
-                        left: 30.h,
-                        top: 1.v,
+              Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        left: 10.h,
+                        top: 2.v,
                         bottom: 2.v,
                       ),
-                      child: CustomImageView(
-                        imagePath: ImageConstant.imgClose,
-                        height: 20.adaptSize,
-                        width: 20.adaptSize,
+                      child: CustomTextFormField(
+                        width: 294.h,
+                        textStyle: TextStyle(
+                          color: Colors.black,
+                        ),
+                        hintStyle: TextStyle(color: Colors.black),
+                        controller: widget.controller,
+                        hintText: "msg_your_phone_number".tr,
+                        textInputType: TextInputType.phone,
+                        prefix: Container(
+                          child: OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                              side: BorderSide(
+                                color: Colors.transparent,
+                              ),
+                            ),
+                            onPressed: () => showCountryPicker(
+                              context: context,
+                              showPhoneCode:
+                                  true, // optional. Shows phone code before the country name.
+                              onSelect: (Country country) {
+                                context
+                                    .read<OtpVerificationEnternumberBloc>()
+                                    .add(
+                                      ChangeCountryEvent(value: country),
+                                    );
+                                context
+                                    .read<OtpVerificationEnternumberBloc>()
+                                    .add(
+                                      ChangeButtonTextEvent(
+                                          code: country.phoneCode),
+                                    );
+                                print(country.phoneCode);
+                                // print('Select country: $controller');
+                              },
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 8.0, right: 4.0),
+                              child: Text(
+                                "  ${state.selectedCountry?.flagEmoji ?? ""}  +${state.selectedCountry?.phoneCode ?? "1"}",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ),
+                          ),
+                        ),
+                        suffix: Padding(
+                          padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                          child: OutlinedButton(
+                            onPressed: () {
+                              context
+                                  .read<OtpVerificationEnternumberBloc>()
+                                  .add(ResetPhoneFieldController());
+                            },
+                            style: OutlinedButton.styleFrom(
+                              side: BorderSide(
+                                color: Colors.transparent,
+                              ),
+                            ),
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                left: 30.h,
+                                top: 1.v,
+                                bottom: 2.v,
+                              ),
+                              child: CustomImageView(
+                                imagePath: ImageConstant.imgClose,
+                                height: 20.adaptSize,
+                                width: 20.adaptSize,
+                              ),
+                            ),
+                          ),
+                        ),
+                        suffixConstraints: BoxConstraints(
+                          maxHeight: 23.v,
+                        ),
+                        validator: (value) {
+                          if (!isValidPhone(value)) {
+                            return "err_msg_please_enter_valid_phone_number".tr;
+                          }
+                          return null;
+                        },
                       ),
                     ),
-                    suffixConstraints: BoxConstraints(
-                      maxHeight: 23.v,
-                    ),
-                    validator: (value) {
-                      if (!isValidPhone(value)) {
-                        return "err_msg_please_enter_valid_phone_number".tr;
-                      }
-                      return null;
-                    },
                   ),
+                ],
+              ),
+              Container(
+                height: 1.v,
+                width: 342.h,
+                decoration: BoxDecoration(
+                  color: appTheme.gray200,
                 ),
               ),
             ],
           ),
-          Container(
-            height: 1.v,
-            width: 342.h,
-            decoration: BoxDecoration(
-              color: appTheme.gray200,
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

@@ -27,3 +27,23 @@ class ChangeCountryEvent extends OtpVerificationEnternumberEvent {
         value,
       ];
 }
+
+///Event for changing text value
+class ChangeButtonTextEvent extends OtpVerificationEnternumberEvent {
+  ChangeButtonTextEvent({required this.code});
+
+  String code;
+
+  @override
+  List<Object?> get props => [
+        code,
+      ];
+}
+
+///Event for resetting phone field controller
+class ResetPhoneFieldController extends OtpVerificationEnternumberEvent {
+  ResetPhoneFieldController();
+
+  @override
+  List<Object?> get props => [];
+}

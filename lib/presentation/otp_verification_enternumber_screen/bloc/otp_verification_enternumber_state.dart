@@ -9,6 +9,7 @@ class OtpVerificationEnternumberState extends Equatable {
     this.selectedCountry,
     this.otpVerificationEnternumberModelObj,
     this.countryCodeController,
+    this.buttonText,
   });
 
   TextEditingController? phoneNumberController;
@@ -17,6 +18,7 @@ class OtpVerificationEnternumberState extends Equatable {
   OtpVerificationEnternumberModel? otpVerificationEnternumberModelObj;
 
   Country? selectedCountry;
+  String? buttonText;
 
   @override
   List<Object?> get props => [
@@ -24,12 +26,14 @@ class OtpVerificationEnternumberState extends Equatable {
         countryCodeController,
         selectedCountry,
         otpVerificationEnternumberModelObj,
+        buttonText,
       ];
   OtpVerificationEnternumberState copyWith({
     TextEditingController? phoneNumberController,
     TextEditingController? countryCodeController,
     Country? selectedCountry,
     OtpVerificationEnternumberModel? otpVerificationEnternumberModelObj,
+    String? buttonText,
   }) {
     return OtpVerificationEnternumberState(
       phoneNumberController:
@@ -39,6 +43,7 @@ class OtpVerificationEnternumberState extends Equatable {
       selectedCountry: selectedCountry ?? this.selectedCountry,
       otpVerificationEnternumberModelObj: otpVerificationEnternumberModelObj ??
           this.otpVerificationEnternumberModelObj,
+      buttonText: buttonText ?? this.buttonText,
     );
   }
 }

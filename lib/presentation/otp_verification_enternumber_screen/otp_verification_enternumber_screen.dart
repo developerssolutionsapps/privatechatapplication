@@ -1,4 +1,5 @@
 import 'package:country_picker/country_picker.dart';
+import 'dart:developer';
 
 import 'bloc/otp_verification_enternumber_bloc.dart';
 import 'models/otp_verification_enternumber_model.dart';
@@ -31,7 +32,6 @@ class OtpVerificationEnternumberScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
-    
 
     return SafeArea(
       child: Scaffold(
@@ -88,19 +88,7 @@ class OtpVerificationEnternumberScreen extends StatelessWidget {
                         return CustomPhoneNumber(
                           countryCode: state.countryCodeController,
                           controller: state.phoneNumberController,
-                          onTap: () => showCountryPicker(
-                            context: context,
-                            showPhoneCode:
-                                true, // optional. Shows phone code before the country name.
-                            onSelect: (Country country) {
-                              context
-                                  .read<OtpVerificationEnternumberBloc>()
-                                  .add(
-                                    ChangeCountryEvent(value: country),
-                                  );
-                              // print('Select country: $controller');
-                            },
-                          ),
+                          onTap: () => {},
                         );
                       },
                     ),
