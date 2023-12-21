@@ -94,8 +94,8 @@ class ProfilesetupOneScreen extends StatelessWidget {
                 buttonTextStyle: CustomTextStyles.titleMediumGray500,
                 alignment: Alignment.centerRight,
                 onPressed: () => NavigatorService.popAndPushNamed(
-              AppRoutes.profilesetupBirthdayScreen
-            ),
+                  AppRoutes.profilesetupBirthdayScreen,
+                ),
               ),
               Spacer(
                 flex: 56,

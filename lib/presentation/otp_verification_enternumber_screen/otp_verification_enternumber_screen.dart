@@ -105,15 +105,16 @@ class OtpVerificationEnternumberScreen extends StatelessWidget {
                   flex: 28,
                 ),
                 CustomElevatedButton(
-                  width: 226.h,
-                  text: "lbl_get_code".tr,
-                  margin: EdgeInsets.only(right: 49.h),
-                  buttonTextStyle: CustomTextStyles.titleMediumGray200,
-                  alignment: Alignment.centerRight,
-                  onPressed: () => NavigatorService.popAndPushNamed(
-                    AppRoutes.otpVerificationRecivingcodeScreen,
-                  ),
-                ),
+                    width: 226.h,
+                    text: "lbl_get_code".tr,
+                    margin: EdgeInsets.only(right: 49.h),
+                    buttonTextStyle: CustomTextStyles.titleMediumGray200,
+                    alignment: Alignment.centerRight,
+                    onPressed: () => {
+                          NavigatorService.popAndPushNamed(
+                            AppRoutes.otpVerificationRecivingcodeScreen,
+                          ),
+                        }),
                 Spacer(
                   flex: 34,
                 ),

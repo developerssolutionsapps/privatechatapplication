@@ -115,10 +115,9 @@ class ProfilesetupBirthdayScreen extends StatelessWidget {
                           width: 226.h,
                           text: "lbl_next".tr,
                           alignment: Alignment.center,
-                          onPressed:() => NavigatorService.popAndPushNamed(
-              AppRoutes.profilesetupSexScreen
-            )
-                          ),
+                          onPressed: () => NavigatorService.popAndPushNamed(
+                                AppRoutes.profilesetupSexScreen,
+                              )),
                       Spacer(flex: 63)
                     ]))));
   }

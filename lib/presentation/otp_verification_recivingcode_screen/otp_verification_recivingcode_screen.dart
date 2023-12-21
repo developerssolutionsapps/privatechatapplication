@@ -107,8 +107,8 @@ class OtpVerificationRecivingcodeScreen extends StatelessWidget {
                 buttonTextStyle: CustomTextStyles.titleMediumGray200,
                 alignment: Alignment.centerRight,
                 onPressed: () => NavigatorService.popAndPushNamed(
-              AppRoutes.profilesetupOneScreen
-            ),
+                  AppRoutes.profilesetupOneScreen,
+                ),
               ),
               Spacer(
                 flex: 39,

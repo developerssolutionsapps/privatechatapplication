@@ -69,13 +69,16 @@ class ProfilesetupSexScreen extends StatelessWidget {
                             children: [
                               Column(children: [
                                 CustomIconButton(
-                                    height: 64.adaptSize,
-                                    width: 64.adaptSize,
-                                    padding: EdgeInsets.all(11.h),
-                                    decoration:
-                                        IconButtonStyleHelper.outlineGray,
-                                    child: CustomImageView(
-                                        imagePath: ImageConstant.imgGroup27)),
+                                  height: 64.adaptSize,
+                                  width: 64.adaptSize,
+                                  padding: EdgeInsets.all(11.h),
+                                  decoration: IconButtonStyleHelper.outlineGray,
+                                  child: CustomImageView(
+                                      imagePath: ImageConstant.imgGroup27),
+                                  onTap: () => NavigatorService.popAndPushNamed(
+                                    AppRoutes.inviteScreen,
+                                  ),
+                                ),
                                 SizedBox(height: 8.v),
                                 Text("lbl_female".tr,
                                     style: CustomTextStyles
@@ -91,7 +94,8 @@ class ProfilesetupSexScreen extends StatelessWidget {
                                   child: CustomImageView(
                                       imagePath: ImageConstant.imgGroup28),
                                   onTap: () => NavigatorService.popAndPushNamed(
-                                      AppRoutes.inviteScreen),
+                                    AppRoutes.inviteScreen,
+                                  ),
                                 ),
                                 SizedBox(height: 8.v),
                                 Text("lbl_male".tr,
