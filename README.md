@@ -3,7 +3,7 @@
 
 ### Application structure
 
-After successful build, your application structure should look like this:
+The application structure using dart, flutter and bloc as a state management library:
 
 ```
 .
