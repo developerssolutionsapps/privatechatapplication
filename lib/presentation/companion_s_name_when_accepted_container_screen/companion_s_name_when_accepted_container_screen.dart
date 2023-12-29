@@ -1,5 +1,3 @@
-import 'bloc/companion_s_name_when_accepted_container_bloc.dart';
-import 'models/companion_s_name_when_accepted_container_model.dart';
 import 'package:flutter/material.dart';
 import 'package:private_chat/core/app_export.dart';
 import 'package:private_chat/presentation/companion_s_name_when_accepted_page/companion_s_name_when_accepted_page.dart';
@@ -14,33 +12,24 @@ class CompanionSNameWhenAcceptedContainerScreen extends StatelessWidget {
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
   static Widget builder(BuildContext context) {
-    return BlocProvider<CompanionSNameWhenAcceptedContainerBloc>(
-        create: (context) => CompanionSNameWhenAcceptedContainerBloc(
-            CompanionSNameWhenAcceptedContainerState(
-                companionSNameWhenAcceptedContainerModelObj:
-                    CompanionSNameWhenAcceptedContainerModel()))
-          ..add(CompanionSNameWhenAcceptedContainerInitialEvent()),
-        child: CompanionSNameWhenAcceptedContainerScreen());
+    return CompanionSNameWhenAcceptedContainerScreen();
   }
 
   @override
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
-    return BlocBuilder<CompanionSNameWhenAcceptedContainerBloc,
-        CompanionSNameWhenAcceptedContainerState>(builder: (context, state) {
-      return SafeArea(
-          child: Scaffold(
-              body: Navigator(
-                  key: navigatorKey,
-                  initialRoute: AppRoutes.companionSNameWhenAcceptedPage,
-                  onGenerateRoute: (routeSetting) => PageRouteBuilder(
-                      pageBuilder: (ctx, ani, ani1) =>
-                          getCurrentPage(context, routeSetting.name!),
-                      transitionDuration: Duration(seconds: 0))),
-              bottomNavigationBar: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 51.h),
-                  child: _buildBottomBar(context))));
-    });
+    return SafeArea(
+        child: Scaffold(
+            body: Navigator(
+                key: navigatorKey,
+                initialRoute: AppRoutes.companionSNameWhenAcceptedPage,
+                onGenerateRoute: (routeSetting) => PageRouteBuilder(
+                    pageBuilder: (ctx, ani, ani1) =>
+                        getCurrentPage(context, routeSetting.name!),
+                    transitionDuration: Duration(seconds: 0))),
+            bottomNavigationBar: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 51.h),
+                child: _buildBottomBar(context))));
   }
 
   /// Section Widget

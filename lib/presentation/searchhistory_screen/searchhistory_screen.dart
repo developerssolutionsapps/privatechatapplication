@@ -1,5 +1,3 @@
-import 'bloc/searchhistory_bloc.dart';
-import 'models/searchhistory_model.dart';
 import 'package:flutter/material.dart';
 import 'package:private_chat/core/app_export.dart';
 import 'package:private_chat/widgets/custom_search_view.dart';
@@ -8,11 +6,7 @@ class SearchhistoryScreen extends StatelessWidget {
   const SearchhistoryScreen({Key? key}) : super(key: key);
 
   static Widget builder(BuildContext context) {
-    return BlocProvider<SearchhistoryBloc>(
-        create: (context) => SearchhistoryBloc(
-            SearchhistoryState(searchhistoryModelObj: SearchhistoryModel()))
-          ..add(SearchhistoryInitialEvent()),
-        child: SearchhistoryScreen());
+    return SearchhistoryScreen();
   }
 
   @override
@@ -54,13 +48,7 @@ class SearchhistoryScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(height: 1.v),
-                  BlocSelector<SearchhistoryBloc, SearchhistoryState,
-                          TextEditingController?>(
-                      selector: (state) => state.searchController,
-                      builder: (context, searchController) {
-                        return CustomSearchView(
-                            width: 20.adaptSize, controller: searchController);
-                      })
+                  CustomSearchView(width: 20.adaptSize, controller: null)
                 ])));
   }
 

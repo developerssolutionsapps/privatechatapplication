@@ -1,5 +1,4 @@
-import 'bloc/companion_s_name_when_accepted_bloc.dart';
-import 'models/companion_s_name_when_accepted_model.dart';
+
 import 'package:flutter/material.dart';
 import 'package:private_chat/core/app_export.dart';
 import 'package:private_chat/widgets/custom_text_form_field.dart';
@@ -8,13 +7,7 @@ class CompanionSNameWhenAcceptedPage extends StatelessWidget {
   const CompanionSNameWhenAcceptedPage({Key? key}) : super(key: key);
 
   static Widget builder(BuildContext context) {
-    return BlocProvider<CompanionSNameWhenAcceptedBloc>(
-        create: (context) => CompanionSNameWhenAcceptedBloc(
-            CompanionSNameWhenAcceptedState(
-                companionSNameWhenAcceptedModelObj:
-                    CompanionSNameWhenAcceptedModel()))
-          ..add(CompanionSNameWhenAcceptedInitialEvent()),
-        child: CompanionSNameWhenAcceptedPage());
+    return CompanionSNameWhenAcceptedPage();
   }
 
   @override
@@ -54,32 +47,25 @@ class CompanionSNameWhenAcceptedPage extends StatelessWidget {
                           SizedBox(height: 8.v),
                           Padding(
                               padding: EdgeInsets.only(left: 1.h),
-                              child: BlocSelector<
-                                      CompanionSNameWhenAcceptedBloc,
-                                      CompanionSNameWhenAcceptedState,
-                                      TextEditingController?>(
-                                  selector: (state) => state.locationController,
-                                  builder: (context, locationController) {
-                                    return CustomTextFormField(
-                                        controller: locationController,
-                                        hintText: "lbl_not_shown".tr,
-                                        textInputAction: TextInputAction.done,
-                                        prefix: Container(
-                                            margin: EdgeInsets.fromLTRB(
-                                                7.h, 3.v, 7.h, 13.v),
-                                            child: CustomImageView(
-                                                imagePath:
-                                                    ImageConstant.imgLocation,
-                                                height: 15.v,
-                                                width: 13.h)),
-                                        prefixConstraints:
-                                            BoxConstraints(maxHeight: 32.v),
-                                        contentPadding:
-                                            EdgeInsets.only(right: 28.h),
-                                        borderDecoration:
-                                            TextFormFieldStyleHelper
-                                                .underLineBlueGray);
-                                  })),
+                              child: CustomTextFormField(
+                                  controller: null,
+                                  hintText: "lbl_not_shown".tr,
+                                  textInputAction: TextInputAction.done,
+                                  prefix: Container(
+                                      margin: EdgeInsets.fromLTRB(
+                                          7.h, 3.v, 7.h, 13.v),
+                                      child: CustomImageView(
+                                          imagePath:
+                                              ImageConstant.imgLocation,
+                                          height: 15.v,
+                                          width: 13.h)),
+                                  prefixConstraints:
+                                      BoxConstraints(maxHeight: 32.v),
+                                  contentPadding:
+                                      EdgeInsets.only(right: 28.h),
+                                  borderDecoration:
+                                      TextFormFieldStyleHelper
+                                          .underLineBlueGray)),
                           SizedBox(height: 12.v),
                           Padding(
                               padding: EdgeInsets.only(left: 8.h),

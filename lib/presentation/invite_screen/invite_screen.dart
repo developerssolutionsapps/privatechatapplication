@@ -1,5 +1,3 @@
-import 'bloc/invite_bloc.dart';
-import 'models/invite_model.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:private_chat/core/app_export.dart';
@@ -28,13 +26,7 @@ class InviteScreen extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   static Widget builder(BuildContext context) {
-    return BlocProvider<InviteBloc>(
-      create: (context) => InviteBloc(InviteState(
-        inviteModelObj: InviteModel(),
-      ))
-        ..add(InviteInitialEvent()),
-      child: InviteScreen(),
-    );
+    return InviteScreen();
   }
 
   @override
@@ -121,16 +113,10 @@ class InviteScreen extends StatelessWidget {
           style: CustomTextStyles.headlineSmallGray700,
         ),
         SizedBox(height: 7.v),
-        BlocBuilder<InviteBloc, InviteState>(
-          builder: (context, d) {
-            TextEditingController? _phoneController;
-            _phoneController?.text = selectedCountry.countryCode;
-            return CustomPhoneNumber(
-              controller: d.phoneNumberController,
-              countryCode: d.countryCodeController,
-              onTap: _onTapFunction,
-            );
-          },
+        CustomPhoneNumber(
+          controller: null,
+          countryCode: null,
+          onTap: _onTapFunction,
         ),
       ],
     );

@@ -1,5 +1,3 @@
-import 'bloc/profilesetup_two_bloc.dart';
-import 'models/profilesetup_two_model.dart';
 import 'package:flutter/material.dart';
 import 'package:private_chat/core/app_export.dart';
 import 'package:private_chat/widgets/app_bar/appbar_leading_image.dart';
@@ -12,90 +10,80 @@ class ProfilesetupTwoScreen extends StatelessWidget {
   const ProfilesetupTwoScreen({Key? key}) : super(key: key);
 
   static Widget builder(BuildContext context) {
-    return BlocProvider<ProfilesetupTwoBloc>(
-        create: (context) => ProfilesetupTwoBloc(ProfilesetupTwoState(
-            profilesetupTwoModelObj: ProfilesetupTwoModel()))
-          ..add(ProfilesetupTwoInitialEvent()),
-        child: ProfilesetupTwoScreen());
+    return ProfilesetupTwoScreen();
   }
 
   @override
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
-    return BlocBuilder<ProfilesetupTwoBloc, ProfilesetupTwoState>(
-        builder: (context, state) {
-      return SafeArea(
-          child: Scaffold(
-              backgroundColor: theme.colorScheme.onPrimaryContainer,
-              appBar: _buildAppBar(context),
-              body: Container(
-                  width: double.maxFinite,
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 10.h, vertical: 15.v),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Align(
-                            alignment: Alignment.center,
-                            child: SizedBox(
-                                height: 102.v,
-                                width: 100.h,
-                                child: Stack(
-                                    alignment: Alignment.bottomRight,
-                                    children: [
-                                      CustomImageView(
-                                          imagePath:
-                                              ImageConstant.imgEllipse69100x100,
-                                          height: 100.adaptSize,
-                                          width: 100.adaptSize,
-                                          radius: BorderRadius.circular(50.h),
-                                          alignment: Alignment.center),
-                                      CustomImageView(
-                                          imagePath: ImageConstant.imgCamera,
-                                          height: 30.adaptSize,
-                                          width: 30.adaptSize,
-                                          alignment: Alignment.bottomRight)
-                                    ]))),
-                        SizedBox(height: 33.v),
-                        _buildNameInfo(context),
-                        SizedBox(height: 22.v),
-                        Padding(
-                            padding: EdgeInsets.only(left: 1.h, right: 61.h),
-                            child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text("lbl_gender".tr,
-                                      style: theme.textTheme.titleMedium),
-                                  CustomImageView(
-                                      imagePath:
-                                          ImageConstant.imgCloseDeepPurpleA400,
-                                      height: 20.v,
-                                      width: 14.h,
-                                      margin: EdgeInsets.only(bottom: 2.v))
-                                ])),
-                        SizedBox(height: 25.v),
-                        _buildDOBInfo(context),
-                        SizedBox(height: 23.v),
-                        Padding(
-                            padding: EdgeInsets.only(left: 1.h, right: 57.h),
-                            child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text("lbl_location".tr,
-                                      style: theme.textTheme.titleMedium),
-                                  Text("lbl_add".tr,
-                                      style: theme.textTheme.bodyMedium)
-                                ])),
-                        Spacer(flex: 48),
-                        CustomElevatedButton(
-                            width: 226.h,
-                            text: "lbl_save".tr,
-                            alignment: Alignment.center),
-                        Spacer(flex: 51)
-                      ]))));
-    });
+    return SafeArea(
+        child: Scaffold(
+            backgroundColor: theme.colorScheme.onPrimaryContainer,
+            appBar: _buildAppBar(context),
+            body: Container(
+                width: double.maxFinite,
+                padding: EdgeInsets.symmetric(horizontal: 10.h, vertical: 15.v),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Align(
+                          alignment: Alignment.center,
+                          child: SizedBox(
+                              height: 102.v,
+                              width: 100.h,
+                              child: Stack(
+                                  alignment: Alignment.bottomRight,
+                                  children: [
+                                    CustomImageView(
+                                        imagePath:
+                                            ImageConstant.imgEllipse69100x100,
+                                        height: 100.adaptSize,
+                                        width: 100.adaptSize,
+                                        radius: BorderRadius.circular(50.h),
+                                        alignment: Alignment.center),
+                                    CustomImageView(
+                                        imagePath: ImageConstant.imgCamera,
+                                        height: 30.adaptSize,
+                                        width: 30.adaptSize,
+                                        alignment: Alignment.bottomRight)
+                                  ]))),
+                      SizedBox(height: 33.v),
+                      _buildNameInfo(context),
+                      SizedBox(height: 22.v),
+                      Padding(
+                          padding: EdgeInsets.only(left: 1.h, right: 61.h),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("lbl_gender".tr,
+                                    style: theme.textTheme.titleMedium),
+                                CustomImageView(
+                                    imagePath:
+                                        ImageConstant.imgCloseDeepPurpleA400,
+                                    height: 20.v,
+                                    width: 14.h,
+                                    margin: EdgeInsets.only(bottom: 2.v))
+                              ])),
+                      SizedBox(height: 25.v),
+                      _buildDOBInfo(context),
+                      SizedBox(height: 23.v),
+                      Padding(
+                          padding: EdgeInsets.only(left: 1.h, right: 57.h),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("lbl_location".tr,
+                                    style: theme.textTheme.titleMedium),
+                                Text("lbl_add".tr,
+                                    style: theme.textTheme.bodyMedium)
+                              ])),
+                      Spacer(flex: 48),
+                      CustomElevatedButton(
+                          width: 226.h,
+                          text: "lbl_save".tr,
+                          alignment: Alignment.center),
+                      Spacer(flex: 51)
+                    ]))));
   }
 
   /// Section Widget

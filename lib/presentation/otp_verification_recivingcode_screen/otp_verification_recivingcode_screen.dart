@@ -1,5 +1,3 @@
-import 'bloc/otp_verification_recivingcode_bloc.dart';
-import 'models/otp_verification_recivingcode_model.dart';
 import 'package:flutter/material.dart';
 import 'package:private_chat/core/app_export.dart';
 import 'package:private_chat/widgets/custom_elevated_button.dart';
@@ -12,14 +10,7 @@ class OtpVerificationRecivingcodeScreen extends StatelessWidget {
         );
 
   static Widget builder(BuildContext context) {
-    return BlocProvider<OtpVerificationRecivingcodeBloc>(
-      create: (context) =>
-          OtpVerificationRecivingcodeBloc(OtpVerificationRecivingcodeState(
-        otpVerificationRecivingcodeModelObj: OtpVerificationRecivingcodeModel(),
-      ))
-            ..add(OtpVerificationRecivingcodeInitialEvent()),
-      child: OtpVerificationRecivingcodeScreen(),
-    );
+    return OtpVerificationRecivingcodeScreen();
   }
 
   @override
@@ -81,18 +72,10 @@ class OtpVerificationRecivingcodeScreen extends StatelessWidget {
                   left: 17.h,
                   right: 6.h,
                 ),
-                child: BlocSelector<OtpVerificationRecivingcodeBloc,
-                    OtpVerificationRecivingcodeState, TextEditingController?>(
-                  selector: (state) => state.otpController,
-                  builder: (context, otpController) {
-                    return CustomPinCodeTextField(
-                      context: context,
-                      controller: otpController,
-                      onChanged: (value) {
-                        otpController?.text = value;
-                      },
-                    );
-                  },
+                child: CustomPinCodeTextField(
+                  context: context,
+                  controller: null,
+                  onChanged: (value) {},
                 ),
               ),
               Spacer(

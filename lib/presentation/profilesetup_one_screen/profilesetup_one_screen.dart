@@ -1,5 +1,3 @@
-import 'bloc/profilesetup_one_bloc.dart';
-import 'models/profilesetup_one_model.dart';
 import 'package:flutter/material.dart';
 import 'package:private_chat/core/app_export.dart';
 import 'package:private_chat/widgets/custom_elevated_button.dart';
@@ -12,13 +10,7 @@ class ProfilesetupOneScreen extends StatelessWidget {
         );
 
   static Widget builder(BuildContext context) {
-    return BlocProvider<ProfilesetupOneBloc>(
-      create: (context) => ProfilesetupOneBloc(ProfilesetupOneState(
-        profilesetupOneModelObj: ProfilesetupOneModel(),
-      ))
-        ..add(ProfilesetupOneInitialEvent()),
-      child: ProfilesetupOneScreen(),
-    );
+    return ProfilesetupOneScreen();
   }
 
   @override
@@ -73,15 +65,9 @@ class ProfilesetupOneScreen extends StatelessWidget {
                 style: theme.textTheme.headlineSmall,
               ),
               SizedBox(height: 15.v),
-              BlocSelector<ProfilesetupOneBloc, ProfilesetupOneState,
-                  TextEditingController?>(
-                selector: (state) => state.nameController,
-                builder: (context, nameController) {
-                  return CustomTextFormField(
-                    controller: nameController,
-                    textInputAction: TextInputAction.done,
-                  );
-                },
+              CustomTextFormField(
+                controller: null,
+                textInputAction: TextInputAction.done,
               ),
               Spacer(
                 flex: 43,

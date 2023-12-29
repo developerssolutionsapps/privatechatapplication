@@ -1,5 +1,3 @@
-import 'bloc/request_received_tab_container_bloc.dart';
-import 'models/request_received_tab_container_model.dart';
 import 'package:flutter/material.dart';
 import 'package:private_chat/core/app_export.dart';
 import 'package:private_chat/presentation/companion_s_name_when_accepted_page/companion_s_name_when_accepted_page.dart';
@@ -19,14 +17,7 @@ class RequestReceivedTabContainerScreen extends StatefulWidget {
   RequestReceivedTabContainerScreenState createState() =>
       RequestReceivedTabContainerScreenState();
   static Widget builder(BuildContext context) {
-    return BlocProvider<RequestReceivedTabContainerBloc>(
-      create: (context) =>
-          RequestReceivedTabContainerBloc(RequestReceivedTabContainerState(
-        requestReceivedTabContainerModelObj: RequestReceivedTabContainerModel(),
-      ))
-            ..add(RequestReceivedTabContainerInitialEvent()),
-      child: RequestReceivedTabContainerScreen(),
-    );
+    return RequestReceivedTabContainerScreen();
   }
 }
 
@@ -47,86 +38,81 @@ class RequestReceivedTabContainerScreenState
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
 
-    return BlocBuilder<RequestReceivedTabContainerBloc,
-        RequestReceivedTabContainerState>(
-      builder: (context, state) {
-        return SafeArea(
-          child: Scaffold(
-            backgroundColor: theme.colorScheme.onPrimaryContainer,
-            body: SizedBox(
-              width: double.maxFinite,
-              child: Column(
-                children: [
-                  SizedBox(height: 49.v),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 59.h),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: theme.colorScheme.onPrimaryContainer,
+        body: SizedBox(
+          width: double.maxFinite,
+          child: Column(
+            children: [
+              SizedBox(height: 49.v),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 59.h),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            CustomImageView(
-                              imagePath: ImageConstant.imgSearchPrimary,
-                              height: 21.v,
-                              width: 19.h,
-                              margin: EdgeInsets.only(
-                                top: 7.v,
-                                bottom: 5.v,
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 4.h),
-                              child: Text(
-                                "lbl_received".tr,
-                                style: CustomTextStyles.headlineSmallPrimary,
-                              ),
-                            ),
-                          ],
+                        CustomImageView(
+                          imagePath: ImageConstant.imgSearchPrimary,
+                          height: 21.v,
+                          width: 19.h,
+                          margin: EdgeInsets.only(
+                            top: 7.v,
+                            bottom: 5.v,
+                          ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            CustomImageView(
-                              imagePath: ImageConstant.imgGroup144Gray70001,
-                              height: 21.v,
-                              width: 19.h,
-                              margin: EdgeInsets.symmetric(vertical: 6.v),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 4.h),
-                              child: Text(
-                                "lbl_sent".tr,
-                                style: CustomTextStyles.headlineSmallGray70001,
-                              ),
-                            ),
-                          ],
+                        Padding(
+                          padding: EdgeInsets.only(left: 4.h),
+                          child: Text(
+                            "lbl_received".tr,
+                            style: CustomTextStyles.headlineSmallPrimary,
+                          ),
                         ),
                       ],
                     ),
-                  ),
-                  SizedBox(height: 34.v),
-                  _buildSeventy(context),
-                  SizedBox(
-                    height: 531.v,
-                    child: TabBarView(
-                      controller: tabviewController,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        RequestReceivedAcceptPage.builder(context),
-                        RequestReceivedAcceptPage.builder(context),
+                        CustomImageView(
+                          imagePath: ImageConstant.imgGroup144Gray70001,
+                          height: 21.v,
+                          width: 19.h,
+                          margin: EdgeInsets.symmetric(vertical: 6.v),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 4.h),
+                          child: Text(
+                            "lbl_sent".tr,
+                            style: CustomTextStyles.headlineSmallGray70001,
+                          ),
+                        ),
                       ],
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            bottomNavigationBar: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 51.h),
-              child: _buildBottomBar(context),
-            ),
+              SizedBox(height: 34.v),
+              _buildSeventy(context),
+              SizedBox(
+                height: 531.v,
+                child: TabBarView(
+                  controller: tabviewController,
+                  children: [
+                    RequestReceivedAcceptPage.builder(context),
+                    RequestReceivedAcceptPage.builder(context),
+                  ],
+                ),
+              ),
+            ],
           ),
-        );
-      },
+        ),
+        bottomNavigationBar: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 51.h),
+          child: _buildBottomBar(context),
+        ),
+      ),
     );
   }
 

@@ -1,5 +1,3 @@
-import 'bloc/companion_s_name_unfriend_bloc.dart';
-import 'models/companion_s_name_unfriend_model.dart';
 import 'package:flutter/material.dart';
 import 'package:private_chat/core/app_export.dart';
 import 'package:private_chat/presentation/companion_s_name_when_accepted_page/companion_s_name_when_accepted_page.dart';
@@ -16,51 +14,40 @@ class CompanionSNameUnfriendScreen extends StatelessWidget {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
   static Widget builder(BuildContext context) {
-    return BlocProvider<CompanionSNameUnfriendBloc>(
-      create: (context) =>
-          CompanionSNameUnfriendBloc(CompanionSNameUnfriendState(
-        companionSNameUnfriendModelObj: CompanionSNameUnfriendModel(),
-      ))
-            ..add(CompanionSNameUnfriendInitialEvent()),
-      child: CompanionSNameUnfriendScreen(),
-    );
+    return CompanionSNameUnfriendScreen();
   }
 
   @override
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
 
-    return BlocBuilder<CompanionSNameUnfriendBloc, CompanionSNameUnfriendState>(
-      builder: (context, state) {
-        return SafeArea(
-          child: Scaffold(
-            body: Container(
-              width: double.maxFinite,
-              padding: EdgeInsets.symmetric(horizontal: 44.h),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(height: 59.v),
-                  Text(
-                    "msg_you_don_t_have".tr,
-                    style: theme.textTheme.titleMedium,
-                  ),
-                  SizedBox(height: 19.v),
-                  CustomImageView(
-                    imagePath: ImageConstant.imgAdd,
-                    height: 36.adaptSize,
-                    width: 36.adaptSize,
-                  ),
-                ],
+    return SafeArea(
+      child: Scaffold(
+        body: Container(
+          width: double.maxFinite,
+          padding: EdgeInsets.symmetric(horizontal: 44.h),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(height: 59.v),
+              Text(
+                "msg_you_don_t_have".tr,
+                style: theme.textTheme.titleMedium,
               ),
-            ),
-            bottomNavigationBar: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 51.h),
-              child: _buildBottomBar(context),
-            ),
+              SizedBox(height: 19.v),
+              CustomImageView(
+                imagePath: ImageConstant.imgAdd,
+                height: 36.adaptSize,
+                width: 36.adaptSize,
+              ),
+            ],
           ),
-        );
-      },
+        ),
+        bottomNavigationBar: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 51.h),
+          child: _buildBottomBar(context),
+        ),
+      ),
     );
   }
 

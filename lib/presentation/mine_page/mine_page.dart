@@ -1,5 +1,3 @@
-import 'bloc/mine_bloc.dart';
-import 'models/mine_model.dart';
 import 'package:flutter/material.dart';
 import 'package:private_chat/core/app_export.dart';
 import 'package:private_chat/widgets/custom_icon_button.dart';
@@ -10,10 +8,7 @@ class MinePage extends StatelessWidget {
   const MinePage({Key? key}) : super(key: key);
 
   static Widget builder(BuildContext context) {
-    return BlocProvider<MineBloc>(
-        create: (context) => MineBloc(MineState(mineModelObj: MineModel()))
-          ..add(MineInitialEvent()),
-        child: MinePage());
+    return MinePage();
   }
 
   @override
@@ -49,31 +44,23 @@ class MinePage extends StatelessWidget {
                                             .titleMediumGray500))
                               ]),
                           SizedBox(height: 6.v),
-                          BlocSelector<MineBloc, MineState,
-                                  TextEditingController?>(
-                              selector: (state) => state.notShownController,
-                              builder: (context, notShownController) {
-                                return CustomTextFormField(
-                                    controller: notShownController,
-                                    hintText: "lbl_not_shown".tr,
-                                    textInputAction: TextInputAction.done,
-                                    prefix: Container(
-                                        margin: EdgeInsets.only(
-                                            left: 1.h,
-                                            right: 7.h,
-                                            bottom: 12.v),
-                                        child: CustomImageView(
-                                            imagePath:
-                                                ImageConstant.imgGroup193,
-                                            height: 22.v,
-                                            width: 20.h)),
-                                    prefixConstraints:
-                                        BoxConstraints(maxHeight: 34.v),
-                                    contentPadding: EdgeInsets.only(
-                                        top: 2.v, right: 28.h, bottom: 2.v),
-                                    borderDecoration: TextFormFieldStyleHelper
-                                        .underLineBlueGray);
-                              }),
+                          CustomTextFormField(
+                              controller: null,
+                              hintText: "lbl_not_shown".tr,
+                              textInputAction: TextInputAction.done,
+                              prefix: Container(
+                                  margin: EdgeInsets.only(
+                                      left: 1.h, right: 7.h, bottom: 12.v),
+                                  child: CustomImageView(
+                                      imagePath: ImageConstant.imgGroup193,
+                                      height: 22.v,
+                                      width: 20.h)),
+                              prefixConstraints:
+                                  BoxConstraints(maxHeight: 34.v),
+                              contentPadding: EdgeInsets.only(
+                                  top: 2.v, right: 28.h, bottom: 2.v),
+                              borderDecoration:
+                                  TextFormFieldStyleHelper.underLineBlueGray),
                           SizedBox(height: 16.v),
                           Row(children: [
                             Text("lbl_about_me".tr,

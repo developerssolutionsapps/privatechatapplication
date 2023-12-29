@@ -1,5 +1,3 @@
-import 'bloc/chatinterface_bloc.dart';
-import 'models/chatinterface_model.dart';
 import 'package:flutter/material.dart';
 import 'package:private_chat/core/app_export.dart';
 import 'package:private_chat/widgets/app_bar/appbar_leading_image.dart';
@@ -14,11 +12,7 @@ class ChatinterfaceScreen extends StatelessWidget {
   const ChatinterfaceScreen({Key? key}) : super(key: key);
 
   static Widget builder(BuildContext context) {
-    return BlocProvider<ChatinterfaceBloc>(
-        create: (context) => ChatinterfaceBloc(
-            ChatinterfaceState(chatinterfaceModelObj: ChatinterfaceModel()))
-          ..add(ChatinterfaceInitialEvent()),
-        child: ChatinterfaceScreen());
+    return ChatinterfaceScreen();
   }
 
   @override
@@ -113,20 +107,13 @@ class ChatinterfaceScreen extends StatelessWidget {
   Widget _buildTagSwitch(BuildContext context) {
     return Align(
         alignment: Alignment.topRight,
-        child: BlocSelector<ChatinterfaceBloc, ChatinterfaceState, String?>(
-            selector: (state) => state.radioGroup,
-            builder: (context, radioGroup) {
-              return CustomRadioButton(
-                  width: 76.h,
-                  value: "",
-                  groupValue: radioGroup,
-                  isRightCheck: true,
-                  onChange: (value) {
-                    context
-                        .read<ChatinterfaceBloc>()
-                        .add(ChangeRadioButtonEvent(value: value));
-                  });
-            }));
+        child: CustomRadioButton(
+          width: 76.h,
+          value: "",
+          groupValue: null,
+          isRightCheck: true,
+          onChange: (value) {},
+        ));
   }
 
   /// Section Widget
@@ -224,40 +211,30 @@ class ChatinterfaceScreen extends StatelessWidget {
           Expanded(
               child: Padding(
                   padding: EdgeInsets.only(bottom: 290.v),
-                  child: BlocSelector<ChatinterfaceBloc, ChatinterfaceState,
-                          TextEditingController?>(
-                      selector: (state) =>
-                          state.duisauteiruredolorinreprehendeController,
-                      builder:
-                          (context, duisauteiruredolorinreprehendeController) {
-                        return CustomTextFormField(
-                            controller:
-                                duisauteiruredolorinreprehendeController,
-                            hintText: "msg_duis_aute_irure2".tr,
-                            hintStyle: CustomTextStyles.titleSmallGray800,
-                            textInputAction: TextInputAction.done,
-                            suffix: Container(
-                                padding:
-                                    EdgeInsets.fromLTRB(7.h, 7.v, 6.h, 7.v),
-                                margin:
-                                    EdgeInsets.fromLTRB(30.h, 9.v, 7.h, 9.v),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(13.h),
-                                    border: Border.all(
-                                        color: theme.colorScheme.primary,
-                                        width: 3.h,
-                                        strokeAlign: strokeAlignCenter)),
-                                child: CustomImageView(
-                                    imagePath: ImageConstant.imgGroup116,
-                                    height: 11.v,
-                                    width: 12.h)),
-                            suffixConstraints: BoxConstraints(maxHeight: 49.v),
-                            contentPadding: EdgeInsets.only(
-                                left: 22.h, top: 16.v, bottom: 16.v),
-                            borderDecoration: TextFormFieldStyleHelper.fillGray,
-                            filled: true,
-                            fillColor: appTheme.gray200);
-                      }))),
+                  child: CustomTextFormField(
+                      controller: null,
+                      hintText: "msg_duis_aute_irure2".tr,
+                      hintStyle: CustomTextStyles.titleSmallGray800,
+                      textInputAction: TextInputAction.done,
+                      suffix: Container(
+                          padding: EdgeInsets.fromLTRB(7.h, 7.v, 6.h, 7.v),
+                          margin: EdgeInsets.fromLTRB(30.h, 9.v, 7.h, 9.v),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(13.h),
+                              border: Border.all(
+                                  color: theme.colorScheme.primary,
+                                  width: 3.h,
+                                  strokeAlign: strokeAlignCenter)),
+                          child: CustomImageView(
+                              imagePath: ImageConstant.imgGroup116,
+                              height: 11.v,
+                              width: 12.h)),
+                      suffixConstraints: BoxConstraints(maxHeight: 49.v),
+                      contentPadding:
+                          EdgeInsets.only(left: 22.h, top: 16.v, bottom: 16.v),
+                      borderDecoration: TextFormFieldStyleHelper.fillGray,
+                      filled: true,
+                      fillColor: appTheme.gray200))),
           Container(
               height: 49.v,
               width: 39.h,

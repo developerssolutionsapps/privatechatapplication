@@ -1,5 +1,3 @@
-import 'bloc/profilesetup_birthday_bloc.dart';
-import 'models/profilesetup_birthday_model.dart';
 import 'package:flutter/material.dart';
 import 'package:private_chat/core/app_export.dart';
 import 'package:private_chat/widgets/custom_elevated_button.dart';
@@ -9,11 +7,7 @@ class ProfilesetupBirthdayScreen extends StatelessWidget {
   const ProfilesetupBirthdayScreen({Key? key}) : super(key: key);
 
   static Widget builder(BuildContext context) {
-    return BlocProvider<ProfilesetupBirthdayBloc>(
-        create: (context) => ProfilesetupBirthdayBloc(ProfilesetupBirthdayState(
-            profilesetupBirthdayModelObj: ProfilesetupBirthdayModel()))
-          ..add(ProfilesetupBirthdayInitialEvent()),
-        child: ProfilesetupBirthdayScreen());
+    return ProfilesetupBirthdayScreen();
   }
 
   @override
@@ -98,18 +92,11 @@ class ProfilesetupBirthdayScreen extends StatelessWidget {
                       SizedBox(height: 15.v),
                       Padding(
                           padding: EdgeInsets.symmetric(horizontal: 9.h),
-                          child: BlocSelector<
-                                  ProfilesetupBirthdayBloc,
-                                  ProfilesetupBirthdayState,
-                                  TextEditingController?>(
-                              selector: (state) => state.dateController,
-                              builder: (context, dateController) {
-                                return CustomTextFormField(
-                                    controller: dateController,
-                                    hintText: "lbl_1990_09_01".tr,
-                                    textInputAction: TextInputAction.done,
-                                    alignment: Alignment.center);
-                              })),
+                          child: CustomTextFormField(
+                              controller: null,
+                              hintText: "lbl_1990_09_01".tr,
+                              textInputAction: TextInputAction.done,
+                              alignment: Alignment.center)),
                       Spacer(flex: 36),
                       CustomElevatedButton(
                           width: 226.h,

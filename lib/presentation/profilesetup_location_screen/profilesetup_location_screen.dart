@@ -1,5 +1,3 @@
-import 'bloc/profilesetup_location_bloc.dart';
-import 'models/profilesetup_location_model.dart';
 import 'package:flutter/material.dart';
 import 'package:private_chat/core/app_export.dart';
 import 'package:private_chat/widgets/app_bar/appbar_leading_image.dart';
@@ -13,11 +11,7 @@ class ProfilesetupLocationScreen extends StatelessWidget {
   const ProfilesetupLocationScreen({Key? key}) : super(key: key);
 
   static Widget builder(BuildContext context) {
-    return BlocProvider<ProfilesetupLocationBloc>(
-        create: (context) => ProfilesetupLocationBloc(ProfilesetupLocationState(
-            profilesetupLocationModelObj: ProfilesetupLocationModel()))
-          ..add(ProfilesetupLocationInitialEvent()),
-        child: ProfilesetupLocationScreen());
+    return ProfilesetupLocationScreen();
   }
 
   @override
@@ -63,29 +57,22 @@ class ProfilesetupLocationScreen extends StatelessWidget {
                             Text("lbl_location".tr,
                                 style: theme.textTheme.titleMedium),
                             SizedBox(height: 41.v),
-                            BlocSelector<
-                                    ProfilesetupLocationBloc,
-                                    ProfilesetupLocationState,
-                                    TextEditingController?>(
-                                selector: (state) => state.searchBarController,
-                                builder: (context, searchBarController) {
-                                  return CustomTextFormField(
-                                      controller: searchBarController,
-                                      hintText: "msg_locate_your_current".tr,
-                                      textInputAction: TextInputAction.done,
-                                      prefix: Container(
-                                          margin: EdgeInsets.fromLTRB(
-                                              6.h, 8.v, 12.h, 5.v),
-                                          child: CustomImageView(
-                                              imagePath: ImageConstant
-                                                  .imgLocationDeepPurpleA400,
-                                              height: 22.v,
-                                              width: 20.h)),
-                                      prefixConstraints:
-                                          BoxConstraints(maxHeight: 36.v),
-                                      contentPadding: EdgeInsets.only(
-                                          top: 6.v, right: 30.h, bottom: 6.v));
-                                }),
+                            CustomTextFormField(
+                                controller: null,
+                                hintText: "msg_locate_your_current".tr,
+                                textInputAction: TextInputAction.done,
+                                prefix: Container(
+                                    margin: EdgeInsets.fromLTRB(
+                                        6.h, 8.v, 12.h, 5.v),
+                                    child: CustomImageView(
+                                        imagePath: ImageConstant
+                                            .imgLocationDeepPurpleA400,
+                                        height: 22.v,
+                                        width: 20.h)),
+                                prefixConstraints:
+                                    BoxConstraints(maxHeight: 36.v),
+                                contentPadding: EdgeInsets.only(
+                                    top: 6.v, right: 30.h, bottom: 6.v)),
                             SizedBox(height: 4.v),
                             SizedBox(
                                 height: 532.v,

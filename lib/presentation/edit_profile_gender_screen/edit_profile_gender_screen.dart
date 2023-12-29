@@ -1,5 +1,3 @@
-import 'bloc/edit_profile_gender_bloc.dart';
-import 'models/edit_profile_gender_model.dart';
 import 'package:flutter/material.dart';
 import 'package:private_chat/core/app_export.dart';
 import 'package:private_chat/widgets/app_bar/appbar_leading_image.dart';
@@ -12,11 +10,7 @@ class EditProfileGenderScreen extends StatelessWidget {
   const EditProfileGenderScreen({Key? key}) : super(key: key);
 
   static Widget builder(BuildContext context) {
-    return BlocProvider<EditProfileGenderBloc>(
-        create: (context) => EditProfileGenderBloc(EditProfileGenderState(
-            editProfileGenderModelObj: EditProfileGenderModel()))
-          ..add(EditProfileGenderInitialEvent()),
-        child: EditProfileGenderScreen());
+    return EditProfileGenderScreen();
   }
 
   @override
@@ -35,19 +29,14 @@ class EditProfileGenderScreen extends StatelessWidget {
                       child: Text("lbl_about_me".tr,
                           style: theme.textTheme.titleMedium)),
                   SizedBox(height: 12.v),
-                  BlocSelector<EditProfileGenderBloc, EditProfileGenderState,
-                          TextEditingController?>(
-                      selector: (state) => state.sixtyFourController,
-                      builder: (context, sixtyFourController) {
-                        return CustomTextFormField(
-                            controller: sixtyFourController,
-                            hintText: "msg_for_now_i_know".tr,
-                            hintStyle: CustomTextStyles.bodyMediumGray50001,
-                            textInputAction: TextInputAction.done,
-                            maxLines: 8,
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 4.h, vertical: 11.v));
-                      }),
+                  CustomTextFormField(
+                      controller: null,
+                      hintText: "msg_for_now_i_know".tr,
+                      hintStyle: CustomTextStyles.bodyMediumGray50001,
+                      textInputAction: TextInputAction.done,
+                      maxLines: 8,
+                      contentPadding: EdgeInsets.symmetric(
+                          horizontal: 4.h, vertical: 11.v)),
                   Spacer(flex: 57),
                   CustomElevatedButton(width: 226.h, text: "lbl_save".tr),
                   Spacer(flex: 42)

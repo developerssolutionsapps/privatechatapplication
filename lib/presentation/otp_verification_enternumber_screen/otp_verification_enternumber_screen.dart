@@ -1,8 +1,6 @@
-import 'package:country_picker/country_picker.dart';
-import 'dart:developer';
+// import 'package:country_picker/country_picker.dart';
+// import 'dart:developer';
 
-import 'bloc/otp_verification_enternumber_bloc.dart';
-import 'models/otp_verification_enternumber_model.dart';
 // import 'package:country_pickers/country.dart';
 // import 'package:country_pickers/country_pickers.dart';
 import 'package:flutter/material.dart';
@@ -19,14 +17,7 @@ class OtpVerificationEnternumberScreen extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   static Widget builder(BuildContext context) {
-    return BlocProvider<OtpVerificationEnternumberBloc>(
-      create: (context) =>
-          OtpVerificationEnternumberBloc(OtpVerificationEnternumberState(
-        otpVerificationEnternumberModelObj: OtpVerificationEnternumberModel(),
-      ))
-            ..add(OtpVerificationEnternumberInitialEvent()),
-      child: OtpVerificationEnternumberScreen(),
-    );
+    return OtpVerificationEnternumberScreen();
   }
 
   @override
@@ -82,15 +73,10 @@ class OtpVerificationEnternumberScreen extends StatelessWidget {
                 SizedBox(height: 13.v),
                 Column(
                   children: [
-                    BlocBuilder<OtpVerificationEnternumberBloc,
-                        OtpVerificationEnternumberState>(
-                      builder: (context, state) {
-                        return CustomPhoneNumber(
-                          countryCode: state.countryCodeController,
-                          controller: state.phoneNumberController,
-                          onTap: () => {},
-                        );
-                      },
+                    CustomPhoneNumber(
+                      countryCode: null,
+                      controller: null,
+                      onTap: () => {},
                     ),
                     Container(
                       height: 1.v,

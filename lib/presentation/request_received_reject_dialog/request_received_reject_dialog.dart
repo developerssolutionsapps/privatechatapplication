@@ -1,5 +1,3 @@
-import 'bloc/request_received_reject_bloc.dart';
-import 'models/request_received_reject_model.dart';
 import 'package:flutter/material.dart';
 import 'package:private_chat/core/app_export.dart';
 import 'package:private_chat/widgets/custom_elevated_button.dart';
@@ -12,13 +10,7 @@ class RequestReceivedRejectDialog extends StatelessWidget {
         );
 
   static Widget builder(BuildContext context) {
-    return BlocProvider<RequestReceivedRejectBloc>(
-      create: (context) => RequestReceivedRejectBloc(RequestReceivedRejectState(
-        requestReceivedRejectModelObj: RequestReceivedRejectModel(),
-      ))
-        ..add(RequestReceivedRejectInitialEvent()),
-      child: RequestReceivedRejectDialog(),
-    );
+    return RequestReceivedRejectDialog();
   }
 
   @override

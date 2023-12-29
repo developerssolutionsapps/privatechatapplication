@@ -1,5 +1,3 @@
-import 'bloc/account_delete_bloc.dart';
-import 'models/account_delete_model.dart';
 import 'package:flutter/material.dart';
 import 'package:private_chat/core/app_export.dart';
 import 'package:private_chat/widgets/app_bar/appbar_leading_image.dart';
@@ -11,40 +9,32 @@ class AccountDeleteScreen extends StatelessWidget {
   const AccountDeleteScreen({Key? key}) : super(key: key);
 
   static Widget builder(BuildContext context) {
-    return BlocProvider<AccountDeleteBloc>(
-        create: (context) => AccountDeleteBloc(
-            AccountDeleteState(accountDeleteModelObj: AccountDeleteModel()))
-          ..add(AccountDeleteInitialEvent()),
-        child: AccountDeleteScreen());
+    return AccountDeleteScreen();
   }
 
   @override
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
-    return BlocBuilder<AccountDeleteBloc, AccountDeleteState>(
-        builder: (context, state) {
-      return SafeArea(
-          child: Scaffold(
-              backgroundColor: theme.colorScheme.onPrimaryContainer,
-              appBar: _buildAppBar(context),
-              body: Container(
-                  width: double.maxFinite,
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 11.h, vertical: 31.v),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildSeventyNine(context),
-                        SizedBox(height: 38.v),
-                        _buildEighty(context),
-                        Spacer(flex: 68),
-                        CustomElevatedButton(
-                            width: 226.h,
-                            text: "lbl_save".tr,
-                            alignment: Alignment.center),
-                        Spacer(flex: 31)
-                      ]))));
-    });
+    return SafeArea(
+        child: Scaffold(
+            backgroundColor: theme.colorScheme.onPrimaryContainer,
+            appBar: _buildAppBar(context),
+            body: Container(
+                width: double.maxFinite,
+                padding: EdgeInsets.symmetric(horizontal: 11.h, vertical: 31.v),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildSeventyNine(context),
+                      SizedBox(height: 38.v),
+                      _buildEighty(context),
+                      Spacer(flex: 68),
+                      CustomElevatedButton(
+                          width: 226.h,
+                          text: "lbl_save".tr,
+                          alignment: Alignment.center),
+                      Spacer(flex: 31)
+                    ]))));
   }
 
   /// Section Widget

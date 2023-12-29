@@ -1,5 +1,3 @@
-import 'bloc/app_navigation_bloc.dart';
-import 'models/app_navigation_model.dart';
 import 'package:flutter/material.dart';
 import 'package:private_chat/core/app_export.dart';
 
@@ -10,153 +8,140 @@ class AppNavigationScreen extends StatelessWidget {
         );
 
   static Widget builder(BuildContext context) {
-    return BlocProvider<AppNavigationBloc>(
-      create: (context) => AppNavigationBloc(AppNavigationState(
-        appNavigationModelObj: AppNavigationModel(),
-      ))
-        ..add(AppNavigationInitialEvent()),
-      child: AppNavigationScreen(),
-    );
+    return AppNavigationScreen();
   }
 
   @override
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
-
-    return BlocBuilder<AppNavigationBloc, AppNavigationState>(
-      builder: (context, state) {
-        return SafeArea(
-          child: Scaffold(
-            backgroundColor: Color(0XFFFFFFFF),
-            body: SizedBox(
-              width: 375.h,
-              child: Column(
-                children: [
-                  _buildAppNavigation(context),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Color(0XFFFFFFFF),
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Color(0XFFFFFFFF),
+        body: SizedBox(
+          width: 375.h,
+          child: Column(
+            children: [
+              _buildAppNavigation(context),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Color(0XFFFFFFFF),
+                    ),
+                    child: Column(
+                      children: [
+                        _buildScreenTitle(
+                          context,
+                          screenTitle: "SplashScreen".tr,
+                          onTapScreenTitle: () =>
+                              onTapScreenTitle(AppRoutes.splashscreenScreen),
                         ),
-                        child: Column(
-                          children: [
-                            _buildScreenTitle(
-                              context,
-                              screenTitle: "SplashScreen".tr,
-                              onTapScreenTitle: () => onTapScreenTitle(
-                                  AppRoutes.splashscreenScreen),
-                            ),
-                            _buildScreenTitle(
-                              context,
-                              screenTitle: "OTP Verification-EnterNumber".tr,
-                              onTapScreenTitle: () => onTapScreenTitle(
-                                  AppRoutes.otpVerificationEnternumberScreen),
-                            ),
-                            _buildScreenTitle(
-                              context,
-                              screenTitle: "OTP Verification-RecivingCode".tr,
-                              onTapScreenTitle: () => onTapScreenTitle(
-                                  AppRoutes.otpVerificationRecivingcodeScreen),
-                            ),
-                            _buildScreenTitle(
-                              context,
-                              screenTitle: "ProfileSetup One".tr,
-                              onTapScreenTitle: () => onTapScreenTitle(
-                                  AppRoutes.profilesetupOneScreen),
-                            ),
-                            _buildScreenTitle(
-                              context,
-                              screenTitle: "ProfileSetup Two".tr,
-                              onTapScreenTitle: () => onTapScreenTitle(
-                                  AppRoutes.profilesetupTwoScreen),
-                            ),
-                            _buildScreenTitle(
-                              context,
-                              screenTitle: " Account Delete".tr,
-                              onTapScreenTitle: () => onTapScreenTitle(
-                                  AppRoutes.accountDeleteScreen),
-                            ),
-                            _buildScreenTitle(
-                              context,
-                              screenTitle:
-                                  "Companion\\'s Name when accepted - Container"
-                                      .tr,
-                              onTapScreenTitle: () => onTapScreenTitle(AppRoutes
-                                  .companionSNameWhenAcceptedContainerScreen),
-                            ),
-                            _buildScreenTitle(
-                              context,
-                              screenTitle: "Companion\\'s Name unfriend".tr,
-                              onTapScreenTitle: () => onTapScreenTitle(
-                                  AppRoutes.companionSNameUnfriendScreen),
-                            ),
-                            _buildScreenTitle(
-                              context,
-                              screenTitle: "SearchHistory".tr,
-                              onTapScreenTitle: () => onTapScreenTitle(
-                                  AppRoutes.searchhistoryScreen),
-                            ),
-                            _buildScreenTitle(
-                              context,
-                              screenTitle: "ChatInterface".tr,
-                              onTapScreenTitle: () => onTapScreenTitle(
-                                  AppRoutes.chatinterfaceScreen),
-                            ),
-                            _buildScreenTitle(
-                              context,
-                              screenTitle: "ProfileSetup-Birthday".tr,
-                              onTapScreenTitle: () => onTapScreenTitle(
-                                  AppRoutes.profilesetupBirthdayScreen),
-                            ),
-                            _buildScreenTitle(
-                              context,
-                              screenTitle: "ProfileSetup-Sex".tr,
-                              onTapScreenTitle: () => onTapScreenTitle(
-                                  AppRoutes.profilesetupSexScreen),
-                            ),
-                            _buildScreenTitle(
-                              context,
-                              screenTitle: "Invite".tr,
-                              onTapScreenTitle: () =>
-                                  onTapScreenTitle(AppRoutes.inviteScreen),
-                            ),
-                            _buildScreenTitle(
-                              context,
-                              screenTitle: "ProfileSetup".tr,
-                              onTapScreenTitle: () => onTapScreenTitle(
-                                  AppRoutes.profilesetupScreen),
-                            ),
-                            _buildScreenTitle(
-                              context,
-                              screenTitle: "ProfileSetup/location".tr,
-                              onTapScreenTitle: () => onTapScreenTitle(
-                                  AppRoutes.profilesetupLocationScreen),
-                            ),
-                            _buildScreenTitle(
-                              context,
-                              screenTitle: "Edit profile-Gender".tr,
-                              onTapScreenTitle: () => onTapScreenTitle(
-                                  AppRoutes.editProfileGenderScreen),
-                            ),
-                            _buildScreenTitle(
-                              context,
-                              screenTitle:
-                                  "Request-received - Tab Container".tr,
-                              onTapScreenTitle: () => onTapScreenTitle(
-                                  AppRoutes.requestReceivedTabContainerScreen),
-                            ),
-                          ],
+                        _buildScreenTitle(
+                          context,
+                          screenTitle: "OTP Verification-EnterNumber".tr,
+                          onTapScreenTitle: () => onTapScreenTitle(
+                              AppRoutes.otpVerificationEnternumberScreen),
                         ),
-                      ),
+                        _buildScreenTitle(
+                          context,
+                          screenTitle: "OTP Verification-RecivingCode".tr,
+                          onTapScreenTitle: () => onTapScreenTitle(
+                              AppRoutes.otpVerificationRecivingcodeScreen),
+                        ),
+                        _buildScreenTitle(
+                          context,
+                          screenTitle: "ProfileSetup One".tr,
+                          onTapScreenTitle: () =>
+                              onTapScreenTitle(AppRoutes.profilesetupOneScreen),
+                        ),
+                        _buildScreenTitle(
+                          context,
+                          screenTitle: "ProfileSetup Two".tr,
+                          onTapScreenTitle: () =>
+                              onTapScreenTitle(AppRoutes.profilesetupTwoScreen),
+                        ),
+                        _buildScreenTitle(
+                          context,
+                          screenTitle: " Account Delete".tr,
+                          onTapScreenTitle: () =>
+                              onTapScreenTitle(AppRoutes.accountDeleteScreen),
+                        ),
+                        _buildScreenTitle(
+                          context,
+                          screenTitle:
+                              "Companion\\'s Name when accepted - Container".tr,
+                          onTapScreenTitle: () => onTapScreenTitle(AppRoutes
+                              .companionSNameWhenAcceptedContainerScreen),
+                        ),
+                        _buildScreenTitle(
+                          context,
+                          screenTitle: "Companion\\'s Name unfriend".tr,
+                          onTapScreenTitle: () => onTapScreenTitle(
+                              AppRoutes.companionSNameUnfriendScreen),
+                        ),
+                        _buildScreenTitle(
+                          context,
+                          screenTitle: "SearchHistory".tr,
+                          onTapScreenTitle: () =>
+                              onTapScreenTitle(AppRoutes.searchhistoryScreen),
+                        ),
+                        _buildScreenTitle(
+                          context,
+                          screenTitle: "ChatInterface".tr,
+                          onTapScreenTitle: () =>
+                              onTapScreenTitle(AppRoutes.chatinterfaceScreen),
+                        ),
+                        _buildScreenTitle(
+                          context,
+                          screenTitle: "ProfileSetup-Birthday".tr,
+                          onTapScreenTitle: () => onTapScreenTitle(
+                              AppRoutes.profilesetupBirthdayScreen),
+                        ),
+                        _buildScreenTitle(
+                          context,
+                          screenTitle: "ProfileSetup-Sex".tr,
+                          onTapScreenTitle: () =>
+                              onTapScreenTitle(AppRoutes.profilesetupSexScreen),
+                        ),
+                        _buildScreenTitle(
+                          context,
+                          screenTitle: "Invite".tr,
+                          onTapScreenTitle: () =>
+                              onTapScreenTitle(AppRoutes.inviteScreen),
+                        ),
+                        _buildScreenTitle(
+                          context,
+                          screenTitle: "ProfileSetup".tr,
+                          onTapScreenTitle: () =>
+                              onTapScreenTitle(AppRoutes.profilesetupScreen),
+                        ),
+                        _buildScreenTitle(
+                          context,
+                          screenTitle: "ProfileSetup/location".tr,
+                          onTapScreenTitle: () => onTapScreenTitle(
+                              AppRoutes.profilesetupLocationScreen),
+                        ),
+                        _buildScreenTitle(
+                          context,
+                          screenTitle: "Edit profile-Gender".tr,
+                          onTapScreenTitle: () => onTapScreenTitle(
+                              AppRoutes.editProfileGenderScreen),
+                        ),
+                        _buildScreenTitle(
+                          context,
+                          screenTitle: "Request-received - Tab Container".tr,
+                          onTapScreenTitle: () => onTapScreenTitle(
+                              AppRoutes.requestReceivedTabContainerScreen),
+                        ),
+                      ],
                     ),
                   ),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 

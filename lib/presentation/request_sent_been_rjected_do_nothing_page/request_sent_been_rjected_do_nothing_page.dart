@@ -1,5 +1,3 @@
-import 'bloc/request_sent_been_rjected_do_nothing_bloc.dart';
-import 'models/request_sent_been_rjected_do_nothing_model.dart';
 import 'package:flutter/material.dart';
 import 'package:private_chat/core/app_export.dart';
 import 'package:private_chat/widgets/custom_icon_button.dart';
@@ -12,109 +10,95 @@ class RequestSentBeenRjectedDoNothingPage extends StatelessWidget {
         );
 
   static Widget builder(BuildContext context) {
-    return BlocProvider<RequestSentBeenRjectedDoNothingBloc>(
-      create: (context) => RequestSentBeenRjectedDoNothingBloc(
-          RequestSentBeenRjectedDoNothingState(
-        requestSentBeenRjectedDoNothingModelObj:
-            RequestSentBeenRjectedDoNothingModel(),
-      ))
-        ..add(RequestSentBeenRjectedDoNothingInitialEvent()),
-      child: RequestSentBeenRjectedDoNothingPage(),
-    );
+    return RequestSentBeenRjectedDoNothingPage();
   }
 
   @override
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
 
-    return BlocBuilder<RequestSentBeenRjectedDoNothingBloc,
-        RequestSentBeenRjectedDoNothingState>(
-      builder: (context, state) {
-        return SafeArea(
-          child: Scaffold(
-            body: Container(
-              width: double.maxFinite,
-              decoration: AppDecoration.fillGray100,
-              child: Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 12.h,
-                  vertical: 49.v,
-                ),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 47.h),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return SafeArea(
+      child: Scaffold(
+        body: Container(
+          width: double.maxFinite,
+          decoration: AppDecoration.fillGray100,
+          child: Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: 12.h,
+              vertical: 49.v,
+            ),
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 47.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CustomImageView(
-                                imagePath: ImageConstant.imgSearchGray70001,
-                                height: 21.v,
-                                width: 20.h,
-                                margin: EdgeInsets.only(
-                                  top: 7.v,
-                                  bottom: 5.v,
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(left: 3.h),
-                                child: Text(
-                                  "lbl_received".tr,
-                                  style:
-                                      CustomTextStyles.headlineSmallGray70001,
-                                ),
-                              ),
-                            ],
+                          CustomImageView(
+                            imagePath: ImageConstant.imgSearchGray70001,
+                            height: 21.v,
+                            width: 20.h,
+                            margin: EdgeInsets.only(
+                              top: 7.v,
+                              bottom: 5.v,
+                            ),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CustomImageView(
-                                imagePath: ImageConstant.imgGroup144,
-                                height: 21.v,
-                                width: 19.h,
-                                margin: EdgeInsets.symmetric(vertical: 6.v),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(left: 3.h),
-                                child: Text(
-                                  "lbl_sent".tr,
-                                  style: CustomTextStyles.headlineSmallPrimary,
-                                ),
-                              ),
-                            ],
+                          Padding(
+                            padding: EdgeInsets.only(left: 3.h),
+                            child: Text(
+                              "lbl_received".tr,
+                              style: CustomTextStyles.headlineSmallGray70001,
+                            ),
                           ),
                         ],
                       ),
-                    ),
-                    SizedBox(height: 36.v),
-                    _buildSeventyFive(context),
-                    Spacer(
-                      flex: 48,
-                    ),
-                    Text(
-                      "msg_you_don_t_have".tr,
-                      style: theme.textTheme.titleMedium,
-                    ),
-                    SizedBox(height: 19.v),
-                    CustomImageView(
-                      imagePath: ImageConstant.imgAdd,
-                      height: 36.adaptSize,
-                      width: 36.adaptSize,
-                    ),
-                    Spacer(
-                      flex: 51,
-                    ),
-                  ],
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CustomImageView(
+                            imagePath: ImageConstant.imgGroup144,
+                            height: 21.v,
+                            width: 19.h,
+                            margin: EdgeInsets.symmetric(vertical: 6.v),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 3.h),
+                            child: Text(
+                              "lbl_sent".tr,
+                              style: CustomTextStyles.headlineSmallPrimary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
+                SizedBox(height: 36.v),
+                _buildSeventyFive(context),
+                Spacer(
+                  flex: 48,
+                ),
+                Text(
+                  "msg_you_don_t_have".tr,
+                  style: theme.textTheme.titleMedium,
+                ),
+                SizedBox(height: 19.v),
+                CustomImageView(
+                  imagePath: ImageConstant.imgAdd,
+                  height: 36.adaptSize,
+                  width: 36.adaptSize,
+                ),
+                Spacer(
+                  flex: 51,
+                ),
+              ],
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 

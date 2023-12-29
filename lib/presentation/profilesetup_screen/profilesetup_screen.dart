@@ -1,5 +1,3 @@
-import 'bloc/profilesetup_bloc.dart';
-import 'models/profilesetup_model.dart';
 import 'package:flutter/material.dart';
 import 'package:private_chat/core/app_export.dart';
 import 'package:private_chat/core/utils/validation_functions.dart';
@@ -15,13 +13,7 @@ class ProfilesetupScreen extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   static Widget builder(BuildContext context) {
-    return BlocProvider<ProfilesetupBloc>(
-      create: (context) => ProfilesetupBloc(ProfilesetupState(
-        profilesetupModelObj: ProfilesetupModel(),
-      ))
-        ..add(ProfilesetupInitialEvent()),
-      child: ProfilesetupScreen(),
-    );
+    return ProfilesetupScreen();
   }
 
   @override
@@ -78,26 +70,20 @@ class ProfilesetupScreen extends StatelessWidget {
                   style: theme.textTheme.headlineSmall,
                 ),
                 SizedBox(height: 15.v),
-                BlocSelector<ProfilesetupBloc, ProfilesetupState,
-                    TextEditingController?>(
-                  selector: (state) => state.nameController,
-                  builder: (context, nameController) {
-                    return CustomTextFormField(
-                      controller: nameController,
-                      hintText: "msg_a_given_display2".tr,
-                      textInputAction: TextInputAction.done,
-                      validator: (value) {
-                        if (!isText(value)) {
-                          return "err_msg_please_enter_valid_text".tr;
-                        }
-                        return null;
-                      },
-                      contentPadding: EdgeInsets.symmetric(
-                        horizontal: 6.h,
-                        vertical: 22.v,
-                      ),
-                    );
+                CustomTextFormField(
+                  controller: null,
+                  hintText: "msg_a_given_display2".tr,
+                  textInputAction: TextInputAction.done,
+                  validator: (value) {
+                    if (!isText(value)) {
+                      return "err_msg_please_enter_valid_text".tr;
+                    }
+                    return null;
                   },
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 6.h,
+                    vertical: 22.v,
+                  ),
                 ),
                 Spacer(
                   flex: 43,
