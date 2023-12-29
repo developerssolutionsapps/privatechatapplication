@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'bloc/splashscreen_bloc.dart';
 import 'models/splashscreen_model.dart';
 import 'package:flutter/material.dart';
@@ -27,39 +29,44 @@ class SplashscreenScreen extends StatelessWidget {
       builder: (context, state) {
         return SafeArea(
           child: Scaffold(
-            body: SizedBox(
-              width: double.maxFinite,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(height: 5.v),
-                  SizedBox(
-                    height: 167.v,
-                    width: 152.h,
-                    child: Stack(
-                      alignment: Alignment.bottomCenter,
+            body: StreamBuilder<User?>(
+                stream: null,
+                builder: (context, snapshot) {
+                  return SizedBox(
+                    width: double.maxFinite,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        CustomImageView(
-                          imagePath: ImageConstant.imgGroup108,
-                          height: 109.v,
-                          width: 95.h,
-                          fit: BoxFit.scaleDown,
-                          alignment: Alignment.topCenter,
-                          margin: EdgeInsets.only(right: 20.h),
-                        ),
-                        Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Text(
-                            "lbl_private".tr,
-                            style: CustomTextStyles.displayMediumOnPrimary,
+                        SizedBox(height: 5.v),
+                        SizedBox(
+                          height: 167.v,
+                          width: 152.h,
+                          child: Stack(
+                            alignment: Alignment.bottomCenter,
+                            children: [
+                              CustomImageView(
+                                imagePath: ImageConstant.imgGroup108,
+                                height: 109.v,
+                                width: 95.h,
+                                fit: BoxFit.scaleDown,
+                                alignment: Alignment.topCenter,
+                                margin: EdgeInsets.only(right: 20.h),
+                              ),
+                              Align(
+                                alignment: Alignment.bottomCenter,
+                                child: Text(
+                                  "lbl_private".tr,
+                                  style:
+                                      CustomTextStyles.displayMediumOnPrimary,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
-                  ),
-                ],
-              ),
-            ),
+                  );
+                }),
           ),
         );
       },

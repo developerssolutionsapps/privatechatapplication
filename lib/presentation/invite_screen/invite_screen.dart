@@ -89,8 +89,7 @@ class InviteScreen extends StatelessWidget {
                   margin: EdgeInsets.only(right: 49.h),
                   alignment: Alignment.centerRight,
                   onPressed: () => NavigatorService.pushNamed(
-              AppRoutes.companionSNameWhenAcceptedContainerScreen
-            ),
+                      AppRoutes.companionSNameWhenAcceptedContainerScreen),
                 ),
                 Spacer(
                   flex: 48,
@@ -123,12 +122,12 @@ class InviteScreen extends StatelessWidget {
         ),
         SizedBox(height: 7.v),
         BlocBuilder<InviteBloc, InviteState>(
-          builder: (context, state) {
+          builder: (context, d) {
             TextEditingController? _phoneController;
             _phoneController?.text = selectedCountry.countryCode;
             return CustomPhoneNumber(
-              controller: state.phoneNumberController,
-              countryCode: state.countryCodeController,
+              controller: d.phoneNumberController,
+              countryCode: d.countryCodeController,
               onTap: _onTapFunction,
             );
           },
