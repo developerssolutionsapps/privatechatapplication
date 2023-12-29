@@ -1,7 +1,7 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
-import '../core/app_export.dart';
-import '../core/utils/validation_functions.dart';
+import '../../core/app_export.dart';
+import '../../core/utils/validation_functions.dart';
 import 'custom_text_form_field.dart';
 
 // ignore: must_be_immutable
