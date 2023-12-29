@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:private_chat/main.dart';
+import '../../main.dart';
 
 class ServerException implements Exception {}
 
