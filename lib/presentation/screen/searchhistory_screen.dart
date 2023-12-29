@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../core/app_export.dart';
-import '../../widgets/custom_search_view.dart';
+import '../widgets/custom_search_view.dart';
 
 class SearchhistoryScreen extends StatelessWidget {
   const SearchhistoryScreen({Key? key}) : super(key: key);

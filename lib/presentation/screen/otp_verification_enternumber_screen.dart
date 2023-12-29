@@ -5,8 +5,8 @@
 // import 'package:country_pickers/country_pickers.dart';
 import 'package:flutter/material.dart';
 import 'package:private_chat/core/app_export.dart';
-import 'package:private_chat/widgets/custom_elevated_button.dart';
-import 'package:private_chat/widgets/custom_phone_number.dart';
+import 'package:private_chat/presentation/widgets/custom_elevated_button.dart';
+import 'package:private_chat/presentation/widgets/custom_phone_number.dart';
 
 class OtpVerificationEnternumberScreen extends StatelessWidget {
   OtpVerificationEnternumberScreen({Key? key})

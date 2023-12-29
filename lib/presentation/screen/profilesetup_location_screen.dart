@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import '../../core/app_export.dart';
-import '../../widgets/app_bar/appbar_leading_image.dart';
-import '../../widgets/app_bar/appbar_title.dart';
-import '../../widgets/app_bar/custom_app_bar.dart';
-import '../../widgets/custom_elevated_button.dart';
-import '../../widgets/custom_icon_button.dart';
-import '../../widgets/custom_text_form_field.dart';
+import '../widgets/app_bar/appbar_leading_image.dart';
+import '../widgets/app_bar/appbar_title.dart';
+import '../widgets/app_bar/custom_app_bar.dart';
+import '../widgets/custom_elevated_button.dart';
+import '../widgets/custom_icon_button.dart';
+import '../widgets/custom_text_form_field.dart';
 
 class ProfilesetupLocationScreen extends StatelessWidget {
   const ProfilesetupLocationScreen({Key? key}) : super(key: key);

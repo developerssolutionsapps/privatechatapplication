@@ -1,8 +1,8 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import '../../core/app_export.dart';
-import '../../widgets/custom_elevated_button.dart';
-import '../../widgets/custom_phone_number.dart';
+import '../widgets/custom_elevated_button.dart';
+import '../widgets/custom_phone_number.dart';
 
 class InviteScreen extends StatelessWidget {
   InviteScreen({Key? key})

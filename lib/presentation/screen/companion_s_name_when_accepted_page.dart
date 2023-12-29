@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../core/app_export.dart';
-import '../../widgets/custom_text_form_field.dart';
+import '../widgets/custom_text_form_field.dart';
 
 class CompanionSNameWhenAcceptedPage extends StatelessWidget {
   const CompanionSNameWhenAcceptedPage({Key? key}) : super(key: key);

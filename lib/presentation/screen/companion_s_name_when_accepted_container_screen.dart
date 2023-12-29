@@ -3,7 +3,7 @@ import '../../core/app_export.dart';
 import 'companion_s_name_when_accepted_page.dart';
 import '../screen/mine_page.dart';
 import 'request_sent_been_rjected_do_nothing_page.dart';
-import '../../widgets/custom_bottom_bar.dart';
+import '../widgets/custom_bottom_bar.dart';
 
 // ignore_for_file: must_be_immutable
 class CompanionSNameWhenAcceptedContainerScreen extends StatelessWidget {

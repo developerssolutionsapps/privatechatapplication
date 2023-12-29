@@ -14,7 +14,7 @@ export 'package:private_chat/routes/app_routes.dart';
 export 'package:private_chat/theme/app_decoration.dart';
 export 'package:private_chat/theme/custom_text_style.dart';
 export 'package:private_chat/theme/theme_helper.dart';
-export 'package:private_chat/widgets/custom_image_view.dart';
+export 'package:private_chat/presentation/widgets/custom_image_view.dart';
 export '../theme/bloc/theme_bloc.dart';
 export '../theme/custom_button_style.dart';
 export 'package:private_chat/core/utils/date_time_utils.dart';
