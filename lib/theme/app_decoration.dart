@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:private_chat/core/app_export.dart';
+
+import '../core/app_export.dart';
 
 class AppDecoration {
   // Bg decorations
