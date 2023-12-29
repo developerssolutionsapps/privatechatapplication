@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:private_chat/core/app_export.dart';
-import 'package:private_chat/widgets/base_button.dart';
+import '../core/app_export.dart';
+import 'base_button.dart';
 
 class CustomElevatedButton extends BaseButton {
   CustomElevatedButton({

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:private_chat/core/app_export.dart';
+
+import '../app_export.dart';
 
 class ProgressDialogUtils {
   static bool isProgressVisible = false;

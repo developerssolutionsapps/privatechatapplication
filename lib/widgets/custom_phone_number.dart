@@ -1,9 +1,8 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:private_chat/core/app_export.dart';
-import 'package:private_chat/core/utils/validation_functions.dart';
-import 'package:private_chat/presentation/otp_verification_enternumber_screen/bloc/otp_verification_enternumber_bloc.dart';
-import 'package:private_chat/widgets/custom_text_form_field.dart';
+import '../core/app_export.dart';
+import '../core/utils/validation_functions.dart';
+import 'custom_text_form_field.dart';
 
 // ignore: must_be_immutable
 class CustomPhoneNumber extends StatefulWidget {
@@ -63,13 +62,6 @@ class _CustomPhoneNumberState extends State<CustomPhoneNumber> {
                           showPhoneCode:
                               true, // optional. Shows phone code before the country name.
                           onSelect: (Country country) {
-                            context.read<OtpVerificationEnternumberBloc>().add(
-                                  ChangeCountryEvent(value: country),
-                                );
-                            context.read<OtpVerificationEnternumberBloc>().add(
-                                  ChangeButtonTextEvent(
-                                      code: country.phoneCode),
-                                );
                             print(country.phoneCode);
                             // print('Select country: $controller');
                           },
@@ -77,7 +69,8 @@ class _CustomPhoneNumberState extends State<CustomPhoneNumber> {
                         child: Padding(
                           padding: const EdgeInsets.only(left: 8.0, right: 4.0),
                           child: Text(
-                            "  ${state.selectedCountry?.flagEmoji ?? ""}  +${state.selectedCountry?.phoneCode ?? "1"}",
+                            // "  ${state.selectedCountry?.flagEmoji ?? ""}  + ${state.selectedCountry?.phoneCode ?? "1"}",
+                            "",
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.w500),
@@ -88,11 +81,7 @@ class _CustomPhoneNumberState extends State<CustomPhoneNumber> {
                     suffix: Padding(
                       padding: const EdgeInsets.only(left: 4.0, right: 4.0),
                       child: OutlinedButton(
-                        onPressed: () {
-                          context
-                              .read<OtpVerificationEnternumberBloc>()
-                              .add(ResetPhoneFieldController());
-                        },
+                        onPressed: () {},
                         style: OutlinedButton.styleFrom(
                           side: BorderSide(
                             color: Colors.transparent,
