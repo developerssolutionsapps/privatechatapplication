@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../core/app_export.dart';
-import 'companion_s_name_when_accepted_page.dart';
-import '../screen/mine_page.dart';
+import '../../../core/app_export.dart';
+import '../companion/companion_s_name_when_accepted_page.dart';
+import '../profile/mine_page.dart';
 import 'request_received_accept_page.dart';
 import 'request_sent_been_rjected_do_nothing_page.dart';
-import '../widgets/custom_bottom_bar.dart';
-import '../widgets/custom_icon_button.dart';
+import '../../widgets/custom_bottom_bar.dart';
+import '../../widgets/custom_icon_button.dart';
 
 class RequestReceivedTabContainerScreen extends StatefulWidget {
   const RequestReceivedTabContainerScreen({Key? key})

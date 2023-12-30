@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../core/app_export.dart';
+import '../../../core/app_export.dart';
 import 'companion_s_name_when_accepted_page.dart';
-import 'mine_page.dart';
-import 'request_sent_been_rjected_do_nothing_page.dart';
-import '../widgets/custom_bottom_bar.dart';
+import '../profile/mine_page.dart';
+import '../request/request_sent_been_rjected_do_nothing_page.dart';
+import '../../widgets/custom_bottom_bar.dart';
 
 class CompanionSNameUnfriendScreen extends StatelessWidget {
   CompanionSNameUnfriendScreen({Key? key})

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../core/app_export.dart';
-import '../widgets/custom_elevated_button.dart';
-import '../widgets/custom_icon_button.dart';
+import '../../../core/app_export.dart';
+import '../../widgets/custom_elevated_button.dart';
+import '../../widgets/custom_icon_button.dart';
 
 class ProfilesetupSexScreen extends StatelessWidget {
   const ProfilesetupSexScreen({Key? key}) : super(key: key);

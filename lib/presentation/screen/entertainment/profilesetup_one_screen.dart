@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../core/app_export.dart';
-import '../widgets/custom_elevated_button.dart';
-import '../widgets/custom_text_form_field.dart';
+import '../../../core/app_export.dart';
+import '../../widgets/custom_elevated_button.dart';
+import '../../widgets/custom_text_form_field.dart';
 
 class ProfilesetupOneScreen extends StatelessWidget {
   const ProfilesetupOneScreen({Key? key})

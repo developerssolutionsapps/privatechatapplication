@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../../core/app_export.dart';
+import '../../../core/app_export.dart';
 
 class SplashscreenScreen extends StatelessWidget {
   const SplashscreenScreen({Key? key})
@@ -11,8 +11,7 @@ class SplashscreenScreen extends StatelessWidget {
   static Widget builder(BuildContext context) {
     Future.delayed(const Duration(milliseconds: 3000), () {
       NavigatorService.popAndPushNamed(
-        AppRoutes.otpVerificationEnternumberScreen,
-      );
+          AppRoutes.otpVerificationEnternumberScreen);
     });
     return SplashscreenScreen();
   }

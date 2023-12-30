@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../core/app_export.dart';
-import '../widgets/custom_elevated_button.dart';
-import '../widgets/custom_pin_code_text_field.dart';
+import '../../../core/app_export.dart';
+import '../../widgets/custom_elevated_button.dart';
+import '../../widgets/custom_pin_code_text_field.dart';
 
 class OtpVerificationRecivingcodeScreen extends StatelessWidget {
   const OtpVerificationRecivingcodeScreen({Key? key})

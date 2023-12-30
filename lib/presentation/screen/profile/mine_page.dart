@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../core/app_export.dart';
-import '../widgets/custom_icon_button.dart';
-import '../widgets/custom_outlined_button.dart';
-import '../widgets/custom_text_form_field.dart';
+import '../../../core/app_export.dart';
+import '../../widgets/custom_icon_button.dart';
+import '../../widgets/custom_outlined_button.dart';
+import '../../widgets/custom_text_form_field.dart';
 
 class MinePage extends StatelessWidget {
   const MinePage({Key? key}) : super(key: key);
