@@ -8,7 +8,7 @@ export 'package:private_chat/core/utils/logger.dart';
 export 'package:private_chat/core/utils/navigator_service.dart';
 export 'package:private_chat/core/utils/pref_utils.dart';
 export 'package:private_chat/core/utils/size_utils.dart';
-export 'package:private_chat/data/models/selectionPopupModel/selection_popup_model.dart';
+export 'package:private_chat/domain/models/selectionPopupModel/selection_popup_model.dart';
 export 'package:private_chat/localization/app_localization.dart';
 export 'package:private_chat/presentation/routes/app_routes.dart';
 export 'package:private_chat/theme/app_decoration.dart';
