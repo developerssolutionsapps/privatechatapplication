@@ -1,10 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:private_chat/data/services/fcm.dart';
 
 import '../../domain/models/conversation.dart';
-import '../../domain/models/user_model.dart';
 // import 'package:friendzone/src/domain/models/conversation.dart';
 
 class AppNotification {
