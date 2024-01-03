@@ -9,9 +9,8 @@ class SplashscreenScreen extends StatelessWidget {
         );
 
   static Widget builder(BuildContext context) {
-    Future.delayed(const Duration(milliseconds: 3000), () {
-      NavigatorService.popAndPushNamed(
-          AppRoutes.otpVerificationEnternumberScreen);
+    Future.delayed(const Duration(milliseconds: 5000), () {
+      NavigatorService.popAndPushNamed(AppRoutes.authWidget);
     });
     return SplashscreenScreen();
   }
