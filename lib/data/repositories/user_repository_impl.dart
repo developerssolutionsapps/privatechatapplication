@@ -1,13 +1,10 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
-import 'dart:developer';
-
 import 'package:path/path.dart';
-
+import 'dart:developer';
 import '../../core/constants/images_fake.dart';
 import '../../domain/models/user_model.dart';
 import '../../domain/repositories/user_repository.dart';
@@ -16,6 +13,8 @@ class UserRepositoryImpl implements UserRepository {
   final firestore = FirebaseFirestore.instance;
   final _firebaseAuth = FirebaseAuth.instance;
   final storageRef = FirebaseStorage.instance.ref();
+
+  /// Ivoke to get all the users from firestore
   @override
   Future<List<UserModel>> getAllUser() async {
     List<UserModel> listUser = [];
@@ -27,14 +26,13 @@ class UserRepositoryImpl implements UserRepository {
     return listUser;
   }
 
+  /// Ivoke to insert a user to firestore
   @override
   Future<void> insertUserToFireStore(User user) async {
     try {
       final doc = firestore.collection('users').doc(user.uid);
-
       final getDoc = await doc.get();
       if (getDoc.exists) return;
-
       await doc.set({
         "idUser": user.uid,
         "avatar": user.photoURL ?? urlAvatar,
@@ -50,6 +48,7 @@ class UserRepositoryImpl implements UserRepository {
     }
   }
 
+  /// Ivoke to find a user in firestore with the user's id
   @override
   Future<UserModel?> findUser(String idUser) async {
     try {
@@ -66,6 +65,7 @@ class UserRepositoryImpl implements UserRepository {
     }
   }
 
+  /// Invoke to update user's profile
   @override
   Future<bool> updateProfile({required UserModel user, File? file}) async {
     try {
