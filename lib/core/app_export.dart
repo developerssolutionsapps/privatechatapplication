@@ -1,6 +1,6 @@
 export 'package:connectivity_plus/connectivity_plus.dart';
 export 'package:flutter_bloc/flutter_bloc.dart';
-export 'package:private_chat/core/constants/constants.dart';
+export 'package:private_chat/core/constants/string_constants.dart';
 export 'package:private_chat/core/errors/exceptions.dart';
 export 'package:private_chat/core/network/network_info.dart';
 export 'package:private_chat/core/utils/image_constant.dart';
