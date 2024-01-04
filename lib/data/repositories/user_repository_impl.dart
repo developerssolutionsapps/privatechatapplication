@@ -51,14 +51,24 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<bool> updateProfile({required UserModel user, File? file}) {
-    // TODO: implement updateProfile
-    throw UnimplementedError();
+  Future<UserModel?> findUser(String idUser) async {
+    try {
+      final doc = await firestore.collection("users").doc(idUser).get();
+      final data = doc.data();
+      if (data == null) return null;
+      final res = UserModel.fromMap(data);
+      return res;
+    } on FirebaseAuthException catch (e) {
+      if (kDebugMode) {
+        print(e.message);
+      }
+      return null;
+    }
   }
 
   @override
-  Future<UserModel?> findUser(String idUser) {
-    // TODO: implement findUser
+  Future<bool> updateProfile({required UserModel user, File? file}) {
+    // TODO: implement updateProfile
     throw UnimplementedError();
   }
 }
