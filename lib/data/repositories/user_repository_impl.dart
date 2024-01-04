@@ -67,8 +67,49 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<bool> updateProfile({required UserModel user, File? file}) {
-    // TODO: implement updateProfile
-    throw UnimplementedError();
+  Future<bool> updateProfile({required UserModel user, File? file}) async {
+    try {
+      String? urlImage;
+      if (file != null) {
+        final upLoad = await storageRef
+            .child('avatar/${basename(file.path)}')
+            .putFile(file);
+        switch (upLoad.state) {
+          case TaskState.paused:
+            log("Upload is paused.");
+            return false;
+          case TaskState.running:
+            final progress =
+                100.0 * (upLoad.bytesTransferred / upLoad.totalBytes);
+            log("Upload is $progress% complete.");
+            return false;
+          case TaskState.success:
+            urlImage = await upLoad.ref.getDownloadURL();
+            user.avatar = urlImage;
+            await _firebaseAuth.currentUser!.updatePhotoURL(urlImage);
+            await _firebaseAuth.currentUser!.updateDisplayName(user.name);
+            await firestore
+                .collection("users")
+                .doc(_firebaseAuth.currentUser!.uid)
+                .update(user.toMap());
+            return true;
+          case TaskState.canceled:
+            log("Upload was canceled");
+            return false;
+          case TaskState.error:
+            return false;
+        }
+      } else {
+        await _firebaseAuth.currentUser!.updateDisplayName(user.name);
+        await firestore
+            .collection("users")
+            .doc(_firebaseAuth.currentUser!.uid)
+            .update(user.toMap());
+      }
+      return true;
+    } catch (e) {
+      log(e.toString());
+      return false;
+    }
   }
 }
