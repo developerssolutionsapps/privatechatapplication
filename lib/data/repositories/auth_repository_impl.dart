@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:private_chat/data/models/auth_user.dart';
 import '../../core/constants/string_constants.dart';
 import '../../core/exceptions/auth_exception_handler.dart';
@@ -11,12 +12,17 @@ import '../../domain/repositories/auth_repository.dart';
 import '../../firebase_options.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
-  AuthRepositoryImpl(FirebaseAuth auth, FirebaseFirestore firestore)
-      : _auth = auth,
-        _firestore = firestore;
-
-  final FirebaseAuth _auth;
-  final FirebaseFirestore _firestore;
+  final _auth = FirebaseAuth.instance;
+  final storageRef = FirebaseStorage.instance.ref();
+  final _firestore =
+      FirebaseFirestore.instance.collection(StringsConstants.usersCollection);
+  User? user;
+  AuthRepositoryImpl() {
+    final userFromFireBaseAuth = FirebaseAuth.instance.currentUser;
+    if (userFromFireBaseAuth != null) {
+      user = userFromFireBaseAuth;
+    }
+  }
 
   /// Invoke to signIn user with phone number.
   @override
@@ -74,11 +80,7 @@ class AuthRepositoryImpl implements AuthRepository {
   /// invoke to get user data form firestore.
   @override
   Stream<UserModel> getReceiverUserData(String receiverUserId) {
-    return _firestore
-        .collection(StringsConstants.usersCollection)
-        .doc(receiverUserId)
-        .snapshots()
-        .map(
+    return _firestore.doc(receiverUserId).snapshots().map(
           (snapshot) => UserModel.fromMap(snapshot.data()!),
         );
   }
