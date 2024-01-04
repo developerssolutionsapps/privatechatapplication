@@ -56,16 +56,16 @@ class UserModel {
     };
   }
 
-  factory UserModel.fromMap(Map<String, dynamic> map) {
+  factory UserModel.fromMap(Map<dynamic, dynamic> map) {
     return UserModel(
-      id: map['id'] as String,
-      avatar: map['avatar'] as String,
-      name: map['name'] as String,
-      phone: map['phone'] as String,
-      gender: map['gender'] as String,
-      dateOfBirth: map['dateOfBirth'] as String,
-      location: map['location'] as String,
-      description: map['description'] as String,
+      id: map['id'],
+      avatar: map['avatar'],
+      name: map['name'],
+      phone: map['phone'],
+      gender: map['gender'],
+      dateOfBirth: map['dateOfBirth'],
+      location: map['location'],
+      description: map['description'],
     );
   }
 
