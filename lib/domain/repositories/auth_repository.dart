@@ -6,7 +6,9 @@ import '../../data/models/auth_user.dart';
 
 abstract class AuthRepository {
   Future<void> initialize();
+
   AuthUser? get currentUser;
+
   Future<VerificationStatus> signInWithPhone({
     required String phoneNumber,
     required void Function(String verificationId, [int? forceResendingToken])
@@ -15,9 +17,11 @@ abstract class AuthRepository {
     required Function(FirebaseAuthException e) onVerificationFailed,
     required Function(String verificationId) onCodeAutoRetrievalTimeout,
   });
+
   Future<String?> verifyOTP({
     required String verificationId,
     required String smsCode,
   });
+
   Stream<UserModel> getReceiverUserData(String receiverUserId);
 }
