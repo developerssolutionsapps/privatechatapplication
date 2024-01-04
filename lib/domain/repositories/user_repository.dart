@@ -11,6 +11,5 @@ abstract class UserRepository {
 
   Future<UserModel?> findUser(String idUser);
 
-  Future<bool> updateProfile(
-      {required UserModel user, File? file, bool isUpdateBackground});
+  Future<bool> updateProfile({required UserModel user, File? file});
 }
