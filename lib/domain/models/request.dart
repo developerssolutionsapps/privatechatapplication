@@ -81,3 +81,23 @@ class Request {
         accepted.hashCode;
   }
 }
+
+class RequestReceived extends Request {
+  RequestReceived({
+    required super.id,
+    required super.sender,
+    required super.receiver,
+    required super.time,
+    required super.accepted,
+  });
+}
+
+class RequestSent extends Request {
+  RequestSent({
+    required super.id,
+    required super.sender,
+    required super.receiver,
+    required super.time,
+    required super.accepted,
+  });
+}
