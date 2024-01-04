@@ -14,6 +14,7 @@ import '../../domain/repositories/user_repository.dart';
 
 class UserRepositoryImpl implements UserRepository {
   final firestore = FirebaseFirestore.instance;
+  final _firebaseAuth = FirebaseAuth.instance;
   final storageRef = FirebaseStorage.instance.ref();
   @override
   Future<List<UserModel>> getAllUser() async {
@@ -27,6 +28,29 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
+  Future<void> insertUserToFireStore(User user) async {
+    try {
+      final doc = firestore.collection('users').doc(user.uid);
+
+      final getDoc = await doc.get();
+      if (getDoc.exists) return;
+
+      await doc.set({
+        "idUser": user.uid,
+        "avatar": user.photoURL ?? urlAvatar,
+        "name": user.displayName ?? '',
+        "phone": user.phoneNumber,
+        "gender": '',
+        "dateOfBirth": '',
+        "location": '',
+        "description": '',
+      });
+    } on FirebaseAuthException catch (e) {
+      log(e.message.toString());
+    }
+  }
+
+  @override
   Future<bool> updateProfile({required UserModel user, File? file}) {
     // TODO: implement updateProfile
     throw UnimplementedError();
@@ -35,12 +59,6 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<UserModel?> findUser(String idUser) {
     // TODO: implement findUser
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> insertUserToFireStore(User user) {
-    // TODO: implement insertUserToFireStore
     throw UnimplementedError();
   }
 }
