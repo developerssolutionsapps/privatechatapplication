@@ -9,4 +9,21 @@ part 'user_state.dart';
 class UserCubit extends Cubit<UserState> {
   final UserRepository _userRepository;
   UserCubit(this._userRepository) : super(UserInitial());
+
+  getMyProfile() async {
+    emit(LoadingState());
+    UserModel? myProfile = await _userRepository.me();
+    if (myProfile != null) {
+      final String name = myProfile.name;
+      final String dateOfBirth = myProfile.dateOfBirth;
+      final String gender = myProfile.gender;
+      if (name.isNotEmpty && gender.isNotEmpty && dateOfBirth.isNotEmpty) {
+        emit(UserMyProfileState(myProfile));
+      } else {
+        UserNeedsProfileSetUp();
+      }
+    } else {
+      emit(UserMyProfileState(myProfile));
+    }
+  }
 }
