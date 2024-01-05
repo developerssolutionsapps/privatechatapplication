@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import '../../core/app_export.dart';
 
+// ignore: must_be_immutable
 class CustomPinCodeTextField extends StatelessWidget {
   CustomPinCodeTextField({
     Key? key,
