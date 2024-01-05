@@ -26,4 +26,14 @@ class UserCubit extends Cubit<UserState> {
       emit(UserMyProfileState(myProfile));
     }
   }
+
+  updateMyProfile(UserModel user) async {
+    emit(LoadingState());
+    bool isupdated = await _userRepository.updateProfile(user: user);
+    if (isupdated) {
+      emit(UserProfileSetUpSuccess(user));
+    } else {
+      emit(UserErrorState("There is an error updating your profile"));
+    }
+  }
 }
