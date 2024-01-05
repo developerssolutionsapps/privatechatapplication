@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -65,6 +66,23 @@ class UserRepositoryImpl implements UserRepository {
     }
   }
 
+  /// Ivoke to find a user in firestore with the user's id
+  @override
+  Future<UserModel?> me() async {
+    User? user = _firebaseAuth.currentUser;
+    if (user != null) {
+      final UserModel? mefromfirestore = await findUser(user.uid);
+      if (mefromfirestore != null) {
+        return mefromfirestore;
+      } else {
+        await insertUserToFireStore(user);
+        return await findUser(user.uid);
+      }
+    } else {
+      return null;
+    }
+  }
+
   /// Invoke to update user's profile
   @override
   Future<bool> updateProfile({required UserModel user, File? file}) async {
@@ -111,5 +129,18 @@ class UserRepositoryImpl implements UserRepository {
       log(e.toString());
       return false;
     }
+  }
+
+  @override
+  Future<bool> deleteMyAccount() async {
+    try {
+      await firestore
+          .collection("users")
+          .doc(_firebaseAuth.currentUser!.uid)
+          .delete();
+    } catch (e) {
+      return false;
+    }
+    return true;
   }
 }
