@@ -11,5 +11,9 @@ abstract class UserRepository {
 
   Future<UserModel?> findUser(String idUser);
 
+  Future<UserModel?> me();
+
+  Future<bool> deleteMyAccount();
+
   Future<bool> updateProfile({required UserModel user, File? file});
 }
