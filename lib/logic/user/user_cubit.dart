@@ -36,4 +36,14 @@ class UserCubit extends Cubit<UserState> {
       emit(UserErrorState("There is an error updating your profile"));
     }
   }
+
+  deleteMyAccount() async {
+    emit(LoadingState());
+    bool isDeleted = await _userRepository.deleteMyAccount();
+    if (isDeleted) {
+      emit(UserDeletedSuccessful());
+    } else {
+      emit(UserErrorState("Cannot delete you profile, Try again later"));
+    }
+  }
 }
