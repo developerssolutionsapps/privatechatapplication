@@ -7,12 +7,14 @@ class Request {
   String receiver;
   String time;
   bool? accepted;
+  bool? isConnected;
   Request({
     required this.id,
     required this.sender,
     required this.receiver,
     required this.time,
     this.accepted,
+    this.isConnected,
   });
 
   Request copyWith({
@@ -21,6 +23,7 @@ class Request {
     String? receiver,
     String? time,
     bool? accepted,
+    bool? isConnected,
   }) {
     return Request(
       id: id ?? this.id,
@@ -28,6 +31,7 @@ class Request {
       receiver: receiver ?? this.receiver,
       time: time ?? this.time,
       accepted: accepted ?? this.accepted,
+      isConnected: isConnected ?? this.isConnected,
     );
   }
 
@@ -38,6 +42,7 @@ class Request {
       'receiver': receiver,
       'time': time,
       'accepted': accepted,
+      'isConnected': isConnected,
     };
   }
 
@@ -48,6 +53,8 @@ class Request {
       receiver: map['receiver'] as String,
       time: map['time'] as String,
       accepted: map['accepted'] != null ? map['accepted'] as bool : null,
+      isConnected:
+          map['isConnected'] != null ? map['isConnected'] as bool : null,
     );
   }
 
@@ -58,7 +65,7 @@ class Request {
 
   @override
   String toString() {
-    return 'Request(id: $id, sender: $sender, receiver: $receiver, time: $time, accepted: $accepted)';
+    return 'Request(id: $id, sender: $sender, receiver: $receiver, time: $time, accepted: $accepted, isConnected: $isConnected)';
   }
 
   @override
@@ -69,7 +76,8 @@ class Request {
         other.sender == sender &&
         other.receiver == receiver &&
         other.time == time &&
-        other.accepted == accepted;
+        other.accepted == accepted &&
+        other.isConnected == isConnected;
   }
 
   @override
@@ -78,7 +86,8 @@ class Request {
         sender.hashCode ^
         receiver.hashCode ^
         time.hashCode ^
-        accepted.hashCode;
+        accepted.hashCode ^
+        isConnected.hashCode;
   }
 }
 
