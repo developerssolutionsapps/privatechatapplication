@@ -46,4 +46,14 @@ class UserCubit extends Cubit<UserState> {
       emit(UserErrorState("Cannot delete you profile, Try again later"));
     }
   }
+
+  viewConnectedProfile() async {
+    emit(LoadingState());
+    UserModel? myProfile = await _userRepository.me();
+    if (myProfile != null) {
+      emit(UserConnectedMyProfileState(myProfile));
+    } else {
+      emit(UserNeedsProfileSetUp());
+    }
+  }
 }
