@@ -46,8 +46,15 @@ class RequestRepositoryImpl implements RequestRepository {
 
   @override
   Future<Request?> findRequest(String id) async {
-    // TODO: implement getAllRequest
-    throw UnimplementedError();
+    try {
+      final docSentReq = await firestore.collection('requests').doc(id).get();
+      final data = docSentReq.data();
+      if (data == null) return null;
+      final res = Request.fromMap(data);
+      return res;
+    } on FirebaseAuthException catch (_) {
+      return null;
+    }
   }
 
   @override
