@@ -69,9 +69,17 @@ class RequestRepositoryImpl implements RequestRepository {
   }
 
   @override
-  Future<List<Request>> getAllRequestReceived() {
-    // TODO: implement getAllRequestReceived
-    throw UnimplementedError();
+  Future<List<Request>> getAllRequestReceived() async {
+    List<Request> listReq = [];
+    QuerySnapshot querySnapshot = await firestore
+        .collection("requests")
+        .where("receiver", isEqualTo: _firebaseAuth.currentUser?.uid)
+        .get();
+    for (var doc in querySnapshot.docs) {
+      Request user = Request.fromMap(doc.data() as Map);
+      listReq.add(user);
+    }
+    return listReq;
   }
 
   @override

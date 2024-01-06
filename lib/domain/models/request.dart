@@ -46,7 +46,7 @@ class Request {
     };
   }
 
-  factory Request.fromMap(Map<String, dynamic> map) {
+  factory Request.fromMap(Map<dynamic, dynamic> map) {
     return Request(
       id: map['id'] as String,
       sender: map['sender'] as String,
