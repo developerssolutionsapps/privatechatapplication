@@ -7,14 +7,14 @@ class Request {
   String receiver;
   String time;
   bool? accepted;
-  bool? isConnected;
+  bool? canceled;
   Request({
     required this.id,
     required this.sender,
     required this.receiver,
     required this.time,
     this.accepted,
-    this.isConnected,
+    this.canceled,
   });
 
   Request copyWith({
@@ -23,7 +23,7 @@ class Request {
     String? receiver,
     String? time,
     bool? accepted,
-    bool? isConnected,
+    bool? canceled,
   }) {
     return Request(
       id: id ?? this.id,
@@ -31,7 +31,7 @@ class Request {
       receiver: receiver ?? this.receiver,
       time: time ?? this.time,
       accepted: accepted ?? this.accepted,
-      isConnected: isConnected ?? this.isConnected,
+      canceled: canceled ?? this.canceled,
     );
   }
 
@@ -42,7 +42,7 @@ class Request {
       'receiver': receiver,
       'time': time,
       'accepted': accepted,
-      'isConnected': isConnected,
+      'canceled': canceled,
     };
   }
 
@@ -53,8 +53,7 @@ class Request {
       receiver: map['receiver'] as String,
       time: map['time'] as String,
       accepted: map['accepted'] != null ? map['accepted'] as bool : null,
-      isConnected:
-          map['isConnected'] != null ? map['isConnected'] as bool : null,
+      canceled: map['canceled'] != null ? map['canceled'] as bool : null,
     );
   }
 
@@ -65,7 +64,7 @@ class Request {
 
   @override
   String toString() {
-    return 'Request(id: $id, sender: $sender, receiver: $receiver, time: $time, accepted: $accepted, isConnected: $isConnected)';
+    return 'Request(id: $id, sender: $sender, receiver: $receiver, time: $time, accepted: $accepted, canceled: $canceled)';
   }
 
   @override
@@ -77,7 +76,7 @@ class Request {
         other.receiver == receiver &&
         other.time == time &&
         other.accepted == accepted &&
-        other.isConnected == isConnected;
+        other.canceled == canceled;
   }
 
   @override
@@ -87,7 +86,7 @@ class Request {
         receiver.hashCode ^
         time.hashCode ^
         accepted.hashCode ^
-        isConnected.hashCode;
+        canceled.hashCode;
   }
 }
 
