@@ -12,11 +12,7 @@ class RequestRepositoryImpl implements RequestRepository {
   _updateRequest(Request req) async {
     try {
       // Save the request as received request
-      final docRequestReciever = firestore
-          .collection('requests')
-          .doc('${req.receiver}')
-          .collection('received')
-          .doc(req.id);
+      final docRequestReciever = firestore.collection('requests').doc(req.id);
       await docRequestReciever.update(req.toMap());
       return await findRequest(req.id);
     } catch (e) {
@@ -39,19 +35,8 @@ class RequestRepositoryImpl implements RequestRepository {
   @override
   Future<bool?> createRequest(Request request) async {
     try {
-      // Save the request as sent request
-      final docRequestSender = firestore
-          .collection('requests')
-          .doc('${request.sender}')
-          .collection('sent')
-          .doc(request.id);
-      await docRequestSender.set(request.toMap());
-      // Save the request as received request
-      final docRequestReciever = firestore
-          .collection('requests')
-          .doc('${request.receiver}')
-          .collection('received')
-          .doc(request.id);
+      final docRequestReciever =
+          firestore.collection('requests').doc(request.id);
       await docRequestReciever.set(request.toMap());
       return false;
     } catch (e) {
@@ -60,8 +45,8 @@ class RequestRepositoryImpl implements RequestRepository {
   }
 
   @override
-  Future<Request?> findRequest(String id) {
-    // TODO: implement findRequest
+  Future<Request?> findRequest(String id) async {
+    // TODO: implement getAllRequest
     throw UnimplementedError();
   }
 
