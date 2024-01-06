@@ -9,9 +9,20 @@ class RequestRepositoryImpl implements RequestRepository {
   final _firebaseAuth = FirebaseAuth.instance;
   final storageRef = FirebaseStorage.instance.ref();
   @override
-  Future<Request?> acceptRequest(Request request) {
-    // TODO: implement cancelRequest
-    throw UnimplementedError();
+  Future<Request?> acceptRequest(Request request) async {
+    final Request req = request.copyWith(accepted: true);
+    try {
+      // Save the request as received request
+      final docRequestReciever = firestore
+          .collection('requests')
+          .doc('${req.receiver}')
+          .collection('received')
+          .doc(req.id);
+      await docRequestReciever.update(req.toMap());
+      return await findRequest(req.id);
+    } catch (e) {
+      return await findRequest(req.id);
+    }
   }
 
   @override
