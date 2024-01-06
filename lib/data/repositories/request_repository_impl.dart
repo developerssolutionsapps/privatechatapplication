@@ -32,8 +32,8 @@ class RequestRepositoryImpl implements RequestRepository {
 
   @override
   Future<Request?> cancelRequest(Request request) {
-    // TODO: implement cancelRequest
-    throw UnimplementedError();
+    final Request req = request.copyWith(accepted: true);
+    return _updateRequest(req);
   }
 
   @override
