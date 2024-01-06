@@ -1,23 +1,46 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:private_chat/domain/models/request.dart';
 import 'package:private_chat/domain/repositories/request_repository.dart';
 
 class RequestRepositoryImpl implements RequestRepository {
+  final firestore = FirebaseFirestore.instance;
+  final _firebaseAuth = FirebaseAuth.instance;
+  final storageRef = FirebaseStorage.instance.ref();
   @override
-  Future<Request?> acceptRequest(String id) {
-    // TODO: implement acceptRequest
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Request?> cancelRequest(String id) {
+  Future<Request?> acceptRequest(Request request) {
     // TODO: implement cancelRequest
     throw UnimplementedError();
   }
 
   @override
-  Future<Request?> createRequest(Request request) {
-    // TODO: implement createRequest
+  Future<Request?> cancelRequest(Request request) {
+    // TODO: implement cancelRequest
     throw UnimplementedError();
+  }
+
+  @override
+  Future<bool?> createRequest(Request request) async {
+    try {
+      // Save the request as sent request
+      final docRequestSender = firestore
+          .collection('requests')
+          .doc('${request.sender}')
+          .collection('sent')
+          .doc(request.id);
+      await docRequestSender.set(request.toMap());
+      // Save the request as received request
+      final docRequestReciever = firestore
+          .collection('requests')
+          .doc('${request.receiver}')
+          .collection('received')
+          .doc(request.id);
+      await docRequestReciever.set(request.toMap());
+      return false;
+    } catch (e) {
+      return false;
+    }
   }
 
   @override
@@ -45,7 +68,7 @@ class RequestRepositoryImpl implements RequestRepository {
   }
 
   @override
-  Future<Request?> rejectRequest(String id) {
+  Future<Request?> rejectRequest(Request request) {
     // TODO: implement rejectRequest
     throw UnimplementedError();
   }
