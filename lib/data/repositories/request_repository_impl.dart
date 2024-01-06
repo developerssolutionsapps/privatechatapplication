@@ -23,13 +23,13 @@ class RequestRepositoryImpl implements RequestRepository {
   @override
   Future<Request?> acceptRequest(Request request) async {
     final Request req = request.copyWith(accepted: true);
-    return _updateRequest(req);
+    return await _updateRequest(req);
   }
 
   @override
-  Future<Request?> cancelRequest(Request request) {
+  Future<Request?> cancelRequest(Request request) async {
     final Request req = request.copyWith(accepted: true);
-    return _updateRequest(req);
+    return await _updateRequest(req);
   }
 
   @override
@@ -73,7 +73,7 @@ class RequestRepositoryImpl implements RequestRepository {
     List<Request> listReq = [];
     QuerySnapshot querySnapshot = await firestore
         .collection("requests")
-        .where("receiver", isEqualTo: _firebaseAuth.currentUser?.uid)
+        .where("receiver", isEqualTo: _firebaseAuth.currentUser?.phoneNumber)
         .get();
     for (var doc in querySnapshot.docs) {
       Request user = Request.fromMap(doc.data() as Map);
@@ -87,7 +87,7 @@ class RequestRepositoryImpl implements RequestRepository {
     List<Request> listReq = [];
     QuerySnapshot querySnapshot = await firestore
         .collection("requests")
-        .where("sender", isEqualTo: _firebaseAuth.currentUser?.uid)
+        .where("sender", isEqualTo: _firebaseAuth.currentUser?.phoneNumber)
         .get();
     for (var doc in querySnapshot.docs) {
       Request user = Request.fromMap(doc.data() as Map);
@@ -97,8 +97,8 @@ class RequestRepositoryImpl implements RequestRepository {
   }
 
   @override
-  Future<Request?> rejectRequest(Request request) {
+  Future<Request?> rejectRequest(Request request) async {
     final Request req = request.copyWith(accepted: false);
-    return _updateRequest(req);
+    return await _updateRequest(req);
   }
 }
