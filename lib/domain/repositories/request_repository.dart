@@ -7,13 +7,13 @@ abstract class RequestRepository {
 
   Future<List<Request>> getAllRequestSent();
 
-  Future<Request?> createRequest(Request request);
+  Future<bool?> createRequest(Request request);
 
   Future<Request?> findRequest(String id);
 
-  Future<Request?> cancelRequest(String id);
+  Future<Request?> cancelRequest(Request request);
 
-  Future<Request?> acceptRequest(String id);
+  Future<Request?> acceptRequest(Request request);
 
-  Future<Request?> rejectRequest(String id);
+  Future<Request?> rejectRequest(Request request);
 }
