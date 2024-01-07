@@ -72,4 +72,10 @@ class RequestCubit extends Cubit<RequestState> {
     await cancelRequest(request);
     await getRequests();
   }
+
+  rejectRequest(request) async {
+    emit(LoadingState());
+    await rejectRequest(request);
+    await getRequests();
+  }
 }
