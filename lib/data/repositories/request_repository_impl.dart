@@ -141,4 +141,9 @@ class RequestRepositoryImpl implements RequestRepository {
     if (myID.isNull) return null;
     return await _getRequestsWithId(myID!);
   }
+
+  @override
+  Future<Request?> findRequestIfConnected(String id) async {
+    return await _getRequestsWithId(id);
+  }
 }
