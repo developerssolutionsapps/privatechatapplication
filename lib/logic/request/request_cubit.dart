@@ -17,7 +17,7 @@ class RequestCubit extends Cubit<RequestState> {
   RequestCubit(this._requestRepository, this._userRepository)
       : super(RequestInitial());
 
-  findUserWithPhone(phone) async {
+  findRequestWithPhone(phone) async {
     emit(LoadingState());
     UserModel? user = await _userRepository.findUserWithPhone(phone);
     if (user.isNull) {
