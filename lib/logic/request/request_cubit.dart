@@ -49,4 +49,21 @@ class RequestCubit extends Cubit<RequestState> {
       requestsSent: sent,
     ));
   }
+
+  createRequest(phone, myPhone) async {
+    emit(LoadingState());
+    final id = Uuid().v1();
+    final Request req = Request(
+      id: id,
+      sender: myPhone,
+      receiver: phone,
+      time: DateTime.now().millisecondsSinceEpoch,
+    );
+    final res = await _requestRepository.createRequest(req);
+    if (!res! || res.isNull) {
+      emit(RequestCreateFailure());
+    } else {
+      await getRequests();
+    }
+  }
 }
