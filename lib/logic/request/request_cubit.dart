@@ -40,4 +40,13 @@ class RequestCubit extends Cubit<RequestState> {
       requestsSent: sent,
     ));
   }
+
+  getRequests() async {
+    final received = await _requestRepository.getAllRequestReceived();
+    final sent = await _requestRepository.getAllRequestSent();
+    emit(RequestGetSuccess(
+      requestsReceived: received,
+      requestsSent: sent,
+    ));
+  }
 }
