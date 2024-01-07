@@ -84,4 +84,10 @@ class RequestCubit extends Cubit<RequestState> {
     await acceptRequest(request);
     await getRequests();
   }
+
+  findConnectedRequest() async {
+    emit(LoadingState());
+    Request? req = await _requestRepository.findRequestConnected();
+    if (req.isNull) emit(RequestFailure());
+  }
 }
