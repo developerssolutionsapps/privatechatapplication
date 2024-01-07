@@ -1,42 +1,43 @@
 name: private_chat
 description: A new Flutter project.
 version: 1.0.0+1
-environment: 
+environment:
   sdk: '>=3.0.0'
-dependencies: 
-  flutter: 
-    sdk: flutter
-  flutter_localizations: 
+dependencies:
+  cached_network_image: ^3.2.1
+  cloud_firestore: ^4.13.6
+  connectivity_plus: ^2.3.6
+  country_picker: ^2.0.0
+  country_pickers: ^2.0.0
+  dio: ^5.4.0
+  equatable: ^2.0.0
+  firebase_auth: ^4.12.0
+  firebase_core: ^2.20.0
+  firebase_messaging: ^14.7.9
+  firebase_storage: ^11.5.6
+  flutter:
     sdk: flutter
   flutter_bloc: ^8.0.0
-  connectivity_plus: ^2.3.6
-  shared_preferences: ^2.0.15
-  cached_network_image: ^3.2.1
-  flutter_svg: ^1.1.6
-  equatable: ^2.0.0
-  pin_code_fields: ^7.3.0
-  sms_autofill: ^2.0.0
-  country_pickers: ^2.0.0
-  country_picker: ^2.0.0
-  firebase_core: ^2.20.0
-  firebase_auth: ^4.12.0
-  dio: ^5.4.0
   flutter_local_notifications: ^16.3.0
-  firebase_messaging: ^14.7.9
-  cloud_firestore: ^4.13.6
-  rxdart: ^0.27.7
-  firebase_storage: ^11.5.6
-  timeago: ^3.6.0
-dev_dependencies: 
-  flutter_test: 
+  flutter_localizations:
     sdk: flutter
-flutter: 
+  flutter_svg: ^1.1.6
+  pin_code_fields: ^7.3.0
+  rxdart: ^0.27.7
+  shared_preferences: ^2.0.15
+  sms_autofill: ^2.0.0
+  timeago: ^3.6.0
+  uuid: ^4.3.1
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+flutter:
   uses-material-design: true
-  assets: 
+  assets:
     - assets/
     - assets/images/
-  fonts: 
+  fonts:
     - family: Roboto
-      fonts: 
+      fonts:
         - asset: assets/fonts/RobotoRegular.ttf
           weight: 400

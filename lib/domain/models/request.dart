@@ -5,7 +5,7 @@ class Request {
   String id;
   String sender;
   String receiver;
-  String time;
+  int time;
   bool? accepted;
   bool? canceled;
   Request({
@@ -21,7 +21,7 @@ class Request {
     String? id,
     String? sender,
     String? receiver,
-    String? time,
+    int? time,
     bool? accepted,
     bool? canceled,
   }) {
@@ -51,7 +51,7 @@ class Request {
       id: map['id'] as String,
       sender: map['sender'] as String,
       receiver: map['receiver'] as String,
-      time: map['time'] as String,
+      time: map['time'] as int,
       accepted: map['accepted'] != null ? map['accepted'] as bool : null,
       canceled: map['canceled'] != null ? map['canceled'] as bool : null,
     );
