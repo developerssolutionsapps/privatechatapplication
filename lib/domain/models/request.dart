@@ -5,22 +5,25 @@ class Request {
   String id;
   String sender;
   String receiver;
-  String time;
+  int time;
   bool? accepted;
+  bool? canceled;
   Request({
     required this.id,
     required this.sender,
     required this.receiver,
     required this.time,
     this.accepted,
+    this.canceled,
   });
 
   Request copyWith({
     String? id,
     String? sender,
     String? receiver,
-    String? time,
+    int? time,
     bool? accepted,
+    bool? canceled,
   }) {
     return Request(
       id: id ?? this.id,
@@ -28,6 +31,7 @@ class Request {
       receiver: receiver ?? this.receiver,
       time: time ?? this.time,
       accepted: accepted ?? this.accepted,
+      canceled: canceled ?? this.canceled,
     );
   }
 
@@ -38,16 +42,18 @@ class Request {
       'receiver': receiver,
       'time': time,
       'accepted': accepted,
+      'canceled': canceled,
     };
   }
 
-  factory Request.fromMap(Map<String, dynamic> map) {
+  factory Request.fromMap(Map<dynamic, dynamic> map) {
     return Request(
       id: map['id'] as String,
       sender: map['sender'] as String,
       receiver: map['receiver'] as String,
-      time: map['time'] as String,
+      time: map['time'] as int,
       accepted: map['accepted'] != null ? map['accepted'] as bool : null,
+      canceled: map['canceled'] != null ? map['canceled'] as bool : null,
     );
   }
 
@@ -58,7 +64,7 @@ class Request {
 
   @override
   String toString() {
-    return 'Request(id: $id, sender: $sender, receiver: $receiver, time: $time, accepted: $accepted)';
+    return 'Request(id: $id, sender: $sender, receiver: $receiver, time: $time, accepted: $accepted, canceled: $canceled)';
   }
 
   @override
@@ -69,7 +75,8 @@ class Request {
         other.sender == sender &&
         other.receiver == receiver &&
         other.time == time &&
-        other.accepted == accepted;
+        other.accepted == accepted &&
+        other.canceled == canceled;
   }
 
   @override
@@ -78,6 +85,27 @@ class Request {
         sender.hashCode ^
         receiver.hashCode ^
         time.hashCode ^
-        accepted.hashCode;
+        accepted.hashCode ^
+        canceled.hashCode;
   }
+}
+
+class RequestReceived extends Request {
+  RequestReceived({
+    required super.id,
+    required super.sender,
+    required super.receiver,
+    required super.time,
+    required super.accepted,
+  });
+}
+
+class RequestSent extends Request {
+  RequestSent({
+    required super.id,
+    required super.sender,
+    required super.receiver,
+    required super.time,
+    required super.accepted,
+  });
 }

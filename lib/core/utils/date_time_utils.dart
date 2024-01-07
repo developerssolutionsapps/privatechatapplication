@@ -15,3 +15,8 @@ extension DateTimeExtension on DateTime {
     return DateFormat(pattern, locale).format(this);
   }
 }
+
+int getDateTimeStampInMilliseconds() {
+  DateTime now = DateTime.now();
+  return now.millisecondsSinceEpoch;
+}
