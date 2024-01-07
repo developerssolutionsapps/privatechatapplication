@@ -134,4 +134,11 @@ class RequestRepositoryImpl implements RequestRepository {
     final Request req = request.copyWith(accepted: false);
     return await _updateRequest(req);
   }
+
+  @override
+  Future<Request?> findRequestConnected() async {
+    String? myID = _firebaseAuth.currentUser?.uid;
+    if (myID.isNull) return null;
+    return await _getRequestsWithId(myID!);
+  }
 }
