@@ -11,6 +11,8 @@ abstract class RequestRepository {
 
   Future<Request?> findRequest(String id);
 
+  Future<Request?> findRequestIfConnected(String id);
+
   Future<Request?> cancelRequest(Request request);
 
   Future<Request?> acceptRequest(Request request);
