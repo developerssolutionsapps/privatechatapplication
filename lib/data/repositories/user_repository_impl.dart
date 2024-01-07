@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:js_interop';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -64,6 +65,24 @@ class UserRepositoryImpl implements UserRepository {
       }
       return null;
     }
+  }
+
+  /// Ivoke to find a user in firestore with the provided phone
+  @override
+  Future<UserModel?> findUserWithPhone(String phone) async {
+    try {
+      final userWithPhone = await firestore
+          .collection("users")
+          .where("phone", isEqualTo: phone)
+          .get();
+      for (var doc in userWithPhone.docs) {
+        UserModel user = UserModel.fromMap(doc.data());
+        if (!user.isNull) return user;
+      }
+    } on FirebaseAuthException catch (_) {
+      return null;
+    }
+    return null;
   }
 
   /// Ivoke to find a user in firestore with the user's id
