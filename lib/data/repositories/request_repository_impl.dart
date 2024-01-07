@@ -1,3 +1,5 @@
+import 'dart:js_interop';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -18,6 +20,37 @@ class RequestRepositoryImpl implements RequestRepository {
     } catch (e) {
       return await findRequest(req.id);
     }
+  }
+
+  _getRequestsWithId(String id) async {
+    Request? reqSent;
+    Request? reqReceived;
+    QuerySnapshot sentActive = await firestore
+        .collection("requests")
+        .where("sender", isEqualTo: id)
+        .where("accepted", isEqualTo: true)
+        .where("canceled", isEqualTo: false)
+        .orderBy("time")
+        .limit(1)
+        .get();
+    QuerySnapshot receivedActive = await firestore
+        .collection("requests")
+        .where("receiver", isEqualTo: id)
+        .where("accepted", isEqualTo: true)
+        .where("canceled", isEqualTo: false)
+        .orderBy("time")
+        .limit(1)
+        .get();
+    for (var doc in receivedActive.docs) {
+      Request req = Request.fromMap(doc.data() as Map);
+      if (req.isNull) reqSent = req;
+    }
+    for (var doc in sentActive.docs) {
+      Request req = Request.fromMap(doc.data() as Map);
+      if (req.isNull) reqReceived = req;
+    }
+    if (reqSent!.time > reqReceived!.time) return reqSent;
+    return reqReceived;
   }
 
   @override
