@@ -11,6 +11,8 @@ abstract class UserRepository {
 
   Future<UserModel?> findUser(String idUser);
 
+  Future<UserModel?> findUserWithPhone(String phone);
+
   Future<UserModel?> me();
 
   Future<bool> deleteMyAccount();
