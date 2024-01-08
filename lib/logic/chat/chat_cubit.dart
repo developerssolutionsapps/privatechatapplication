@@ -23,4 +23,18 @@ class ChatCubit extends Cubit<ChatState> {
       receiverUserId: receiverUserId,
     );
   }
+
+  void receiveMessages({
+    required String senderUserId,
+    required String receiverUserId,
+  }) {
+    Stream<List<Message>> messages = getMessages(
+      senderUserId: senderUserId,
+      receiverUserId: receiverUserId,
+    );
+
+    messages.listen((messageList) {
+      emit(ChatMessageListState(messageList));
+    });
+  }
 }
