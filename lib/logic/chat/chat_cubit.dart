@@ -48,4 +48,15 @@ class ChatCubit extends Cubit<ChatState> {
       emit(ChatErrorState('Failed to send message: $e'));
     }
   }
+
+  void sendFileMessage(Message message, File file) async {
+    emit(ChatFileSendingState(file, message.messageType));
+
+    try {
+      await _messagesRepository.sendFileMessage(message, true, file);
+      emit(ChatFileSentState(message));
+    } catch (e) {
+      emit(ChatFileSendingErrorState('Failed to send file: $e'));
+    }
+  }
 }
