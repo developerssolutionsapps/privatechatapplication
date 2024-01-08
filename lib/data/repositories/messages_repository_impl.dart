@@ -1,13 +1,15 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:private_chat/domain/models/message.dart';
 import 'package:private_chat/domain/repositories/messages_repository.dart';
 
 class MessagesRepositoryImpl implements MessagesRepository {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   Stream<List<Message>> getMessagesList({
     required senderUserId,
@@ -33,9 +35,21 @@ class MessagesRepositoryImpl implements MessagesRepository {
   }
 
   @override
-  Future<void> sendFileMessage() {
-    // TODO: implement sendFileMessage
-    throw UnimplementedError();
+  Future<void> sendFileMessage(
+    Message message,
+    bool mounted,
+    File file,
+  ) async {
+    if (!mounted) return;
+    String fileName =
+        '${message.messageType}/${_auth.currentUser?.uid ?? message.sender}/${message.receiver}/${message.id}';
+    final String fileUrl = await _storeFileToFirebaseStorage(
+      file: file,
+      path: 'chats',
+      fileName: fileName,
+    );
+    message = message.copyWith(message: fileUrl);
+    _saveMessage(message: message);
   }
 
   @override
@@ -52,7 +66,7 @@ class MessagesRepositoryImpl implements MessagesRepository {
 
   @override
   Future<void> sendTextMessage(Message message) async {
-    await _saveTextMessage(message: message);
+    await _saveMessage(message: message);
   }
 
   Future<String> _storeFileToFirebaseStorage({
@@ -71,7 +85,7 @@ class MessagesRepositoryImpl implements MessagesRepository {
   }
 
   /// invoke to save message data to message sub collection
-  _saveTextMessage({required Message message}) async {
+  _saveMessage({required Message message}) async {
     // saving message data for sender
     await _firestore
         .collection("users")
