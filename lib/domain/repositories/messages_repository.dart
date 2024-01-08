@@ -12,5 +12,5 @@ abstract class MessagesRepository {
 
   Future<void> sendGIGMessage();
 
-  Future<void> sendTextMessage();
+  Future<void> sendTextMessage(Message message);
 }
