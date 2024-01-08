@@ -53,18 +53,6 @@ class MessagesRepositoryImpl implements MessagesRepository {
   }
 
   @override
-  Future<void> sendGIGMessage() {
-    // TODO: implement sendGIGMessage
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<bool> sendMessage(Message message) {
-    // TODO: implement sendMessage
-    throw UnimplementedError();
-  }
-
-  @override
   Future<void> sendTextMessage(Message message) async {
     await _saveMessage(message: message);
   }

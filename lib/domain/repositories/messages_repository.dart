@@ -8,15 +8,11 @@ abstract class MessagesRepository {
     required receiverUserId,
   });
 
-  Future<bool> sendMessage(Message message);
-
   Future<void> sendFileMessage(
     Message message,
     bool mounted,
     File file,
   );
-
-  Future<void> sendGIGMessage();
 
   Future<void> sendTextMessage(Message message);
 }
