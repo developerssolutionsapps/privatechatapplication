@@ -8,6 +8,7 @@ class Message {
   String sender;
   String receiver;
   String message;
+  String fileUrl;
   DateTime createdAt;
   MessageType messageType;
   Message({
@@ -16,6 +17,7 @@ class Message {
     required this.receiver,
     required this.message,
     required this.createdAt,
+    required this.fileUrl,
     required this.messageType,
   });
 
@@ -24,6 +26,7 @@ class Message {
     String? sender,
     String? receiver,
     String? message,
+    String? fileUrl,
     DateTime? createdAt,
     MessageType? messageType,
   }) {
@@ -32,6 +35,7 @@ class Message {
       sender: sender ?? this.sender,
       receiver: receiver ?? this.receiver,
       message: message ?? this.message,
+      fileUrl: fileUrl ?? this.fileUrl,
       createdAt: createdAt ?? this.createdAt,
       messageType: messageType ?? this.messageType,
     );
@@ -43,6 +47,7 @@ class Message {
       'sender': sender,
       'receiver': receiver,
       'message': message,
+      'fileUrl': fileUrl,
       'createdAt': createdAt.millisecondsSinceEpoch,
       'messageType': messageType.type,
     };
@@ -56,6 +61,7 @@ class Message {
       message: map['message'] as String,
       createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int),
       messageType: (map['messageType'] as String).toEnum(),
+      fileUrl: map['fileUrl'] as String,
     );
   }
 
@@ -66,7 +72,7 @@ class Message {
 
   @override
   String toString() {
-    return 'Message(id: $id, sender: $sender, receiver: $receiver, message: $message, createdAt: $createdAt, messageType: $messageType)';
+    return 'Message(id: $id, sender: $sender, receiver: $receiver, message: $message, fileUrl: $fileUrl, createdAt: $createdAt)';
   }
 
   @override
@@ -77,8 +83,8 @@ class Message {
         other.sender == sender &&
         other.receiver == receiver &&
         other.message == message &&
-        other.createdAt == createdAt &&
-        other.messageType == messageType;
+        other.fileUrl == fileUrl &&
+        other.createdAt == createdAt;
   }
 
   @override
@@ -87,7 +93,7 @@ class Message {
         sender.hashCode ^
         receiver.hashCode ^
         message.hashCode ^
-        createdAt.hashCode ^
-        messageType.hashCode;
+        fileUrl.hashCode ^
+        createdAt.hashCode;
   }
 }
