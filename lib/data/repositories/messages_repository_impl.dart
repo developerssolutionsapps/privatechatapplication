@@ -47,9 +47,8 @@ class MessagesRepositoryImpl implements MessagesRepository {
   }
 
   @override
-  Future<void> sendTextMessage() {
-    // TODO: implement sendTextMessage
-    throw UnimplementedError();
+  Future<void> sendTextMessage(Message message) async {
+    await _saveTextMessage(message: message);
   }
 
   /// invoke to save message data to message sub collection
