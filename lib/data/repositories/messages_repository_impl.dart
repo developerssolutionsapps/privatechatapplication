@@ -56,6 +56,8 @@ class MessagesRepositoryImpl implements MessagesRepository {
       );
       message = message.copyWith(message: fileUrl);
       _saveMessage(message: message);
+    } on MessageNotSentException catch (_) {
+      rethrow;
     } catch (_) {
       throw MessageSendFileFailedException();
     }
@@ -63,7 +65,11 @@ class MessagesRepositoryImpl implements MessagesRepository {
 
   @override
   Future<void> sendTextMessage(Message message) async {
-    await _saveMessage(message: message);
+    try {
+      await _saveMessage(message: message);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   Future<String> _storeFileToFirebaseStorage({
