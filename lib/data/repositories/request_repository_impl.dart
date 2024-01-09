@@ -215,6 +215,10 @@ class RequestRepositoryImpl implements RequestRepository {
 
   @override
   Future<Request?> findRequestIfConnected(String id) async {
-    return await _getRequestsWithId(id);
+    try {
+      return await _getRequestsWithId(id);
+    } catch (_) {
+      rethrow;
+    }
   }
 }
