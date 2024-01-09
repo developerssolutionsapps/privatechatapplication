@@ -83,8 +83,12 @@ class RequestRepositoryImpl implements RequestRepository {
 
   @override
   Future<Request?> cancelRequest(Request request) async {
-    final Request req = request.copyWith(accepted: true);
-    return await _updateRequest(req);
+    try {
+      final Request req = request.copyWith(accepted: true);
+      return await _updateRequest(req);
+    } catch (_) {
+      rethrow;
+    }
   }
 
   @override
