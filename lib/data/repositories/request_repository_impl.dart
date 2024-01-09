@@ -146,16 +146,26 @@ class RequestRepositoryImpl implements RequestRepository {
 
   @override
   Future<List<Request>> getAllRequestReceived() async {
-    List<Request> listReq = [];
-    QuerySnapshot querySnapshot = await firestore
-        .collection("requests")
-        .where("receiver", isEqualTo: _firebaseAuth.currentUser?.phoneNumber)
-        .get();
-    for (var doc in querySnapshot.docs) {
-      Request user = Request.fromMap(doc.data() as Map);
-      listReq.add(user);
+    try {
+      List<Request> listReq = [];
+      QuerySnapshot querySnapshot = await firestore
+          .collection("requests")
+          .where("receiver", isEqualTo: _firebaseAuth.currentUser?.phoneNumber)
+          .get();
+      for (var doc in querySnapshot.docs) {
+        Request user = Request.fromMap(doc.data() as Map);
+        listReq.add(user);
+      }
+      return listReq;
+    } on FirebaseException catch (e) {
+      if (e.code == "not Found") {
+        throw RequestDocumentNotFoundException();
+      } else {
+        throw RequestFetchFailedException();
+      }
+    } catch (_) {
+      throw RequestFetchFailedException();
     }
-    return listReq;
   }
 
   @override
