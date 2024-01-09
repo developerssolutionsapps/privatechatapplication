@@ -97,10 +97,8 @@ class RequestRepositoryImpl implements RequestRepository {
       final docRequestReciever =
           firestore.collection('requests').doc(request.id);
       await docRequestReciever.set(request.toMap());
-      return false;
-    } catch (e) {
-      return false;
-    }
+    } catch (e) {}
+    return false;
   }
 
   @override
@@ -111,8 +109,14 @@ class RequestRepositoryImpl implements RequestRepository {
       if (data == null) return null;
       final res = Request.fromMap(data);
       return res;
-    } on FirebaseAuthException catch (_) {
-      return null;
+    } on FirebaseException catch (e) {
+      if (e.code == "not Found") {
+        throw RequestDocumentNotFoundException();
+      } else {
+        throw RequestFetchFailedException();
+      }
+    } catch (_) {
+      throw RequestFetchFailedException();
     }
   }
 
