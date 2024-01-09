@@ -55,8 +55,8 @@ class UserRepositoryImpl implements UserRepository {
         "location": '',
         "description": '',
       });
-    } on FirebaseAuthException catch (e) {
-      log(e.message.toString());
+    } catch (_) {
+      throw UsersCreateFailedException();
     }
   }
 
