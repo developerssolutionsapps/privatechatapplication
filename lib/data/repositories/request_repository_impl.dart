@@ -97,7 +97,9 @@ class RequestRepositoryImpl implements RequestRepository {
       final docRequestReciever =
           firestore.collection('requests').doc(request.id);
       await docRequestReciever.set(request.toMap());
-    } catch (e) {}
+    } catch (e) {
+      throw RequestCreateFailedException();
+    }
     return false;
   }
 
