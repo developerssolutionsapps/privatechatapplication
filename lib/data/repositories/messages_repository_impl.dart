@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:private_chat/core/exceptions/messages_exception.dart';
 import 'package:private_chat/domain/models/message.dart';
 import 'package:private_chat/domain/repositories/messages_repository.dart';
 
@@ -15,23 +16,27 @@ class MessagesRepositoryImpl implements MessagesRepository {
     required senderUserId,
     required receiverUserId,
   }) {
-    return _firestore
-        .collection("users")
-        .doc(senderUserId)
-        .collection("chats")
-        .doc(receiverUserId)
-        .collection("messages")
-        .orderBy('time')
-        .snapshots()
-        .map(
-      (messagesMap) {
-        List<Message> messagesList = [];
-        for (var messageMap in messagesMap.docs) {
-          messagesList.add(Message.fromMap(messageMap.data()));
-        }
-        return messagesList;
-      },
-    );
+    try {
+      return _firestore
+          .collection("users")
+          .doc(senderUserId)
+          .collection("chats")
+          .doc(receiverUserId)
+          .collection("messages")
+          .orderBy('time')
+          .snapshots()
+          .map(
+        (messagesMap) {
+          List<Message> messagesList = [];
+          for (var messageMap in messagesMap.docs) {
+            messagesList.add(Message.fromMap(messageMap.data()));
+          }
+          return messagesList;
+        },
+      );
+    } catch (_) {
+      throw MessageDocumentNotFoundException();
+    }
   }
 
   @override
