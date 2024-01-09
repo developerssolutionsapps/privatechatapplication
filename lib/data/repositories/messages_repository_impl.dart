@@ -58,6 +58,8 @@ class MessagesRepositoryImpl implements MessagesRepository {
       _saveMessage(message: message);
     } on MessageNotSentException catch (_) {
       rethrow;
+    } on FileUploadFailedException catch (_) {
+      rethrow;
     } catch (_) {
       throw MessageSendFileFailedException();
     }
@@ -83,7 +85,7 @@ class MessagesRepositoryImpl implements MessagesRepository {
       TaskSnapshot snapshot = await imageUploadTask;
       return await snapshot.ref.getDownloadURL();
     } catch (e) {
-      throw 'Image not found';
+      throw FileUploadFailedException();
     }
   }
 

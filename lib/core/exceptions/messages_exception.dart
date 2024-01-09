@@ -11,3 +11,5 @@ class MessageCreateFailedException implements Exception {}
 class MessageSendFileFailedException implements Exception {}
 
 class MessageNotSentException implements Exception {}
+
+class FileUploadFailedException implements Exception {}
