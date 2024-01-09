@@ -4,7 +4,6 @@ import 'dart:js_interop';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 import 'package:private_chat/core/exceptions/users_exceptions.dart';
 import 'dart:developer';

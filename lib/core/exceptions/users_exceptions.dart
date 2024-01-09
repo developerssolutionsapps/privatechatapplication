@@ -1,5 +1,7 @@
 class UsersUpdateFailedException implements Exception {}
 
+class DeleteAccountFailedException implements Exception {}
+
 class UsersDocumentNotFoundException implements Exception {}
 
 class UsersTimeOutException implements Exception {}
