@@ -69,11 +69,13 @@ class UserRepositoryImpl implements UserRepository {
       if (data == null) return null;
       final res = UserModel.fromMap(data);
       return res;
-    } on FirebaseAuthException catch (e) {
-      if (kDebugMode) {
-        print(e.message);
+    } on FirebaseException catch (e) {
+      if (e.code == "not-found") {
+        throw UsersDocumentNotFoundException();
       }
-      return null;
+      throw UsersFetchFailedException();
+    } catch (_) {
+      throw UsersFetchFailedException();
     }
   }
 
