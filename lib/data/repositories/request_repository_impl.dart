@@ -204,9 +204,13 @@ class RequestRepositoryImpl implements RequestRepository {
 
   @override
   Future<Request?> findRequestConnected() async {
-    String? myID = _firebaseAuth.currentUser?.uid;
-    if (myID.isNull) return null;
-    return await _getRequestsWithId(myID!);
+    try {
+      String? myID = _firebaseAuth.currentUser?.uid;
+      if (myID.isNull) return null;
+      return await _getRequestsWithId(myID!);
+    } catch (_) {
+      rethrow;
+    }
   }
 
   @override
