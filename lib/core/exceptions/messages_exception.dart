@@ -9,3 +9,5 @@ class MessageFetchFailedException implements Exception {}
 class MessageCreateFailedException implements Exception {}
 
 class MessageSendFileFailedException implements Exception {}
+
+class MessageNotSentException implements Exception {}

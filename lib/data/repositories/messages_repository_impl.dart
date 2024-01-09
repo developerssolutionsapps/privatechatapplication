@@ -83,24 +83,28 @@ class MessagesRepositoryImpl implements MessagesRepository {
 
   /// invoke to save message data to message sub collection
   _saveMessage({required Message message}) async {
-    // saving message data for sender
-    await _firestore
-        .collection("users")
-        .doc(message.sender)
-        .collection("chats")
-        .doc(message.receiver)
-        .collection("messages")
-        .doc(message.id)
-        .set(message.toMap());
+    try {
+      // saving message data for sender
+      await _firestore
+          .collection("users")
+          .doc(message.sender)
+          .collection("chats")
+          .doc(message.receiver)
+          .collection("messages")
+          .doc(message.id)
+          .set(message.toMap());
 
-    // saving message data for receiver
-    await _firestore
-        .collection("users")
-        .doc(message.receiver)
-        .collection("chats")
-        .doc(message.sender)
-        .collection("messages")
-        .doc(message.id)
-        .set(message.toMap());
+      // saving message data for receiver
+      await _firestore
+          .collection("users")
+          .doc(message.receiver)
+          .collection("chats")
+          .doc(message.sender)
+          .collection("messages")
+          .doc(message.id)
+          .set(message.toMap());
+    } catch (e) {
+      throw MessageNotSentException();
+    }
   }
 }
