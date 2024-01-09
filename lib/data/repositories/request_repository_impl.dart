@@ -31,34 +31,44 @@ class RequestRepositoryImpl implements RequestRepository {
   }
 
   _getRequestsWithId(String id) async {
-    Request? reqSent;
-    Request? reqReceived;
-    QuerySnapshot sentActive = await firestore
-        .collection("requests")
-        .where("sender", isEqualTo: id)
-        .where("accepted", isEqualTo: true)
-        .where("canceled", isEqualTo: false)
-        .orderBy("time")
-        .limit(1)
-        .get();
-    QuerySnapshot receivedActive = await firestore
-        .collection("requests")
-        .where("receiver", isEqualTo: id)
-        .where("accepted", isEqualTo: true)
-        .where("canceled", isEqualTo: false)
-        .orderBy("time")
-        .limit(1)
-        .get();
-    for (var doc in receivedActive.docs) {
-      Request req = Request.fromMap(doc.data() as Map);
-      if (req.isNull) reqSent = req;
+    try {
+      Request? reqSent;
+      Request? reqReceived;
+      QuerySnapshot sentActive = await firestore
+          .collection("requests")
+          .where("sender", isEqualTo: id)
+          .where("accepted", isEqualTo: true)
+          .where("canceled", isEqualTo: false)
+          .orderBy("time")
+          .limit(1)
+          .get();
+      QuerySnapshot receivedActive = await firestore
+          .collection("requests")
+          .where("receiver", isEqualTo: id)
+          .where("accepted", isEqualTo: true)
+          .where("canceled", isEqualTo: false)
+          .orderBy("time")
+          .limit(1)
+          .get();
+      for (var doc in receivedActive.docs) {
+        Request req = Request.fromMap(doc.data() as Map);
+        if (req.isNull) reqSent = req;
+      }
+      for (var doc in sentActive.docs) {
+        Request req = Request.fromMap(doc.data() as Map);
+        if (req.isNull) reqReceived = req;
+      }
+      if (reqSent!.time > reqReceived!.time) return reqSent;
+      return reqReceived;
+    } on FirebaseException catch (e) {
+      if (e.code == "not Found") {
+        throw RequestDocumentNotFoundException();
+      } else {
+        throw RequestFetchFailedException();
+      }
+    } catch (_) {
+      throw RequestFetchFailedException();
     }
-    for (var doc in sentActive.docs) {
-      Request req = Request.fromMap(doc.data() as Map);
-      if (req.isNull) reqReceived = req;
-    }
-    if (reqSent!.time > reqReceived!.time) return reqSent;
-    return reqReceived;
   }
 
   @override
