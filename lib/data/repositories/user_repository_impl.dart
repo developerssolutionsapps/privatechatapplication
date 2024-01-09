@@ -188,7 +188,7 @@ class UserRepositoryImpl implements UserRepository {
           .doc(_firebaseAuth.currentUser!.uid)
           .delete();
     } catch (e) {
-      return false;
+      DeleteAccountFailedException();
     }
     return true;
   }
