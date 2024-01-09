@@ -7,3 +7,5 @@ class UsersTimeOutException implements Exception {}
 class UsersFetchFailedException implements Exception {}
 
 class UsersCreateFailedException implements Exception {}
+
+class UsersFetchMeFailedException implements Exception {}

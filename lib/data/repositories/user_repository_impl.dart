@@ -106,16 +106,23 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<UserModel?> me() async {
     User? user = _firebaseAuth.currentUser;
-    if (user != null) {
-      final UserModel? mefromfirestore = await findUser(user.uid);
-      if (mefromfirestore != null) {
-        return mefromfirestore;
+    try {
+      if (user != null) {
+        final UserModel? mefromfirestore = await findUser(user.uid);
+        if (mefromfirestore != null) {
+          return mefromfirestore;
+        } else {
+          await insertUserToFireStore(user);
+          return await findUser(user.uid);
+        }
       } else {
-        await insertUserToFireStore(user);
-        return await findUser(user.uid);
+        return null;
       }
-    } else {
-      return null;
+    } on UsersDocumentNotFoundException catch (_) {
+      await insertUserToFireStore(user!);
+      return await findUser(user.uid);
+    } catch (_) {
+      rethrow;
     }
   }
 
