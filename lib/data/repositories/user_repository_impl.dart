@@ -168,9 +168,15 @@ class UserRepositoryImpl implements UserRepository {
             .update(user.toMap());
       }
       return true;
-    } catch (e) {
-      log(e.toString());
-      return false;
+    } on FirebaseException catch (e) {
+      if (e.code == "not-found") {
+        throw UsersDocumentNotFoundException();
+      } else if (e.code == "deadline-exceeded") {
+        throw UsersTimeOutException();
+      }
+      throw UsersUpdateFailedException();
+    } catch (_) {
+      throw UsersUpdateFailedException();
     }
   }
 
