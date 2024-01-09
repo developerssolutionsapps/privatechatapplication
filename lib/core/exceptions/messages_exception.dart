@@ -7,3 +7,5 @@ class MessageTimeOutException implements Exception {}
 class MessageFetchFailedException implements Exception {}
 
 class MessageCreateFailedException implements Exception {}
+
+class MessageSendFileFailedException implements Exception {}

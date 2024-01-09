@@ -45,16 +45,20 @@ class MessagesRepositoryImpl implements MessagesRepository {
     bool mounted,
     File file,
   ) async {
-    if (!mounted) return;
-    String fileName =
-        '${message.messageType}/${_auth.currentUser?.uid ?? message.sender}/${message.receiver}/${message.id}';
-    final String fileUrl = await _storeFileToFirebaseStorage(
-      file: file,
-      path: 'chats',
-      fileName: fileName,
-    );
-    message = message.copyWith(message: fileUrl);
-    _saveMessage(message: message);
+    try {
+      if (!mounted) return;
+      String fileName =
+          '${message.messageType}/${_auth.currentUser?.uid ?? message.sender}/${message.receiver}/${message.id}';
+      final String fileUrl = await _storeFileToFirebaseStorage(
+        file: file,
+        path: 'chats',
+        fileName: fileName,
+      );
+      message = message.copyWith(message: fileUrl);
+      _saveMessage(message: message);
+    } catch (_) {
+      throw MessageSendFileFailedException();
+    }
   }
 
   @override
