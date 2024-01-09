@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:private_chat/core/exceptions/messages_exception.dart';
 import 'package:private_chat/domain/models/message.dart';
 import 'package:private_chat/domain/repositories/messages_repository.dart';
 
@@ -15,23 +16,27 @@ class MessagesRepositoryImpl implements MessagesRepository {
     required senderUserId,
     required receiverUserId,
   }) {
-    return _firestore
-        .collection("users")
-        .doc(senderUserId)
-        .collection("chats")
-        .doc(receiverUserId)
-        .collection("messages")
-        .orderBy('time')
-        .snapshots()
-        .map(
-      (messagesMap) {
-        List<Message> messagesList = [];
-        for (var messageMap in messagesMap.docs) {
-          messagesList.add(Message.fromMap(messageMap.data()));
-        }
-        return messagesList;
-      },
-    );
+    try {
+      return _firestore
+          .collection("users")
+          .doc(senderUserId)
+          .collection("chats")
+          .doc(receiverUserId)
+          .collection("messages")
+          .orderBy('time')
+          .snapshots()
+          .map(
+        (messagesMap) {
+          List<Message> messagesList = [];
+          for (var messageMap in messagesMap.docs) {
+            messagesList.add(Message.fromMap(messageMap.data()));
+          }
+          return messagesList;
+        },
+      );
+    } catch (_) {
+      throw MessageDocumentNotFoundException();
+    }
   }
 
   @override
@@ -40,21 +45,33 @@ class MessagesRepositoryImpl implements MessagesRepository {
     bool mounted,
     File file,
   ) async {
-    if (!mounted) return;
-    String fileName =
-        '${message.messageType}/${_auth.currentUser?.uid ?? message.sender}/${message.receiver}/${message.id}';
-    final String fileUrl = await _storeFileToFirebaseStorage(
-      file: file,
-      path: 'chats',
-      fileName: fileName,
-    );
-    message = message.copyWith(message: fileUrl);
-    _saveMessage(message: message);
+    try {
+      if (!mounted) return;
+      String fileName =
+          '${message.messageType}/${_auth.currentUser?.uid ?? message.sender}/${message.receiver}/${message.id}';
+      final String fileUrl = await _storeFileToFirebaseStorage(
+        file: file,
+        path: 'chats',
+        fileName: fileName,
+      );
+      message = message.copyWith(message: fileUrl);
+      _saveMessage(message: message);
+    } on MessageNotSentException catch (_) {
+      rethrow;
+    } on FileUploadFailedException catch (_) {
+      rethrow;
+    } catch (_) {
+      throw MessageSendFileFailedException();
+    }
   }
 
   @override
   Future<void> sendTextMessage(Message message) async {
-    await _saveMessage(message: message);
+    try {
+      await _saveMessage(message: message);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   Future<String> _storeFileToFirebaseStorage({
@@ -68,30 +85,34 @@ class MessagesRepositoryImpl implements MessagesRepository {
       TaskSnapshot snapshot = await imageUploadTask;
       return await snapshot.ref.getDownloadURL();
     } catch (e) {
-      throw 'Image not found';
+      throw FileUploadFailedException();
     }
   }
 
   /// invoke to save message data to message sub collection
   _saveMessage({required Message message}) async {
-    // saving message data for sender
-    await _firestore
-        .collection("users")
-        .doc(message.sender)
-        .collection("chats")
-        .doc(message.receiver)
-        .collection("messages")
-        .doc(message.id)
-        .set(message.toMap());
+    try {
+      // saving message data for sender
+      await _firestore
+          .collection("users")
+          .doc(message.sender)
+          .collection("chats")
+          .doc(message.receiver)
+          .collection("messages")
+          .doc(message.id)
+          .set(message.toMap());
 
-    // saving message data for receiver
-    await _firestore
-        .collection("users")
-        .doc(message.receiver)
-        .collection("chats")
-        .doc(message.sender)
-        .collection("messages")
-        .doc(message.id)
-        .set(message.toMap());
+      // saving message data for receiver
+      await _firestore
+          .collection("users")
+          .doc(message.receiver)
+          .collection("chats")
+          .doc(message.sender)
+          .collection("messages")
+          .doc(message.id)
+          .set(message.toMap());
+    } catch (e) {
+      throw MessageNotSentException();
+    }
   }
 }

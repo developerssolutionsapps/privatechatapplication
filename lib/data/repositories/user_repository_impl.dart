@@ -4,8 +4,8 @@ import 'dart:js_interop';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
+import 'package:private_chat/core/exceptions/users_exceptions.dart';
 import 'dart:developer';
 import '../../core/constants/images_fake.dart';
 import '../../domain/models/user_model.dart';
@@ -19,13 +19,22 @@ class UserRepositoryImpl implements UserRepository {
   /// Ivoke to get all the users from firestore
   @override
   Future<List<UserModel>> getAllUser() async {
-    List<UserModel> listUser = [];
-    QuerySnapshot querySnapshot = await firestore.collection("users").get();
-    for (var doc in querySnapshot.docs) {
-      UserModel user = UserModel.fromMap(doc.data() as Map);
-      listUser.add(user);
+    try {
+      List<UserModel> listUser = [];
+      QuerySnapshot querySnapshot = await firestore.collection("users").get();
+      for (var doc in querySnapshot.docs) {
+        UserModel user = UserModel.fromMap(doc.data() as Map);
+        listUser.add(user);
+      }
+      return listUser;
+    } on FirebaseException catch (e) {
+      if (e.code == "not-found") {
+        throw UsersDocumentNotFoundException();
+      }
+      throw UsersFetchFailedException();
+    } catch (_) {
+      throw UsersFetchFailedException();
     }
-    return listUser;
   }
 
   /// Ivoke to insert a user to firestore
@@ -45,8 +54,8 @@ class UserRepositoryImpl implements UserRepository {
         "location": '',
         "description": '',
       });
-    } on FirebaseAuthException catch (e) {
-      log(e.message.toString());
+    } catch (_) {
+      throw UsersCreateFailedException();
     }
   }
 
@@ -59,11 +68,13 @@ class UserRepositoryImpl implements UserRepository {
       if (data == null) return null;
       final res = UserModel.fromMap(data);
       return res;
-    } on FirebaseAuthException catch (e) {
-      if (kDebugMode) {
-        print(e.message);
+    } on FirebaseException catch (e) {
+      if (e.code == "not-found") {
+        throw UsersDocumentNotFoundException();
       }
-      return null;
+      throw UsersFetchFailedException();
+    } catch (_) {
+      throw UsersFetchFailedException();
     }
   }
 
@@ -79,26 +90,38 @@ class UserRepositoryImpl implements UserRepository {
         UserModel user = UserModel.fromMap(doc.data());
         if (!user.isNull) return user;
       }
-    } on FirebaseAuthException catch (_) {
       return null;
+    } on FirebaseException catch (e) {
+      if (e.code == "not-found") {
+        throw UsersDocumentNotFoundException();
+      }
+      throw UsersFetchFailedException();
+    } catch (_) {
+      throw UsersFetchFailedException();
     }
-    return null;
   }
 
   /// Ivoke to find a user in firestore with the user's id
   @override
   Future<UserModel?> me() async {
     User? user = _firebaseAuth.currentUser;
-    if (user != null) {
-      final UserModel? mefromfirestore = await findUser(user.uid);
-      if (mefromfirestore != null) {
-        return mefromfirestore;
+    try {
+      if (user != null) {
+        final UserModel? mefromfirestore = await findUser(user.uid);
+        if (mefromfirestore != null) {
+          return mefromfirestore;
+        } else {
+          await insertUserToFireStore(user);
+          return await findUser(user.uid);
+        }
       } else {
-        await insertUserToFireStore(user);
-        return await findUser(user.uid);
+        return null;
       }
-    } else {
-      return null;
+    } on UsersDocumentNotFoundException catch (_) {
+      await insertUserToFireStore(user!);
+      return await findUser(user.uid);
+    } catch (_) {
+      rethrow;
     }
   }
 
@@ -144,9 +167,15 @@ class UserRepositoryImpl implements UserRepository {
             .update(user.toMap());
       }
       return true;
-    } catch (e) {
-      log(e.toString());
-      return false;
+    } on FirebaseException catch (e) {
+      if (e.code == "not-found") {
+        throw UsersDocumentNotFoundException();
+      } else if (e.code == "deadline-exceeded") {
+        throw UsersTimeOutException();
+      }
+      throw UsersUpdateFailedException();
+    } catch (_) {
+      throw UsersUpdateFailedException();
     }
   }
 
@@ -158,7 +187,7 @@ class UserRepositoryImpl implements UserRepository {
           .doc(_firebaseAuth.currentUser!.uid)
           .delete();
     } catch (e) {
-      return false;
+      DeleteAccountFailedException();
     }
     return true;
   }
