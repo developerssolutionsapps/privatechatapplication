@@ -3,6 +3,7 @@ import 'dart:js_interop';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:private_chat/core/exceptions/request_exception.dart';
 import 'package:private_chat/domain/models/request.dart';
 import 'package:private_chat/domain/repositories/request_repository.dart';
 
@@ -17,8 +18,15 @@ class RequestRepositoryImpl implements RequestRepository {
       final docRequestReciever = firestore.collection('requests').doc(req.id);
       await docRequestReciever.update(req.toMap());
       return await findRequest(req.id);
-    } catch (e) {
-      return await findRequest(req.id);
+    } on FirebaseException catch (e) {
+      if (e.code == "not-found") {
+        throw RequestDocumentNotFoundException();
+      } else if (e.code == "deadline-exceeded") {
+        throw RequestTimeOutException();
+      }
+      throw RequestUpdateFailedException();
+    } catch (_) {
+      throw RequestUpdateFailedException();
     }
   }
 
