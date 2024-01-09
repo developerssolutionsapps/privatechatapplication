@@ -194,8 +194,12 @@ class RequestRepositoryImpl implements RequestRepository {
 
   @override
   Future<Request?> rejectRequest(Request request) async {
-    final Request req = request.copyWith(accepted: false);
-    return await _updateRequest(req);
+    try {
+      final Request req = request.copyWith(accepted: false);
+      return await _updateRequest(req);
+    } catch (_) {
+      rethrow;
+    }
   }
 
   @override
