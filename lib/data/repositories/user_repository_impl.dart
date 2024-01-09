@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
+import 'package:private_chat/core/exceptions/users_exceptions.dart';
 import 'dart:developer';
 import '../../core/constants/images_fake.dart';
 import '../../domain/models/user_model.dart';
@@ -19,13 +20,22 @@ class UserRepositoryImpl implements UserRepository {
   /// Ivoke to get all the users from firestore
   @override
   Future<List<UserModel>> getAllUser() async {
-    List<UserModel> listUser = [];
-    QuerySnapshot querySnapshot = await firestore.collection("users").get();
-    for (var doc in querySnapshot.docs) {
-      UserModel user = UserModel.fromMap(doc.data() as Map);
-      listUser.add(user);
+    try {
+      List<UserModel> listUser = [];
+      QuerySnapshot querySnapshot = await firestore.collection("users").get();
+      for (var doc in querySnapshot.docs) {
+        UserModel user = UserModel.fromMap(doc.data() as Map);
+        listUser.add(user);
+      }
+      return listUser;
+    } on FirebaseException catch (e) {
+      if (e.code == "not-found") {
+        throw UsersDocumentNotFoundException();
+      }
+      throw UsersFetchFailedException();
+    } catch (_) {
+      throw UsersFetchFailedException();
     }
-    return listUser;
   }
 
   /// Ivoke to insert a user to firestore
