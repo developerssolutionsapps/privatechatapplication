@@ -91,10 +91,15 @@ class UserRepositoryImpl implements UserRepository {
         UserModel user = UserModel.fromMap(doc.data());
         if (!user.isNull) return user;
       }
-    } on FirebaseAuthException catch (_) {
       return null;
+    } on FirebaseException catch (e) {
+      if (e.code == "not-found") {
+        throw UsersDocumentNotFoundException();
+      }
+      throw UsersFetchFailedException();
+    } catch (_) {
+      throw UsersFetchFailedException();
     }
-    return null;
   }
 
   /// Ivoke to find a user in firestore with the user's id
