@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:private_chat/presentation/screen/auth/auth_test_screen.dart';
+import '../screen/auth/auto_login.dart';
 import '../screen/common/splashscreen_screen.dart';
 import '../screen/auth/otp_verification_enternumber_screen.dart';
 import '../screen/auth/otp_verification_recivingcode_screen.dart';
@@ -82,7 +83,7 @@ class AppRoutes {
 
   static Map<String, WidgetBuilder> get routes => {
         splashscreenScreen: SplashscreenScreen.builder,
-        authWidget: AuthWidget.builder,
+        authWidget: PhoneAuthScreen.builder,
         otpVerificationEnternumberScreen:
             OtpVerificationEnternumberScreen.builder,
         otpVerificationRecivingcodeScreen:
