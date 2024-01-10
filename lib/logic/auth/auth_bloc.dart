@@ -117,7 +117,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> signInWithPhoneNumber(
     String phoneNumber,
-    void Function(String verificationId, [int? forceResendingToken]) onCodeSent,
+    Function(String verificationId, [int? forceResendingToken]) onCodeSent,
     Function(PhoneAuthCredential credential) onVerificationCompleted,
     Function(FirebaseAuthException e) onVerificationFailed,
     Function(String verificationId) onCodeAutoRetrievalTimeout,
