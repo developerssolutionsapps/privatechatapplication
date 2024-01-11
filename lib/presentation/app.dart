@@ -30,7 +30,7 @@ class App extends StatelessWidget {
         behavior: HitTestBehavior.opaque,
         onTap: () => primaryFocus?.unfocus(),
         child: MaterialApp.router(
-          title: 'FriendZone',
+          title: 'PrivateChat',
           debugShowCheckedModeBanner: false,
           theme: theme,
           routerConfig: router,
