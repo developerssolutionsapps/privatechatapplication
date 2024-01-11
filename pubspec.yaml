@@ -22,12 +22,14 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_svg: ^1.1.6
+  go_router: ^13.0.1
   pin_code_fields: ^7.3.0
   rxdart: ^0.27.7
   shared_preferences: ^2.0.15
   sms_autofill: ^2.0.0
   timeago: ^3.6.0
   uuid: ^4.2.2
+  intl: any
 dev_dependencies:
   flutter_test:
     sdk: flutter
