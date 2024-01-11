@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../../core/app_export.dart';
 
-class SplashscreenScreen extends StatelessWidget {
-  const SplashscreenScreen({Key? key})
+class SplashScreen extends StatelessWidget {
+  const SplashScreen({Key? key})
       : super(
           key: key,
         );
@@ -12,7 +12,7 @@ class SplashscreenScreen extends StatelessWidget {
     Future.delayed(const Duration(milliseconds: 5000), () {
       NavigatorService.popAndPushNamed(AppRoutes.authWidget);
     });
-    return SplashscreenScreen();
+    return SplashScreen();
   }
 
   @override
