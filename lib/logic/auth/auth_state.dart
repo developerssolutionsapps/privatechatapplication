@@ -2,30 +2,25 @@ part of 'auth_bloc.dart';
 
 @immutable
 sealed class AuthState {
-  final bool isLoading;
-  final String? loadingText;
-  const AuthState({
-    required this.isLoading,
-    this.loadingText = "please wait a moment",
-  });
+  const AuthState();
 }
 
 class AuthStateOnInitialize extends AuthState {
-  const AuthStateOnInitialize({
-    required bool isLoading,
-  }) : super(isLoading: isLoading);
+  const AuthStateOnInitialize() : super();
+}
+
+class Loading extends AuthState {
+  Loading() : super();
 }
 
 class AuthStateLoggedOut extends AuthState with EquatableMixin {
   final Exception? exception;
   const AuthStateLoggedOut({
     required this.exception,
-    required bool isLoading,
-    String? loadingText,
-  }) : super(isLoading: isLoading);
+  }) : super();
 
   @override
-  List<Object?> get props => [exception, isLoading];
+  List<Object?> get props => [exception];
 }
 
 class AuthStateCodeSent extends AuthState {
@@ -33,15 +28,13 @@ class AuthStateCodeSent extends AuthState {
   final String? code;
   const AuthStateCodeSent({
     required this.exception,
-    required isLoading,
     required this.code,
-  }) : super(isLoading: isLoading);
+  }) : super();
 }
 
 class AuthStateLoggedIn extends AuthState {
   final AuthUser? user;
   const AuthStateLoggedIn({
     required this.user,
-    required isLoading,
-  }) : super(isLoading: isLoading);
+  }) : super();
 }

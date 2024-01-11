@@ -14,26 +14,23 @@ part 'auth_state.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository _authRepository;
   AuthBloc(this._authRepository)
-      : super(const AuthStateOnInitialize(isLoading: true)) {
+      : super(const AuthStateOnInitialize()) {
     on<AuthEventInitialize>((event, emit) async {
-      emit(AuthStateOnInitialize(isLoading: true));
+      emit(AuthStateOnInitialize());
       await _authRepository.initialize();
       final user = _authRepository.currentUser;
       if (user == null) {
         emit(const AuthStateLoggedOut(
           exception: null,
-          isLoading: false,
         ));
       } else {
-        emit(AuthStateLoggedIn(user: user, isLoading: false));
+        emit(AuthStateLoggedIn(user: user, ));
       }
     });
     on<AuthEventLogout>(((event, emit) async {
       emit(
         const AuthStateLoggedOut(
           exception: null,
-          isLoading: true,
-          loadingText: 'Please wait while i log you out',
         ),
         // _authRepository.
       );
@@ -42,8 +39,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(
         const AuthStateLoggedOut(
           exception: null,
-          isLoading: true,
-          loadingText: 'Verifying the code sent',
         ),
       );
       if (event.verificationId != null && event.code != null) {
@@ -57,8 +52,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(
         const AuthStateLoggedOut(
           exception: null,
-          isLoading: true,
-          loadingText: 'Please wait while i log you in',
         ),
       );
       final phone = await event.phone;
@@ -66,14 +59,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(
           const AuthStateLoggedOut(
             exception: null,
-            isLoading: false,
           ),
         );
         await signInWithPhoneNumber(
           event.phone!,
           (String verificationId, [int? forceResendingToken]) {
             emit(AuthStateCodeSent(
-              isLoading: false,
               exception: null,
               code: verificationId,
             ));
@@ -81,14 +72,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           (PhoneAuthCredential credential) {
             emit(AuthStateLoggedIn(
               user: _authRepository.currentUser,
-              isLoading: false,
             ));
           },
           (FirebaseAuthException e) {
             emit(
               const AuthStateLoggedOut(
                 exception: null,
-                isLoading: false,
               ),
             );
           },
@@ -96,7 +85,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             emit(
               const AuthStateLoggedOut(
                 exception: null,
-                isLoading: false,
               ),
             );
           },
