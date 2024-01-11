@@ -12,3 +12,7 @@ class ThemeState extends Equatable {
     return ThemeState(themeType: themeType ?? this.themeType);
   }
 }
+
+class ChangedTheme extends ThemeState {
+  ChangedTheme({required super.themeType});
+}

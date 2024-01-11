@@ -5,6 +5,7 @@
 // import 'package:country_pickers/country_pickers.dart';
 import 'package:flutter/material.dart';
 import 'package:private_chat/core/app_export.dart';
+import 'package:private_chat/presentation/routes/path.dart';
 import 'package:private_chat/presentation/widgets/custom_elevated_button.dart';
 import 'package:private_chat/presentation/widgets/custom_phone_number.dart';
 
@@ -98,7 +99,7 @@ class SignInScreen extends StatelessWidget {
                     alignment: Alignment.centerRight,
                     onPressed: () => {
                           NavigatorService.popAndPushNamed(
-                            AppRoutes.otpVerificationRecivingcodeScreen,
+                            RoutePath.otpScreen,
                           ),
                         }),
                 Spacer(

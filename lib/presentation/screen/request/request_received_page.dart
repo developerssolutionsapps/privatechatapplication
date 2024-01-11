@@ -57,7 +57,7 @@ class RequestReceivedPageState extends State<RequestReceivedPage>
                         child: Padding(
                           padding: EdgeInsets.only(left: 3.h),
                           child: Text(
-                            "lbl_1".tr,
+                            "1",
                             style: CustomTextStyles.titleMediumGray200,
                           ),
                         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:private_chat/presentation/routes/path.dart';
 import '../../../core/app_export.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_pin_code_text_field.dart';
@@ -90,7 +91,7 @@ class OtpScreen extends StatelessWidget {
                 buttonTextStyle: CustomTextStyles.titleMediumGray200,
                 alignment: Alignment.centerRight,
                 onPressed: () => NavigatorService.popAndPushNamed(
-                  AppRoutes.profilesetupOneScreen,
+                  RoutePath.setDisplayName,
                 ),
               ),
               Spacer(

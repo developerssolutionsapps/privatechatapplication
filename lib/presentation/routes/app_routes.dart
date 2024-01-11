@@ -1,18 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:private_chat/presentation/screen/auth/auth_test_screen.dart';
 import '../screen/auth/auto_login.dart';
-import '../screen/common/splashscreen_screen.dart';
-import '../screen/auth/otp_verification_enternumber_screen.dart';
-import '../screen/auth/otp_verification_recivingcode_screen.dart';
-import '../screen/entertainment/profilesetup_one_screen.dart';
 import '../screen/profile/profilesetup_two_screen.dart';
 import '../screen/profile/account_delete_screen.dart';
 import '../screen/companion/companion_s_name_when_accepted_container_screen.dart';
 import '../screen/companion/companion_s_name_unfriend_screen.dart';
 import '../screen/searchhistory_screen.dart';
 import '../screen/entertainment/chatinterface_screen.dart';
-import '../screen/profile/profilesetup_birthday_screen.dart';
-import '../screen/profile/profilesetup_sex_screen.dart';
 import '../screen/request/invite_screen.dart';
 import '../screen/profile/profilesetup_screen.dart';
 import '../screen/profile/profilesetup_location_screen.dart';
@@ -82,13 +75,7 @@ class AppRoutes {
   static const String initialRoute = '/initialRoute';
 
   static Map<String, WidgetBuilder> get routes => {
-        splashscreenScreen: SplashscreenScreen.builder,
         authWidget: PhoneAuthScreen.builder,
-        otpVerificationEnternumberScreen:
-            OtpVerificationEnternumberScreen.builder,
-        otpVerificationRecivingcodeScreen:
-            OtpVerificationRecivingcodeScreen.builder,
-        profilesetupOneScreen: ProfilesetupOneScreen.builder,
         profilesetupTwoScreen: ProfilesetupTwoScreen.builder,
         accountDeleteScreen: AccountDeleteScreen.builder,
         companionSNameWhenAcceptedContainerScreen:
@@ -96,8 +83,6 @@ class AppRoutes {
         companionSNameUnfriendScreen: CompanionSNameUnfriendScreen.builder,
         searchhistoryScreen: SearchhistoryScreen.builder,
         chatinterfaceScreen: ChatinterfaceScreen.builder,
-        profilesetupBirthdayScreen: ProfilesetupBirthdayScreen.builder,
-        profilesetupSexScreen: ProfilesetupSexScreen.builder,
         inviteScreen: InviteScreen.builder,
         profilesetupScreen: ProfilesetupScreen.builder,
         profilesetupLocationScreen: ProfilesetupLocationScreen.builder,
@@ -105,6 +90,5 @@ class AppRoutes {
         requestReceivedTabContainerScreen:
             RequestReceivedTabContainerScreen.builder,
         appNavigationScreen: AppNavigationScreen.builder,
-        initialRoute: SplashscreenScreen.builder
       };
 }

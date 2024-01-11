@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,10 +22,7 @@ class _AuthWidgetState extends State<AuthWidget> {
   @override
   void initState() {
     super.initState();
-    final authRepository = AuthRepositoryImpl(
-      FirebaseAuth.instance,
-      FirebaseFirestore.instance,
-    );
+    final authRepository = AuthRepositoryImpl();
     _authBloc = AuthBloc(authRepository);
   }
 
@@ -76,6 +71,7 @@ class _AuthWidgetState extends State<AuthWidget> {
                     ),
                     ElevatedButton(
                       onPressed: () {
+                        print("pressed the button");
                         _authBloc.add(AuthEventLogin(phone: '+254701143038'));
                       },
                       child: Padding(
