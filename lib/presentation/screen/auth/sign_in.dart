@@ -8,8 +8,8 @@ import 'package:private_chat/core/app_export.dart';
 import 'package:private_chat/presentation/widgets/custom_elevated_button.dart';
 import 'package:private_chat/presentation/widgets/custom_phone_number.dart';
 
-class OtpVerificationEnternumberScreen extends StatelessWidget {
-  OtpVerificationEnternumberScreen({Key? key})
+class SignInScreen extends StatelessWidget {
+  SignInScreen({Key? key})
       : super(
           key: key,
         );
@@ -17,7 +17,7 @@ class OtpVerificationEnternumberScreen extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   static Widget builder(BuildContext context) {
-    return OtpVerificationEnternumberScreen();
+    return SignInScreen();
   }
 
   @override
