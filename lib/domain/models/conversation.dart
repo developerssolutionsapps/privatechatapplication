@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:private_chat/domain/models/chat_message.dart';
+import 'package:private_chat/domain/models/message.dart';
 
 import 'package:private_chat/domain/models/user_model.dart';
 
 class Conversation {
   String id;
   List<String> participants;
-  ChatMessage message;
+  Message message;
   UserModel? user;
   Conversation({
     required this.id,
@@ -25,7 +25,7 @@ class Conversation {
   factory Conversation.fromMap(DocumentSnapshot<Map<String, dynamic>> map) {
     return Conversation(
       id: map['id'] ?? '',
-      message: ChatMessage.fromMap(map['message']),
+      message: Message.fromMap(map['message']),
       participants: List<String>.from((map['participants'] as List)),
     );
   }
