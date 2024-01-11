@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:private_chat/presentation/routes/path.dart';
 import '../../../core/app_export.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_text_form_field.dart';
 
-class ProfilesetupOneScreen extends StatelessWidget {
-  const ProfilesetupOneScreen({Key? key})
+class SetDisplayName extends StatelessWidget {
+  const SetDisplayName({Key? key})
       : super(
           key: key,
         );
 
   static Widget builder(BuildContext context) {
-    return ProfilesetupOneScreen();
+    return SetDisplayName();
   }
 
   @override
@@ -80,7 +81,7 @@ class ProfilesetupOneScreen extends StatelessWidget {
                 buttonTextStyle: CustomTextStyles.titleMediumGray500,
                 alignment: Alignment.centerRight,
                 onPressed: () => NavigatorService.popAndPushNamed(
-                  AppRoutes.profilesetupBirthdayScreen,
+                  RoutePath.setBirthday,
                 ),
               ),
               Spacer(
