@@ -3,14 +3,14 @@ import '../../../core/app_export.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_pin_code_text_field.dart';
 
-class OtpVerificationRecivingcodeScreen extends StatelessWidget {
-  const OtpVerificationRecivingcodeScreen({Key? key})
+class OtpScreen extends StatelessWidget {
+  const OtpScreen({Key? key})
       : super(
           key: key,
         );
 
   static Widget builder(BuildContext context) {
-    return OtpVerificationRecivingcodeScreen();
+    return OtpScreen();
   }
 
   @override
