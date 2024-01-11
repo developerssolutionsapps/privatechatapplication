@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:private_chat/presentation/routes/path.dart';
 import '../../../core/app_export.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_icon_button.dart';
 
-class ProfilesetupSexScreen extends StatelessWidget {
-  const ProfilesetupSexScreen({Key? key}) : super(key: key);
+class SetGender extends StatelessWidget {
+  const SetGender({Key? key}) : super(key: key);
 
   static Widget builder(BuildContext context) {
-    return ProfilesetupSexScreen();
+    return SetGender();
   }
 
   @override
@@ -67,7 +68,7 @@ class ProfilesetupSexScreen extends StatelessWidget {
                                 child: CustomImageView(
                                     imagePath: ImageConstant.imgGroup27),
                                 onTap: () => NavigatorService.popAndPushNamed(
-                                  AppRoutes.inviteScreen,
+                                  RoutePath.requestInvite,
                                 ),
                               ),
                               SizedBox(height: 8.v),
@@ -85,7 +86,7 @@ class ProfilesetupSexScreen extends StatelessWidget {
                                 child: CustomImageView(
                                     imagePath: ImageConstant.imgGroup28),
                                 onTap: () => NavigatorService.popAndPushNamed(
-                                  AppRoutes.inviteScreen,
+                                  RoutePath.requestInvite,
                                 ),
                               ),
                               SizedBox(height: 8.v),
