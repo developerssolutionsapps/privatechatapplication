@@ -13,8 +13,7 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository _authRepository;
-  AuthBloc(this._authRepository)
-      : super(const AuthStateOnInitialize()) {
+  AuthBloc(this._authRepository) : super(const AuthStateOnInitialize()) {
     on<AuthEventInitialize>((event, emit) async {
       emit(AuthStateOnInitialize());
       await _authRepository.initialize();
@@ -24,16 +23,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           exception: null,
         ));
       } else {
-        emit(AuthStateLoggedIn(user: user, ));
+        emit(AuthStateLoggedIn(
+          user: user,
+        ));
       }
     });
     on<AuthEventLogout>(((event, emit) async {
-      emit(
-        const AuthStateLoggedOut(
-          exception: null,
-        ),
-        // _authRepository.
-      );
+      emit(Loading());
+      try {
+        _authRepository.logOut();
+        emit(AuthStateLoggedOut(exception: null));
+      } catch (e) {}
     }));
     on<AuthEventVerifyCode>(((event, emit) async {
       emit(
