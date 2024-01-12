@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:private_chat/logic/user/user_cubit.dart';
 import '../../../core/app_export.dart';
 import '../../../logic/auth/auth_bloc.dart';
 import '../../routes/path.dart';
@@ -33,20 +34,27 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    mediaQueryData = MediaQuery.of(context);
+  Widget build(BuildContext contex) {
+    mediaQueryData = MediaQuery.of(contex);
 
-    return BlocListener<AuthBloc, AuthState>(
-      listener: (context, state) {
-        if (state is AuthStateLoggedIn)
-          context.replace(RoutePath.setDisplayName);
-        if (state is Loading) {
-          CustomOverlayEntry.instance.loadingCircularProgressIndicator(context);
-        }
-        if (state is AuthStateLoggedOut) {
-          CustomOverlayEntry.instance.hideOverlay();
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<AuthBloc, AuthState>(
+          listener: (context, state) {
+            if (state is AuthStateLoggedIn) contex.replace(RoutePath.main);
+            if (state is Loading) {
+              CustomOverlayEntry.instance
+                  .loadingCircularProgressIndicator(context);
+            }
+            if (state is AuthStateLoggedOut) {
+              CustomOverlayEntry.instance.hideOverlay();
+            }
+          },
+        ),
+        BlocListener<UserCubit, UserState>(
+          listener: (context, state) {},
+        ),
+      ],
       child: SafeArea(
         child: Scaffold(
           body: SizedBox(
