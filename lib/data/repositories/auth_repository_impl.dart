@@ -97,4 +97,13 @@ class AuthRepositoryImpl implements AuthRepository {
       options: DefaultFirebaseOptions.currentPlatform,
     );
   }
+
+  @override
+  Future<void> logOut() async {
+    try {
+      _auth.signOut();
+    } on FirebaseAuthException catch (e) {
+      AuthExceptionManager.throwExceptionByErrorCode(e.code);
+    }
+  }
 }
