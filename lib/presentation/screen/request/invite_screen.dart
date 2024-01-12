@@ -4,12 +4,21 @@ import '../../../core/app_export.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_phone_number.dart';
 
-class InviteScreen extends StatelessWidget {
+class InviteScreen extends StatefulWidget {
   InviteScreen({Key? key})
       : super(
           key: key,
         );
 
+  static Widget builder(BuildContext context) {
+    return InviteScreen();
+  }
+
+  @override
+  State<InviteScreen> createState() => _InviteScreenState();
+}
+
+class _InviteScreenState extends State<InviteScreen> {
   final Country selectedCountry = Country(
     phoneCode: "91",
     countryCode: "IN",
@@ -23,10 +32,33 @@ class InviteScreen extends StatelessWidget {
     e164Key: "",
   );
 
+  final countryCodeController = TextEditingController();
+
+  final phoneController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  static Widget builder(BuildContext context) {
-    return InviteScreen();
+  @override
+  void initState() {
+    super.initState();
+
+    countryCodeController.addListener(() {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(countryCodeController.text),
+      ));
+    });
+
+    phoneController.addListener(() {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(phoneController.text),
+      ));
+    });
+  }
+
+  @override
+  void dispose() {
+    phoneController.dispose();
+    countryCodeController.dispose();
+    super.dispose;
   }
 
   @override
@@ -114,8 +146,8 @@ class InviteScreen extends StatelessWidget {
         ),
         SizedBox(height: 7.v),
         CustomPhoneNumber(
-          controller: null,
-          countryCode: null,
+          controller: phoneController,
+          countryCode: countryCodeController,
           onTap: _onTapFunction,
         ),
       ],
