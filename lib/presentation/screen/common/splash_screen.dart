@@ -41,13 +41,22 @@ class _SplashScreenState extends State<SplashScreen> {
       listeners: [
         BlocListener<AuthBloc, AuthState>(
           listener: (context, state) {
-            if (state is AuthStateLoggedIn) contex.replace(RoutePath.main);
             if (state is Loading) {
               CustomOverlayEntry.instance
                   .loadingCircularProgressIndicator(context);
             }
             if (state is AuthStateLoggedOut) {
               CustomOverlayEntry.instance.hideOverlay();
+              contex.replace(RoutePath.signin);
+            }
+            if (state is AuthStateLoggedIn) {
+              CustomOverlayEntry.instance.hideOverlay();
+              contex.replace(RoutePath.signin);
+            }
+            if (state is AuthStateCodeSent) {
+              print("Code sent spash screen");
+              CustomOverlayEntry.instance.hideOverlay();
+              context.go(RoutePath.otpScreen, extra: state.verificationId);
             }
           },
         ),
