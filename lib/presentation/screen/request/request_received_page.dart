@@ -4,16 +4,10 @@ import '../../../core/app_export.dart';
 
 // ignore_for_file: must_be_immutable
 class RequestReceivedPage extends StatefulWidget {
-  const RequestReceivedPage({Key? key})
-      : super(
-          key: key,
-        );
+  const RequestReceivedPage({super.key});
 
   @override
   RequestReceivedPageState createState() => RequestReceivedPageState();
-  static Widget builder(BuildContext context) {
-    return RequestReceivedPage();
-  }
 }
 
 class RequestReceivedPageState extends State<RequestReceivedPage>
