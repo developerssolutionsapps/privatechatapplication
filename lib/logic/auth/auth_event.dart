@@ -15,7 +15,7 @@ class AuthEventLogin extends AuthEvent {
 }
 
 class AuthEventVerifyCode extends AuthEvent {
-  final int? code;
+  final String? code;
   final String? verificationId;
   const AuthEventVerifyCode({
     this.verificationId,
