@@ -1,17 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:private_chat/presentation/routes/path.dart';
 import '../../../core/app_export.dart';
+import '../../../logic/auth/auth_bloc.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_pin_code_text_field.dart';
 
-class OtpScreen extends StatelessWidget {
-  const OtpScreen({Key? key})
-      : super(
-          key: key,
-        );
+class OtpScreen extends StatefulWidget {
+  final String? verificationId;
+  const OtpScreen({super.key, this.verificationId});
 
   static Widget builder(BuildContext context) {
     return OtpScreen();
+  }
+
+  @override
+  State<OtpScreen> createState() => _OtpScreenState();
+}
+
+class _OtpScreenState extends State<OtpScreen> {
+  final otpController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    otpController.dispose();
+    super.dispose();
   }
 
   @override
@@ -36,7 +53,7 @@ class OtpScreen extends StatelessWidget {
               ),
               SizedBox(height: 7.v),
               Text(
-                "lbl_private".tr,
+                "Private",
                 style: CustomTextStyles.titleLargeAlibabaPuHuiTi20OnPrimary,
               ),
               Spacer(
@@ -55,7 +72,7 @@ class OtpScreen extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(left: 5.h),
                       child: Text(
-                        "msg_input_verification".tr,
+                        "Iput Verification",
                         style: theme.textTheme.titleMedium,
                       ),
                     ),
@@ -64,7 +81,7 @@ class OtpScreen extends StatelessWidget {
               ),
               SizedBox(height: 1.v),
               Text(
-                "msg_verification_code".tr,
+                "Verification Code",
                 style: CustomTextStyles.bodyMediumGray500,
               ),
               SizedBox(height: 17.v),
@@ -75,15 +92,21 @@ class OtpScreen extends StatelessWidget {
                 ),
                 child: CustomPinCodeTextField(
                   context: context,
-                  controller: null,
-                  onChanged: (value) {},
+                  controller: otpController,
+                  onChanged: (value) {
+                    if (value.length == 6) {
+                      context.read<AuthBloc>().add(AuthEventVerifyCode(
+                          verificationId: widget.verificationId,
+                          code: otpController.text));
+                    }
+                  },
                 ),
               ),
               Spacer(
                 flex: 25,
               ),
               CustomElevatedButton(
-                text: "lbl_resend".tr,
+                text: "Resend Code",
                 margin: EdgeInsets.only(
                   left: 43.h,
                   right: 25.h,
