@@ -15,9 +15,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository _authRepository;
   AuthBloc(this._authRepository) : super(const AuthStateOnInitialize()) {
     on<AuthEventInitialize>((event, emit) async {
-      emit(AuthStateOnInitialize());
+      emit(Loading());
       await _authRepository.initialize();
-      final user = _authRepository.currentUser;
+      final user = await _authRepository.currentUser;
       if (user == null) {
         emit(const AuthStateLoggedOut(
           exception: null,
@@ -31,16 +31,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthEventLogout>(((event, emit) async {
       emit(Loading());
       try {
-        _authRepository.logOut();
+        await _authRepository.logOut();
         emit(AuthStateLoggedOut(exception: null));
       } catch (e) {}
     }));
     on<AuthEventVerifyCode>(((event, emit) async {
-      emit(
-        const AuthStateLoggedOut(
-          exception: null,
-        ),
-      );
       if (event.verificationId != null && event.code != null) {
         await _authRepository.verifyOTP(
           verificationId: event.verificationId!,
@@ -49,32 +44,25 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     }));
     on<AuthEventLogin>(((event, emit) async {
-      emit(
-        const AuthStateLoggedOut(
-          exception: null,
-        ),
-      );
       final phone = await event.phone;
+      print(phone);
       if (phone != null) {
-        emit(
-          const AuthStateLoggedOut(
-            exception: null,
-          ),
-        );
         await signInWithPhoneNumber(
           event.phone!,
           (String verificationId, [int? forceResendingToken]) {
             emit(AuthStateCodeSent(
-              exception: null,
-              code: verificationId,
+              verificationId: verificationId,
             ));
+            print("The code has been sent");
           },
-          (PhoneAuthCredential credential) {
+          (PhoneAuthCredential credential) async {
+            print("Verification completed");
             emit(AuthStateLoggedIn(
-              user: _authRepository.currentUser,
+              user: await _authRepository.currentUser,
             ));
           },
           (FirebaseAuthException e) {
+            print("Verification failed");
             emit(
               const AuthStateLoggedOut(
                 exception: null,
@@ -82,6 +70,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             );
           },
           (String verificationId) {
+            print("Code Retrival timeout");
             emit(
               const AuthStateLoggedOut(
                 exception: null,
@@ -97,10 +86,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Stream<UserModel> get currentUserDataStream => _currentUserSubject.stream;
 
-  void _init() {
+  Future<void> _init() async {
     // Whenever the current user changes, update the currentUserDataStream
     _currentUserSubject
-        .addStream(_authRepository.getReceiverUserData('userId'));
+        .addStream(await _authRepository.getReceiverUserData('userId'));
   }
 
   Future<void> signInWithPhoneNumber(
