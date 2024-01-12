@@ -24,11 +24,9 @@ class AuthStateLoggedOut extends AuthState with EquatableMixin {
 }
 
 class AuthStateCodeSent extends AuthState {
-  final Exception? exception;
-  final String? code;
+  final String? verificationId;
   const AuthStateCodeSent({
-    required this.exception,
-    required this.code,
+    required this.verificationId,
   }) : super();
 }
 
