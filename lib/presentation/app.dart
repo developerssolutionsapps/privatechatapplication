@@ -46,7 +46,10 @@ class App extends StatelessWidget {
           path: RoutePath.splash, builder: (_, state) => const SplashScreen()),
       GoRoute(path: RoutePath.signin, builder: (_, state) => SignInScreen()),
       GoRoute(
-          path: RoutePath.otpScreen, builder: (_, state) => const OtpScreen()),
+          path: RoutePath.otpScreen,
+          builder: (_, state) => OtpScreen(
+                verificationId: (state.extra) as String,
+              )),
       GoRoute(
           path: RoutePath.main,
           builder: (_, state) => const RequestReceivedPage(),
