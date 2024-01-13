@@ -26,6 +26,16 @@ class UnAuthenticated extends AuthState {
   List<Object?> get props => [];
 }
 
+class AuthErrorState extends AuthState {
+  final String? error;
+  AuthErrorState({
+    required this.error,
+  }) : super();
+
+  @override
+  List<Object?> get props => [error];
+}
+
 class AuthStateLoggedOut extends AuthState {
   final Exception? exception;
   const AuthStateLoggedOut({
