@@ -19,9 +19,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       await _authRepository.initialize();
       final user = await _authRepository.currentUser;
       if (user == null) {
-        emit(const AuthStateLoggedOut(
-          exception: null,
-        ));
+        emit(UnAuthenticated());
       } else {
         emit(Authenticated(
           user: user,
@@ -32,7 +30,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(Loading());
       try {
         await _authRepository.logOut();
-        emit(AuthStateLoggedOut(exception: null));
+        emit(UnAuthenticated());
       } catch (e) {}
     }));
     on<AuthEventVerifyCode>(((event, emit) async {
@@ -63,19 +61,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           },
           (FirebaseAuthException e) {
             print("Verification failed");
-            emit(
-              const AuthStateLoggedOut(
-                exception: null,
-              ),
-            );
+            emit(UnAuthenticated());
           },
           (String verificationId) {
             print("Code Retrival timeout");
-            emit(
-              const AuthStateLoggedOut(
-                exception: null,
-              ),
-            );
+            emit(UnAuthenticated());
           },
         );
       }
