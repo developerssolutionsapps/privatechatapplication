@@ -39,9 +39,9 @@ class AuthStateCodeSent extends AuthState {
   List<Object?> get props => [verificationId];
 }
 
-class AuthStateLoggedIn extends AuthState {
+class Authenticated extends AuthState {
   final AuthUser? user;
-  const AuthStateLoggedIn({
+  const Authenticated({
     required this.user,
   }) : super();
 

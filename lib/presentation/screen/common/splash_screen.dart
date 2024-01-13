@@ -49,7 +49,7 @@ class _SplashScreenState extends State<SplashScreen> {
               CustomOverlayEntry.instance.hideOverlay();
               contex.replace(RoutePath.signin);
             }
-            if (state is AuthStateLoggedIn) {
+            if (state is Authenticated) {
               CustomOverlayEntry.instance.hideOverlay();
               contex.replace(RoutePath.signin);
             }

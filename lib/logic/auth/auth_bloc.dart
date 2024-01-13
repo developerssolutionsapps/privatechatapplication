@@ -23,7 +23,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           exception: null,
         ));
       } else {
-        emit(AuthStateLoggedIn(
+        emit(Authenticated(
           user: user,
         ));
       }
@@ -57,7 +57,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           },
           (PhoneAuthCredential credential) async {
             print("Verification completed");
-            emit(AuthStateLoggedIn(
+            emit(Authenticated(
               user: await _authRepository.currentUser,
             ));
           },

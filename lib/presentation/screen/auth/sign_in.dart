@@ -63,7 +63,7 @@ class _SignInScreenState extends State<SignInScreen> {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         context.replace(RoutePath.otpScreen);
-        if (state is AuthStateLoggedIn)
+        if (state is Authenticated)
           context.read<AuthBloc>().add(AuthEventLogout());
 
         if (state is AuthStateCodeSent) {
