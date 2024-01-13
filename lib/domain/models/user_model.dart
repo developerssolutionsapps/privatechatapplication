@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
+
 class UserModel {
   String id;
   String avatar;
@@ -73,6 +75,17 @@ class UserModel {
 
   factory UserModel.fromJson(String source) =>
       UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  factory UserModel.fromFirebase(User user) => UserModel(
+        id: user.uid,
+        avatar: "",
+        name: "",
+        phone: user.phoneNumber ?? "",
+        gender: "",
+        dateOfBirth: "",
+        location: "",
+        description: "",
+      );
 
   @override
   String toString() {
