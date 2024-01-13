@@ -46,24 +46,27 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       print(phone);
       if (phone != null) {
         await signInWithPhoneNumber(
-          event.phone!,
-          (String verificationId, [int? forceResendingToken]) {
-            emit(AuthStateCodeSent(
-              verificationId: verificationId,
-            ));
+          phone,
+          await (String verificationId, [int? forceResendingToken]) async {
+            print(verificationId);
             print("The code has been sent");
+            emit(UnAuthenticated());
           },
-          (PhoneAuthCredential credential) async {
+          await (PhoneAuthCredential credential) async {
             print("Verification completed");
+            final AuthUser? user = await _authRepository.currentUser ?? null;
+            if (user == null) {
+              emit(AuthErrorState(error: "An error occurred"));
+            }
             emit(Authenticated(
-              user: await _authRepository.currentUser,
+              user: user,
             ));
           },
-          (FirebaseAuthException e) {
+          await (FirebaseAuthException e) async {
             print("Verification failed");
             emit(UnAuthenticated());
           },
-          (String verificationId) {
+          await (String verificationId) async {
             print("Code Retrival timeout");
             emit(UnAuthenticated());
           },
