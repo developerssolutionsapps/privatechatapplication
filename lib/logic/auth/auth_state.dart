@@ -19,6 +19,13 @@ class Loading extends AuthState {
   List<Object?> get props => [];
 }
 
+class UnAuthenticated extends AuthState {
+  UnAuthenticated() : super();
+
+  @override
+  List<Object?> get props => [];
+}
+
 class AuthStateLoggedOut extends AuthState {
   final Exception? exception;
   const AuthStateLoggedOut({
