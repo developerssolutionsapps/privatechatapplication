@@ -45,7 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
               CustomOverlayEntry.instance
                   .loadingCircularProgressIndicator(context);
             }
-            if (state is AuthStateLoggedOut) {
+            if (state is UnAuthenticated) {
               CustomOverlayEntry.instance.hideOverlay();
               contex.replace(RoutePath.signin);
             }
