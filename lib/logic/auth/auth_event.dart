@@ -19,6 +19,11 @@ class AuthOnCodeSentEvent extends AuthEvent {
   const AuthOnCodeSentEvent({required this.verificationId});
 }
 
+class AuthVerificationCompletedEvent extends AuthEvent {
+  final PhoneAuthCredential credential;
+  const AuthVerificationCompletedEvent({required this.credential});
+}
+
 class AuthEventVerifyCode extends AuthEvent {
   final String? code;
   final String? verificationId;
