@@ -24,6 +24,10 @@ class AuthVerificationCompletedEvent extends AuthEvent {
   const AuthVerificationCompletedEvent({required this.credential});
 }
 
+class AuthVerificationFailedEvent extends AuthEvent {
+  const AuthVerificationFailedEvent();
+}
+
 class AuthEventVerifyCode extends AuthEvent {
   final String? code;
   final String? verificationId;
