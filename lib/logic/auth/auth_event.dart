@@ -28,6 +28,10 @@ class AuthVerificationFailedEvent extends AuthEvent {
   const AuthVerificationFailedEvent();
 }
 
+class AuthCodeAutoRetrievalTimeoutEvent extends AuthEvent {
+  const AuthCodeAutoRetrievalTimeoutEvent();
+}
+
 class AuthEventVerifyCode extends AuthEvent {
   final String? code;
   final String? verificationId;
