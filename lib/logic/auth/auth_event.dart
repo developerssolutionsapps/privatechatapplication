@@ -14,6 +14,11 @@ class AuthEventLogin extends AuthEvent {
   const AuthEventLogin({this.phone});
 }
 
+class AuthOnCodeSentEvent extends AuthEvent {
+  final String verificationId;
+  const AuthOnCodeSentEvent({required this.verificationId});
+}
+
 class AuthEventVerifyCode extends AuthEvent {
   final String? code;
   final String? verificationId;
