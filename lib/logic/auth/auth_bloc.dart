@@ -41,6 +41,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         );
       }
     }));
+    on<AuthOnCodeSentEvent>(((event, emit) async {
+      print("The code has been sent");
+      emit(AuthStateCodeSent(verificationId: await event.verificationId));
+    }));
+    on<AuthVerificationCompletedEvent>(((event, emit) {
+      print("Verification completed");
+      AuthUser? user = _authRepository.currentUser;
+      emit(Authenticated(user: user));
+    }));
+    on<AuthVerificationFailedEvent>(((event, emit) {
+      print("Verification failed");
+      emit(UnAuthenticated());
+    }));
+    on<AuthCodeAutoRetrievalTimeoutEvent>(((event, emit) {
+      print("Code Retrival timeout");
+      emit(AuthErrorState(error: "An error occurred"));
+    }));
     on<AuthEventLogin>(((event, emit) async {
       final phone = await event.phone;
       print(phone);
