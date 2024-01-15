@@ -1,7 +1,7 @@
 class RoutePath {
   static const String splash = '/';
   static const String signin = '/sign_in';
-  static const String otpScreen = '/otp_screen';
+  static const String otpScreen = '/otp_screen:verification_id';
   static const String main = '/main';
   static const String setDisplayName = 'main/set_display_name';
   static const String setBirthday = 'main/set_birthday';
