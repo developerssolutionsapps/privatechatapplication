@@ -47,13 +47,20 @@ class AuthStateLoggedOut extends AuthState {
 }
 
 class AuthStateCodeSent extends AuthState {
-  final String? verificationId;
+  final String verificationId;
   const AuthStateCodeSent({
     required this.verificationId,
   }) : super();
 
   @override
   List<Object?> get props => [verificationId];
+}
+
+class AuthCodeVerificationFailedState extends AuthState {
+  AuthCodeVerificationFailedState() : super();
+
+  @override
+  List<Object?> get props => [];
 }
 
 class Authenticated extends AuthState {
