@@ -7,6 +7,9 @@ class RoutePath {
   static const String setBirthday = 'main/set_birthday';
   static const String setGender = 'main/set_gender';
   static const String requestInvite = 'main/request_invite';
+  static const String companion = 'main/companion';
+  static const String entertainment = 'main/entertainment';
+  static const String mine = 'main/mine';
 
   static routeName(String path) => path.substring(5);
 }
