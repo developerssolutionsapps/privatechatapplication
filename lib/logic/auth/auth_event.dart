@@ -9,6 +9,10 @@ class AuthEventInitialize extends AuthEvent {
   const AuthEventInitialize();
 }
 
+class AuthCheckLoggedInUserEvent extends AuthEvent {
+  const AuthCheckLoggedInUserEvent();
+}
+
 class AuthEventLogin extends AuthEvent {
   final String? phone;
   const AuthEventLogin({this.phone});
@@ -33,11 +37,11 @@ class AuthCodeAutoRetrievalTimeoutEvent extends AuthEvent {
 }
 
 class AuthEventVerifyCode extends AuthEvent {
-  final String? code;
-  final String? verificationId;
+  final String code;
+  final String verificationId;
   const AuthEventVerifyCode({
-    this.verificationId,
-    this.code,
+    required this.verificationId,
+    required this.code,
   });
 }
 
