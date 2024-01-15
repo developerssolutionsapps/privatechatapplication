@@ -92,6 +92,9 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  User? get me => FirebaseAuth.instance.currentUser;
+
+  @override
   Future<void> initialize() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
