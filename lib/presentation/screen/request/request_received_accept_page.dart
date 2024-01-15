@@ -42,7 +42,7 @@ class RequestReceivedAcceptPageState extends State<RequestReceivedAcceptPage>
                     right: 209.h,
                   ),
                   child: Text(
-                    "lbl_1".tr,
+                    "1",
                     style: CustomTextStyles.titleMediumGray200,
                   ),
                 ),

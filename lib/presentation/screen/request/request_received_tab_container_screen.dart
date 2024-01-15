@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:private_chat/presentation/routes/path.dart';
 import '../../../core/app_export.dart';
 import '../companion/companion_s_name_when_accepted_page.dart';
 import '../profile/mine_page.dart';
@@ -66,7 +68,7 @@ class RequestReceivedTabContainerScreenState
                         Padding(
                           padding: EdgeInsets.only(left: 4.h),
                           child: Text(
-                            "lbl_received".tr,
+                            "received",
                             style: CustomTextStyles.headlineSmallPrimary,
                           ),
                         ),
@@ -84,7 +86,7 @@ class RequestReceivedTabContainerScreenState
                         Padding(
                           padding: EdgeInsets.only(left: 4.h),
                           child: Text(
-                            "lbl_sent".tr,
+                            "sent",
                             style: CustomTextStyles.headlineSmallGray70001,
                           ),
                         ),
@@ -97,13 +99,6 @@ class RequestReceivedTabContainerScreenState
               _buildSeventy(context),
               SizedBox(
                 height: 531.v,
-                child: TabBarView(
-                  controller: tabviewController,
-                  children: [
-                    RequestReceivedAcceptPage.builder(context),
-                    RequestReceivedAcceptPage.builder(context),
-                  ],
-                ),
               ),
             ],
           ),
@@ -139,7 +134,7 @@ class RequestReceivedTabContainerScreenState
               bottom: 12.v,
             ),
             child: Text(
-              "lbl_91906123456".tr,
+              "91906123456",
               style: theme.textTheme.titleMedium,
             ),
           ),
@@ -178,12 +173,12 @@ class RequestReceivedTabContainerScreenState
               tabs: [
                 Tab(
                   child: Text(
-                    "lbl_accept".tr,
+                    "accept",
                   ),
                 ),
                 Tab(
                   child: Text(
-                    "lbl_reject".tr,
+                    "reject",
                   ),
                 ),
               ],
@@ -198,8 +193,8 @@ class RequestReceivedTabContainerScreenState
   Widget _buildBottomBar(BuildContext context) {
     return CustomBottomBar(
       onChanged: (BottomBarEnum type) {
-        Navigator.pushNamed(
-            navigatorKey.currentContext!, getCurrentRoute(type));
+        print(getCurrentRoute(type));
+        context.go(getCurrentRoute(type));
       },
     );
   }
@@ -208,15 +203,15 @@ class RequestReceivedTabContainerScreenState
   String getCurrentRoute(BottomBarEnum type) {
     switch (type) {
       case BottomBarEnum.Companion:
-        return AppRoutes.companionSNameWhenAcceptedPage;
+        return RoutePath.companion;
       case BottomBarEnum.Request:
-        return AppRoutes.requestSentBeenRjectedDoNothingPage;
+        return RoutePath.main;
       case BottomBarEnum.Entertainment:
-        return "/";
+        return RoutePath.main;
       case BottomBarEnum.Mine:
-        return AppRoutes.minePage;
+        return RoutePath.mine;
       default:
-        return "/";
+        return RoutePath.main;
     }
   }
 

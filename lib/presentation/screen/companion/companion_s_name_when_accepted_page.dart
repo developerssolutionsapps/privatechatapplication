@@ -39,7 +39,7 @@ class CompanionSNameWhenAcceptedPage extends StatelessWidget {
                                             top: 4.v, bottom: 6.v)),
                                     Padding(
                                         padding: EdgeInsets.only(left: 6.h),
-                                        child: Text("lbl_1990_11_21".tr,
+                                        child: Text("1990_11_21",
                                             style: CustomTextStyles
                                                 .titleMediumGray500))
                                   ])),
@@ -48,7 +48,7 @@ class CompanionSNameWhenAcceptedPage extends StatelessWidget {
                               padding: EdgeInsets.only(left: 1.h),
                               child: CustomTextFormField(
                                   controller: null,
-                                  hintText: "lbl_not_shown".tr,
+                                  hintText: "Not Shown",
                                   textInputAction: TextInputAction.done,
                                   prefix: Container(
                                       margin: EdgeInsets.fromLTRB(
@@ -65,13 +65,14 @@ class CompanionSNameWhenAcceptedPage extends StatelessWidget {
                           SizedBox(height: 12.v),
                           Padding(
                               padding: EdgeInsets.only(left: 8.h),
-                              child: Text("lbl_about_me".tr,
+                              child: Text("About Me",
                                   style: theme.textTheme.headlineSmall)),
                           SizedBox(height: 9.v),
                           Container(
                               width: 336.h,
                               margin: EdgeInsets.only(left: 9.h, right: 21.h),
-                              child: Text("msg_duis_aute_irure".tr,
+                              child: Text(
+                                  "Duis aute irure dolor in reprehenderit in voluptate velitesse cillum dolore eu fugiat nulla pariatu",
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: theme.textTheme.bodyMedium!
@@ -79,7 +80,7 @@ class CompanionSNameWhenAcceptedPage extends StatelessWidget {
                           SizedBox(height: 25.v),
                           Padding(
                               padding: EdgeInsets.only(left: 1.h),
-                              child: Text("lbl_moment".tr,
+                              child: Text("moment",
                                   style: theme.textTheme.headlineSmall)),
                           SizedBox(height: 5.v),
                           Padding(
@@ -198,8 +199,7 @@ class CompanionSNameWhenAcceptedPage extends StatelessWidget {
                                                                         left: 3
                                                                             .h),
                                                                     child: Text(
-                                                                        "lbl_1"
-                                                                            .tr,
+                                                                        "1",
                                                                         style: CustomTextStyles
                                                                             .titleMediumGray200)))
                                                           ])))
@@ -255,7 +255,7 @@ class CompanionSNameWhenAcceptedPage extends StatelessWidget {
                               Padding(
                                   padding:
                                       EdgeInsets.only(top: 3.v, bottom: 5.v),
-                                  child: Text("lbl_basket_pal".tr,
+                                  child: Text("basket pal",
                                       style: theme.textTheme.titleMedium)),
                               CustomImageView(
                                   imagePath: ImageConstant.imgFacebook,
@@ -270,7 +270,7 @@ class CompanionSNameWhenAcceptedPage extends StatelessWidget {
                               width: 16.adaptSize),
                           Padding(
                               padding: EdgeInsets.only(left: 1.h),
-                              child: Text("lbl_917568123456".tr,
+                              child: Text("917568123456",
                                   style: CustomTextStyles.titleSmallGray500))
                         ])
                       ])))
@@ -294,17 +294,17 @@ class CompanionSNameWhenAcceptedPage extends StatelessWidget {
                   child: RichText(
                       text: TextSpan(children: [
                         TextSpan(
-                            text: "lbl_09_11".tr,
+                            text: "09 11",
                             style: CustomTextStyles.headlineSmallGray200),
                         TextSpan(
-                            text: "lbl_2023".tr,
+                            text: "2023",
                             style: CustomTextStyles.titleMediumGray200_1)
                       ]),
                       textAlign: TextAlign.center)),
               Spacer(flex: 46),
               Padding(
                   padding: EdgeInsets.only(top: 22.v, bottom: 18.v),
-                  child: Text("lbl_first_hello".tr,
+                  child: Text("first hello",
                       style: CustomTextStyles.titleMediumGray200)),
               Spacer(flex: 53),
               SizedBox(
@@ -358,17 +358,17 @@ class CompanionSNameWhenAcceptedPage extends StatelessWidget {
                   child: RichText(
                       text: TextSpan(children: [
                         TextSpan(
-                            text: "lbl_09_21".tr,
+                            text: "09 21",
                             style: CustomTextStyles.headlineSmallGray200),
                         TextSpan(
-                            text: "lbl_2023".tr,
+                            text: "2023",
                             style: CustomTextStyles.titleMediumGray200_1)
                       ]),
                       textAlign: TextAlign.center)),
               Spacer(),
               Padding(
                   padding: EdgeInsets.only(top: 25.v, bottom: 13.v),
-                  child: Text("msg_sent_first_photo".tr,
+                  child: Text("sent first photo",
                       style: CustomTextStyles.titleMediumGray200)),
               CustomImageView(
                   imagePath: ImageConstant.img8888888160x53,

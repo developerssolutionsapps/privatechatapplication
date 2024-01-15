@@ -51,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
             }
             if (state is Authenticated) {
               CustomOverlayEntry.instance.hideOverlay();
-              contex.replace(RoutePath.signin);
+              contex.replace(RoutePath.main);
             }
             if (state is AuthStateCodeSent) {
               print("Code sent spash screen");

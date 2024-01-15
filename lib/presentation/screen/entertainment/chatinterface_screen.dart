@@ -64,7 +64,7 @@ class ChatinterfaceScreen extends StatelessWidget {
                                 Container(
                                     width: 228.h,
                                     margin: EdgeInsets.only(right: 6.h),
-                                    child: Text("msg_duis_aute_irure".tr,
+                                    child: Text("duis aute irure",
                                         maxLines: 3,
                                         overflow: TextOverflow.ellipsis,
                                         style: theme.textTheme.bodyMedium!
@@ -95,7 +95,7 @@ class ChatinterfaceScreen extends StatelessWidget {
               onTapArrowLeft(context);
             }),
         centerTitle: true,
-        title: AppbarTitle(text: "lbl_basket_pal".tr),
+        title: AppbarTitle(text: "basket pal"),
         actions: [
           AppbarTrailingImage(
               imagePath: ImageConstant.imgClock,
@@ -186,7 +186,7 @@ class ChatinterfaceScreen extends StatelessWidget {
                                 Container(
                                     width: 228.h,
                                     margin: EdgeInsets.only(right: 6.h),
-                                    child: Text("msg_duis_aute_irure".tr,
+                                    child: Text("duis aute irure",
                                         maxLines: 3,
                                         overflow: TextOverflow.ellipsis,
                                         style: CustomTextStyles
@@ -213,7 +213,7 @@ class ChatinterfaceScreen extends StatelessWidget {
                   padding: EdgeInsets.only(bottom: 290.v),
                   child: CustomTextFormField(
                       controller: null,
-                      hintText: "msg_duis_aute_irure2".tr,
+                      hintText: "duis aute irure2",
                       hintStyle: CustomTextStyles.titleSmallGray800,
                       textInputAction: TextInputAction.done,
                       suffix: Container(
@@ -249,7 +249,7 @@ class ChatinterfaceScreen extends StatelessWidget {
                     alignment: Alignment.centerLeft,
                     child: Padding(
                         padding: EdgeInsets.only(left: 1.h),
-                        child: Text("lbl_send".tr,
+                        child: Text("send".tr,
                             style:
                                 CustomTextStyles.titleSmallOnPrimaryContainer)))
               ]))
