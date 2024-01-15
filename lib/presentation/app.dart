@@ -125,8 +125,10 @@ class MultiBlocRepoAndProvider extends StatelessWidget {
                 AuthBloc(RepositoryProvider.of<AuthRepositoryImpl>(_)),
           ),
           BlocProvider(
-            create: (_) =>
-                UserCubit(RepositoryProvider.of<UserRepositoryImpl>(_)),
+            create: (_) => UserCubit(
+              RepositoryProvider.of<UserRepositoryImpl>(_),
+              RepositoryProvider.of<AuthRepositoryImpl>(_),
+            ),
           ),
           BlocProvider(
             create: (_) => RequestCubit(
