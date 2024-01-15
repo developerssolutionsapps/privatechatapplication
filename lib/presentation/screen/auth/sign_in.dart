@@ -16,11 +16,6 @@ class SignInScreen extends StatefulWidget {
       : super(
           key: key,
         );
-
-  static Widget builder(BuildContext context) {
-    return SignInScreen();
-  }
-
   @override
   State<SignInScreen> createState() => _SignInScreenState();
 }
@@ -55,19 +50,18 @@ class _SignInScreenState extends State<SignInScreen> {
   void dispose() {
     phoneController.dispose();
     countryCodeController.dispose();
-    super.dispose;
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        context.replace(RoutePath.otpScreen);
         if (state is Authenticated)
           context.read<AuthBloc>().add(AuthEventLogout());
 
         if (state is AuthStateCodeSent) {
-          print("Code sent sign in screen");
+          print("Code sent sign in screen" + state.verificationId);
           context.replace(RoutePath.otpScreen, extra: state.verificationId);
         }
       },
@@ -150,9 +144,6 @@ class _SignInScreenState extends State<SignInScreen> {
                         context
                             .read<AuthBloc>()
                             .add(AuthEventLogin(phone: phoneNo));
-                        NavigatorService.popAndPushNamed(
-                          RoutePath.otpScreen,
-                        );
                       }),
                   Spacer(
                     flex: 34,
