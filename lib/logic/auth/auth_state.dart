@@ -1,47 +1,74 @@
 part of 'auth_bloc.dart';
 
 @immutable
-sealed class AuthState {
-  final bool isLoading;
-  final String? loadingText;
-  const AuthState({
-    required this.isLoading,
-    this.loadingText = "please wait a moment",
-  });
+sealed class AuthState extends Equatable {
+  const AuthState();
 }
 
 class AuthStateOnInitialize extends AuthState {
-  const AuthStateOnInitialize({
-    required bool isLoading,
-  }) : super(isLoading: isLoading);
+  const AuthStateOnInitialize() : super();
+
+  @override
+  List<Object?> get props => [];
 }
 
-class AuthStateLoggedOut extends AuthState with EquatableMixin {
+class Loading extends AuthState {
+  Loading() : super();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class UnAuthenticated extends AuthState {
+  UnAuthenticated() : super();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class AuthErrorState extends AuthState {
+  final String? error;
+  AuthErrorState({
+    required this.error,
+  }) : super();
+
+  @override
+  List<Object?> get props => [error];
+}
+
+class AuthStateLoggedOut extends AuthState {
   final Exception? exception;
   const AuthStateLoggedOut({
     required this.exception,
-    required bool isLoading,
-    String? loadingText,
-  }) : super(isLoading: isLoading);
+  }) : super();
 
   @override
-  List<Object?> get props => [exception, isLoading];
+  List<Object?> get props => [exception];
 }
 
 class AuthStateCodeSent extends AuthState {
-  final Exception? exception;
-  final String? code;
+  final String verificationId;
   const AuthStateCodeSent({
-    required this.exception,
-    required isLoading,
-    required this.code,
-  }) : super(isLoading: isLoading);
+    required this.verificationId,
+  }) : super();
+
+  @override
+  List<Object?> get props => [verificationId];
 }
 
-class AuthStateLoggedIn extends AuthState {
+class AuthCodeVerificationFailedState extends AuthState {
+  AuthCodeVerificationFailedState() : super();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class Authenticated extends AuthState {
   final AuthUser? user;
-  const AuthStateLoggedIn({
+  const Authenticated({
     required this.user,
-    required isLoading,
-  }) : super(isLoading: isLoading);
+  }) : super();
+
+  @override
+  List<Object?> get props => [user];
 }

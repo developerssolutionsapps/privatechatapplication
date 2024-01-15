@@ -1,5 +1,3 @@
-import 'dart:js_interop';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -52,11 +50,11 @@ class RequestRepositoryImpl implements RequestRepository {
           .get();
       for (var doc in receivedActive.docs) {
         Request req = Request.fromMap(doc.data() as Map);
-        if (req.isNull) reqSent = req;
+        reqSent = req;
       }
       for (var doc in sentActive.docs) {
         Request req = Request.fromMap(doc.data() as Map);
-        if (req.isNull) reqReceived = req;
+        reqReceived = req;
       }
       if (reqSent!.time > reqReceived!.time) return reqSent;
       return reqReceived;
@@ -206,8 +204,8 @@ class RequestRepositoryImpl implements RequestRepository {
   Future<Request?> findRequestConnected() async {
     try {
       String? myID = _firebaseAuth.currentUser?.uid;
-      if (myID.isNull) return null;
-      return await _getRequestsWithId(myID!);
+      if (myID == null) return null;
+      return await _getRequestsWithId(myID);
     } catch (_) {
       rethrow;
     }

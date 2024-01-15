@@ -1,5 +1,3 @@
-import 'dart:js_interop';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:private_chat/domain/models/user_model.dart';
@@ -20,12 +18,12 @@ class RequestCubit extends Cubit<RequestState> {
   findRequestWithPhone(phone) async {
     emit(LoadingState());
     UserModel? user = await _userRepository.findUserWithPhone(phone);
-    if (user.isNull) {
+    if (user != null) {
       emit(RequestFailure());
       return;
     }
     Request? req = await _requestRepository.findRequestIfConnected(user!.id);
-    if (req.isNull) {
+    if (req != null) {
       emit(RequestFailure());
       return;
     }
@@ -60,7 +58,7 @@ class RequestCubit extends Cubit<RequestState> {
       time: DateTime.now().millisecondsSinceEpoch,
     );
     final res = await _requestRepository.createRequest(req);
-    if (!res! || res.isNull) {
+    if (!res!) {
       emit(RequestCreateFailure());
     } else {
       await getRequests();
@@ -88,6 +86,6 @@ class RequestCubit extends Cubit<RequestState> {
   findConnectedRequest() async {
     emit(LoadingState());
     Request? req = await _requestRepository.findRequestConnected();
-    if (req.isNull) emit(RequestFailure());
+    if (req != null) emit(RequestFailure());
   }
 }

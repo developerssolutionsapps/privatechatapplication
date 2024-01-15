@@ -9,17 +9,39 @@ class AuthEventInitialize extends AuthEvent {
   const AuthEventInitialize();
 }
 
+class AuthCheckLoggedInUserEvent extends AuthEvent {
+  const AuthCheckLoggedInUserEvent();
+}
+
 class AuthEventLogin extends AuthEvent {
   final String? phone;
   const AuthEventLogin({this.phone});
 }
 
+class AuthOnCodeSentEvent extends AuthEvent {
+  final String verificationId;
+  const AuthOnCodeSentEvent({required this.verificationId});
+}
+
+class AuthVerificationCompletedEvent extends AuthEvent {
+  final PhoneAuthCredential credential;
+  const AuthVerificationCompletedEvent({required this.credential});
+}
+
+class AuthVerificationFailedEvent extends AuthEvent {
+  const AuthVerificationFailedEvent();
+}
+
+class AuthCodeAutoRetrievalTimeoutEvent extends AuthEvent {
+  const AuthCodeAutoRetrievalTimeoutEvent();
+}
+
 class AuthEventVerifyCode extends AuthEvent {
-  final int? code;
-  final String? verificationId;
+  final String code;
+  final String verificationId;
   const AuthEventVerifyCode({
-    this.verificationId,
-    this.code,
+    required this.verificationId,
+    required this.code,
   });
 }
 

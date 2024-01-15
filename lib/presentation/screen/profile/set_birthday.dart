@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:private_chat/presentation/routes/path.dart';
 import '../../../core/app_export.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_text_form_field.dart';
 
-class ProfilesetupBirthdayScreen extends StatelessWidget {
-  const ProfilesetupBirthdayScreen({Key? key}) : super(key: key);
+class SetBirthday extends StatelessWidget {
+  const SetBirthday({Key? key}) : super(key: key);
 
   static Widget builder(BuildContext context) {
-    return ProfilesetupBirthdayScreen();
+    return SetBirthday();
   }
 
   @override
@@ -103,7 +104,7 @@ class ProfilesetupBirthdayScreen extends StatelessWidget {
                           text: "lbl_next".tr,
                           alignment: Alignment.center,
                           onPressed: () => NavigatorService.popAndPushNamed(
-                                AppRoutes.profilesetupSexScreen,
+                                RoutePath.setGender,
                               )),
                       Spacer(flex: 63)
                     ]))));

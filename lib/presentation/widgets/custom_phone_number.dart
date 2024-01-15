@@ -14,8 +14,8 @@ class CustomPhoneNumber extends StatefulWidget {
   }) : super(
           key: key,
         );
-  TextEditingController? countryCode;
-  TextEditingController? controller;
+  TextEditingController countryCode;
+  TextEditingController controller;
 
   @override
   State<CustomPhoneNumber> createState() => _CustomPhoneNumberState();
@@ -41,76 +41,87 @@ class _CustomPhoneNumberState extends State<CustomPhoneNumber> {
                     top: 2.v,
                     bottom: 2.v,
                   ),
-                  child: CustomTextFormField(
-                    width: 294.h,
-                    textStyle: TextStyle(
-                      color: Colors.black,
-                    ),
-                    hintStyle: TextStyle(color: Colors.black),
-                    controller: widget.controller,
-                    hintText: "msg_your_phone_number".tr,
-                    textInputType: TextInputType.phone,
-                    prefix: Container(
-                      child: OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                          side: BorderSide(
-                            color: Colors.transparent,
+                  child: StatefulBuilder(builder: (
+                    BuildContext context,
+                    StateSetter setState,
+                  ) {
+                    return CustomTextFormField(
+                      width: 294.h,
+                      textStyle: TextStyle(
+                        color: Colors.black,
+                      ),
+                      hintStyle: TextStyle(color: Colors.black),
+                      controller: widget.controller,
+                      hintText: "Your Phone Number",
+                      textInputType: TextInputType.phone,
+                      prefix: Container(
+                        child: OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            side: BorderSide(
+                              color: Colors.transparent,
+                            ),
+                          ),
+                          onPressed: () => showCountryPicker(
+                            context: context,
+                            showPhoneCode:
+                                true, // optional. Shows phone code before the country name.
+                            onSelect: (Country country) {
+                              widget.countryCode.text =
+                                  country.flagEmoji + " +" + country.phoneCode;
+                              print(country.phoneCode);
+                              // print('Select country: $controller');
+                              setState(() {});
+                            },
+                          ),
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.only(left: 8.0, right: 4.0),
+                            child: Text(
+                              // "  ${state.selectedCountry?.flagEmoji ?? ""}  + ${state.selectedCountry?.phoneCode ?? "1"}",
+                              widget.countryCode.text,
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500),
+                            ),
                           ),
                         ),
-                        onPressed: () => showCountryPicker(
-                          context: context,
-                          showPhoneCode:
-                              true, // optional. Shows phone code before the country name.
-                          onSelect: (Country country) {
-                            print(country.phoneCode);
-                            // print('Select country: $controller');
+                      ),
+                      suffix: Padding(
+                        padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                        child: OutlinedButton(
+                          onPressed: () {
+                            widget.controller.clear();
                           },
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 8.0, right: 4.0),
-                          child: Text(
-                            // "  ${state.selectedCountry?.flagEmoji ?? ""}  + ${state.selectedCountry?.phoneCode ?? "1"}",
-                            "",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500),
+                          style: OutlinedButton.styleFrom(
+                            side: BorderSide(
+                              color: Colors.transparent,
+                            ),
+                          ),
+                          child: Container(
+                            margin: EdgeInsets.only(
+                              left: 30.h,
+                              top: 1.v,
+                              bottom: 2.v,
+                            ),
+                            child: CustomImageView(
+                              imagePath: ImageConstant.imgClose,
+                              height: 20.adaptSize,
+                              width: 20.adaptSize,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    suffix: Padding(
-                      padding: const EdgeInsets.only(left: 4.0, right: 4.0),
-                      child: OutlinedButton(
-                        onPressed: () {},
-                        style: OutlinedButton.styleFrom(
-                          side: BorderSide(
-                            color: Colors.transparent,
-                          ),
-                        ),
-                        child: Container(
-                          margin: EdgeInsets.only(
-                            left: 30.h,
-                            top: 1.v,
-                            bottom: 2.v,
-                          ),
-                          child: CustomImageView(
-                            imagePath: ImageConstant.imgClose,
-                            height: 20.adaptSize,
-                            width: 20.adaptSize,
-                          ),
-                        ),
+                      suffixConstraints: BoxConstraints(
+                        maxHeight: 23.v,
                       ),
-                    ),
-                    suffixConstraints: BoxConstraints(
-                      maxHeight: 23.v,
-                    ),
-                    validator: (value) {
-                      if (!isValidPhone(value)) {
-                        return "err_msg_please_enter_valid_phone_number".tr;
-                      }
-                      return null;
-                    },
-                  ),
+                      validator: (value) {
+                        if (!isValidPhone(value)) {
+                          return "Please enter valid phone number";
+                        }
+                        return null;
+                      },
+                    );
+                  }),
                 ),
               ),
             ],

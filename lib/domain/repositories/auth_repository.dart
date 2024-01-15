@@ -23,5 +23,7 @@ abstract class AuthRepository {
     required String smsCode,
   });
 
+  Future<void> logOut();
+
   Stream<UserModel> getReceiverUserData(String receiverUserId);
 }
