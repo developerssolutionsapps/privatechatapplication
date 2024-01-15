@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:private_chat/presentation/routes/path.dart';
 import '../../../core/app_export.dart';
+import '../../../logic/request/request_cubit.dart';
+import '../../../logic/user/user_cubit.dart';
 import '../companion/companion_s_name_when_accepted_page.dart';
 import '../profile/mine_page.dart';
-import 'request_received_accept_page.dart';
 import 'request_sent_been_rjected_do_nothing_page.dart';
 import '../../widgets/custom_bottom_bar.dart';
 import '../../widgets/custom_icon_button.dart';
@@ -39,73 +40,90 @@ class RequestReceivedTabContainerScreenState
   @override
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
+    context.read<UserCubit>().getMyProfile();
 
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: theme.colorScheme.onPrimaryContainer,
-        body: SizedBox(
-          width: double.maxFinite,
-          child: Column(
-            children: [
-              SizedBox(height: 49.v),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 59.h),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CustomImageView(
-                          imagePath: ImageConstant.imgSearchPrimary,
-                          height: 21.v,
-                          width: 19.h,
-                          margin: EdgeInsets.only(
-                            top: 7.v,
-                            bottom: 5.v,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 4.h),
-                          child: Text(
-                            "received",
-                            style: CustomTextStyles.headlineSmallPrimary,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CustomImageView(
-                          imagePath: ImageConstant.imgGroup144Gray70001,
-                          height: 21.v,
-                          width: 19.h,
-                          margin: EdgeInsets.symmetric(vertical: 6.v),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 4.h),
-                          child: Text(
-                            "sent",
-                            style: CustomTextStyles.headlineSmallGray70001,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 34.v),
-              _buildSeventy(context),
-              SizedBox(
-                height: 531.v,
-              ),
-            ],
-          ),
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<UserCubit, UserState>(
+          listener: (context, state) {
+            if (state is UserNeedsProfileSetUp) {
+              context.go(RoutePath.setDisplayName);
+            }
+          },
         ),
-        bottomNavigationBar: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 51.h),
-          child: _buildBottomBar(context),
+        BlocListener<RequestCubit, RequestState>(
+          listener: (context, state) {
+            // TODO: implement listener
+          },
+        ),
+      ],
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: theme.colorScheme.onPrimaryContainer,
+          body: SizedBox(
+            width: double.maxFinite,
+            child: Column(
+              children: [
+                SizedBox(height: 49.v),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 59.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CustomImageView(
+                            imagePath: ImageConstant.imgSearchPrimary,
+                            height: 21.v,
+                            width: 19.h,
+                            margin: EdgeInsets.only(
+                              top: 7.v,
+                              bottom: 5.v,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 4.h),
+                            child: Text(
+                              "received",
+                              style: CustomTextStyles.headlineSmallPrimary,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CustomImageView(
+                            imagePath: ImageConstant.imgGroup144Gray70001,
+                            height: 21.v,
+                            width: 19.h,
+                            margin: EdgeInsets.symmetric(vertical: 6.v),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 4.h),
+                            child: Text(
+                              "sent",
+                              style: CustomTextStyles.headlineSmallGray70001,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 34.v),
+                _buildSeventy(context),
+                SizedBox(
+                  height: 531.v,
+                ),
+              ],
+            ),
+          ),
+          bottomNavigationBar: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 51.h),
+            child: _buildBottomBar(context),
+          ),
         ),
       ),
     );
