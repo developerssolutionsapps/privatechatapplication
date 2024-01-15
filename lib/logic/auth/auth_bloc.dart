@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:private_chat/domain/repositories/auth_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../core/exceptions/auth_exceptions.dart';
 import '../../data/models/auth_user.dart';
 import '../../domain/models/user_model.dart';
 
@@ -17,6 +18,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthEventInitialize>((event, emit) async {
       emit(Loading());
       await _authRepository.initialize();
+      add(AuthCheckLoggedInUserEvent());
+    });
+    on<AuthCheckLoggedInUserEvent>((event, emit) async {
       final user = await _authRepository.currentUser;
       if (user == null) {
         emit(UnAuthenticated());
@@ -34,11 +38,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       } catch (e) {}
     }));
     on<AuthEventVerifyCode>(((event, emit) async {
-      if (event.verificationId != null && event.code != null) {
+      try {
         await _authRepository.verifyOTP(
-          verificationId: event.verificationId!,
-          smsCode: event.code!.toString(),
+          verificationId: event.verificationId,
+          smsCode: event.code.toString(),
         );
+        add(AuthCheckLoggedInUserEvent());
+      } on PhoneVerificationFailedException catch (_) {
+        emit(AuthCodeVerificationFailedState());
+      } catch (e) {
+        emit(AuthErrorState(error: "An Error Occured"));
       }
     }));
     on<AuthOnCodeSentEvent>(((event, emit) async {
@@ -89,28 +98,5 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     // Whenever the current user changes, update the currentUserDataStream
     _currentUserSubject
         .addStream(await _authRepository.getReceiverUserData('userId'));
-  }
-
-  Future<void> signInWithPhoneNumber(
-    String phoneNumber,
-    Function(String verificationId, [int? forceResendingToken]) onCodeSent,
-    Function(PhoneAuthCredential credential) onVerificationCompleted,
-    Function(FirebaseAuthException e) onVerificationFailed,
-    Function(String verificationId) onCodeAutoRetrievalTimeout,
-  ) async {
-    try {
-      await _authRepository.signInWithPhone(
-        phoneNumber: phoneNumber,
-        onCodeSent: onCodeSent,
-        onVerificationCompleted: onVerificationCompleted,
-        onVerificationFailed: onVerificationFailed,
-        onCodeAutoRetrievalTimeout: onCodeAutoRetrievalTimeout,
-      );
-    } catch (e) {
-      // Handle exceptions or errors received from repository
-      print('Error in signInWithPhoneNumber method: $e');
-      // Perform error handling or notify UI about the error, if necessary
-      // For example: add error state to the BLoC or show a snackbar
-    }
   }
 }
