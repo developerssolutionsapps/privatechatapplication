@@ -47,7 +47,18 @@ class RequestReceivedTabContainerScreenState
         BlocListener<UserCubit, UserState>(
           listener: (context, state) {
             if (state is UserNeedsProfileSetUp) {
-              context.go(RoutePath.setDisplayName);
+              context
+                  .replaceNamed(RoutePath.routeName(RoutePath.setDisplayName));
+            }
+            if (state is UserProfileSetupInProgressState) {
+              if (state.profileSetUp.gender != null) {
+                context.read<UserCubit>().completeProfileSetup();
+              } else if (state.profileSetUp.birthday != null) {
+                context.replaceNamed(RoutePath.routeName(RoutePath.setGender));
+              } else if (state.profileSetUp.name != null) {
+                context
+                    .replaceNamed(RoutePath.routeName(RoutePath.setBirthday));
+              }
             }
           },
         ),
