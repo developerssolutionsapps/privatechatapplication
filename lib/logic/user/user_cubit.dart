@@ -88,4 +88,20 @@ class UserCubit extends Cubit<UserState> {
     profileSetUp = profileSetUp.copyWith(gender: gender);
     emit(UserProfileSetupInProgressState(profileSetUp));
   }
+
+  completeProfileSetup() async {
+    UserModel? user = await _userRepository.me();
+    if (user != null) {
+      user = user.copyWith(
+          name: profileSetUp.name,
+          dateOfBirth: profileSetUp.birthday,
+          gender: profileSetUp.gender);
+      bool isupdated = await _userRepository.updateProfile(user: user);
+      if (isupdated) {
+        emit(UserProfileSetUpSuccess(user));
+      } else {
+        emit(UserErrorState("There is an error updating your profile"));
+      }
+    }
+  }
 }
