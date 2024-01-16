@@ -83,4 +83,9 @@ class UserCubit extends Cubit<UserState> {
     profileSetUp = profileSetUp.copyWith(birthday: birthday);
     emit(UserProfileSetupInProgressState(profileSetUp));
   }
+
+  setProfileGender(String gender) async {
+    profileSetUp = profileSetUp.copyWith(gender: gender);
+    emit(UserProfileSetupInProgressState(profileSetUp));
+  }
 }
