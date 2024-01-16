@@ -1,22 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:private_chat/presentation/routes/path.dart';
 import '../../../core/app_export.dart';
 import '../../../logic/user/user_cubit.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_text_form_field.dart';
 
-class SetDisplayName extends StatelessWidget {
+class SetDisplayName extends StatefulWidget {
   const SetDisplayName({super.key});
+
+  @override
+  State<SetDisplayName> createState() => _SetDisplayNameState();
+}
+
+class _SetDisplayNameState extends State<SetDisplayName> {
+  final nameController = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<UserCubit, UserState>(
       listener: (context, state) {
-        if (state is UserMyProfileState) context.replace("location");
+        // if (state is UserMyProfileState) context.replace(RoutePath.main);
       },
       builder: (context, state) {
-        context.read<UserCubit>().getMyProfile();
         return SafeArea(
           child: Scaffold(
             resizeToAvoidBottomInset: false,
@@ -66,7 +75,7 @@ class SetDisplayName extends StatelessWidget {
                   ),
                   SizedBox(height: 15.v),
                   CustomTextFormField(
-                    controller: null,
+                    controller: nameController,
                     textInputAction: TextInputAction.done,
                   ),
                   Spacer(
@@ -79,9 +88,11 @@ class SetDisplayName extends StatelessWidget {
                     buttonStyle: CustomButtonStyles.fillGray,
                     buttonTextStyle: CustomTextStyles.titleMediumGray500,
                     alignment: Alignment.centerRight,
-                    onPressed: () => NavigatorService.popAndPushNamed(
-                      RoutePath.setBirthday,
-                    ),
+                    onPressed: () {
+                      context
+                          .read<UserCubit>()
+                          .setProfileName(nameController.text);
+                    },
                   ),
                   Spacer(
                     flex: 56,
