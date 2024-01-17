@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:private_chat/domain/models/user_model.dart';
 import 'package:private_chat/domain/repositories/auth_repository.dart';
 
+import '../../core/enums/gender.dart';
 import '../../domain/repositories/user_repository.dart';
 import '../../presentation/screen/profile/model/profileSetup.dart';
 
@@ -84,8 +85,11 @@ class UserCubit extends Cubit<UserState> {
     emit(UserProfileSetupInProgressState(profileSetUp));
   }
 
-  setProfileGender(String gender) async {
-    profileSetUp = profileSetUp.copyWith(gender: gender);
+  setProfileGender(Gender? gender) async {
+    String? myGender;
+    if (gender == Gender.male) myGender = "male";
+    if (gender == Gender.female) myGender = "female";
+    profileSetUp = profileSetUp.copyWith(gender: myGender);
     emit(UserProfileSetupInProgressState(profileSetUp));
   }
 
@@ -100,7 +104,7 @@ class UserCubit extends Cubit<UserState> {
       if (isupdated) {
         emit(UserProfileSetUpSuccess(user));
       } else {
-        emit(UserErrorState("There is an error updating your profile"));
+        emit(UserErrorState("There  is an error updating your profile"));
       }
     }
   }
