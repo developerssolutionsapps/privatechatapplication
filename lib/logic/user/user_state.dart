@@ -20,6 +20,18 @@ final class UserMyProfileState extends UserState {
 
 final class UserNeedsProfileSetUp extends UserState {}
 
+// ignore: must_be_immutable
+final class UserProfileSetupInProgressState extends UserState {
+  final ProfileSetUp profileSetUp;
+
+  UserProfileSetupInProgressState(
+    this.profileSetUp,
+  );
+
+  @override
+  List<Object> get props => [profileSetUp];
+}
+
 final class UserProfileSetUpSuccess extends UserState {
   final UserModel user;
   const UserProfileSetUpSuccess(this.user);

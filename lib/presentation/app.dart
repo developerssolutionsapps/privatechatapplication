@@ -9,11 +9,13 @@ import 'package:private_chat/presentation/routes/path.dart';
 import 'package:private_chat/presentation/screen/auth/otp_screen.dart';
 import 'package:private_chat/presentation/screen/auth/sign_in.dart';
 import 'package:private_chat/presentation/screen/common/splash_screen.dart';
+import 'package:private_chat/presentation/screen/companion/companion_s_name_when_accepted_page.dart';
+import 'package:private_chat/presentation/screen/profile/mine_page.dart';
 import 'package:private_chat/presentation/screen/profile/set_birthday.dart';
 import 'package:private_chat/presentation/screen/profile/set_display_name.dart';
 import 'package:private_chat/presentation/screen/profile/set_gender.dart';
 import 'package:private_chat/presentation/screen/request/invite_screen.dart';
-import 'package:private_chat/presentation/screen/request/request_received_page.dart';
+import 'package:private_chat/presentation/screen/request/request_received_tab_container_screen.dart';
 
 import '../data/repositories/auth_repository_impl.dart';
 import '../data/repositories/request_repository_impl.dart';
@@ -52,7 +54,7 @@ class App extends StatelessWidget {
               )),
       GoRoute(
           path: RoutePath.main,
-          builder: (_, state) => const RequestReceivedPage(),
+          builder: (_, state) => const RequestReceivedTabContainerScreen(),
           routes: [
             GoRoute(
                 name: RoutePath.routeName(RoutePath.setDisplayName),
@@ -70,6 +72,18 @@ class App extends StatelessWidget {
                 name: RoutePath.routeName(RoutePath.requestInvite),
                 path: RoutePath.requestInvite,
                 builder: (_, state) => InviteScreen()),
+            GoRoute(
+                name: RoutePath.routeName(RoutePath.companion),
+                path: RoutePath.companion,
+                builder: (_, state) => CompanionSNameWhenAcceptedPage()),
+            GoRoute(
+                name: RoutePath.routeName(RoutePath.entertainment),
+                path: RoutePath.entertainment,
+                builder: (_, state) => RequestReceivedTabContainerScreen()),
+            GoRoute(
+                name: RoutePath.routeName(RoutePath.mine),
+                path: RoutePath.mine,
+                builder: (_, state) => MinePage()),
           ]),
     ],
   );
@@ -111,8 +125,10 @@ class MultiBlocRepoAndProvider extends StatelessWidget {
                 AuthBloc(RepositoryProvider.of<AuthRepositoryImpl>(_)),
           ),
           BlocProvider(
-            create: (_) =>
-                UserCubit(RepositoryProvider.of<UserRepositoryImpl>(_)),
+            create: (_) => UserCubit(
+              RepositoryProvider.of<UserRepositoryImpl>(_),
+              RepositoryProvider.of<AuthRepositoryImpl>(_),
+            ),
           ),
           BlocProvider(
             create: (_) => RequestCubit(

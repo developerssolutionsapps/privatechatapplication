@@ -44,7 +44,7 @@ class UserRepositoryImpl implements UserRepository {
       final getDoc = await doc.get();
       if (getDoc.exists) return;
       await doc.set({
-        "idUser": user.uid,
+        "id": user.uid,
         "avatar": user.photoURL ?? urlAvatar,
         "name": user.displayName ?? '',
         "phone": user.phoneNumber,
@@ -72,7 +72,7 @@ class UserRepositoryImpl implements UserRepository {
         throw UsersDocumentNotFoundException();
       }
       throw UsersFetchFailedException();
-    } catch (_) {
+    } catch (e) {
       throw UsersFetchFailedException();
     }
   }
@@ -104,6 +104,7 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<UserModel?> me() async {
     User? user = _firebaseAuth.currentUser;
+    print(user);
     try {
       if (user != null) {
         final UserModel? mefromfirestore = await findUser(user.uid);
@@ -127,6 +128,7 @@ class UserRepositoryImpl implements UserRepository {
   /// Invoke to update user's profile
   @override
   Future<bool> updateProfile({required UserModel user, File? file}) async {
+    print(user);
     try {
       String? urlImage;
       if (file != null) {

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:private_chat/presentation/routes/path.dart';
 import '../../../core/app_export.dart';
+import '../../../logic/request/request_cubit.dart';
+import '../../../logic/user/user_cubit.dart';
 import '../companion/companion_s_name_when_accepted_page.dart';
 import '../profile/mine_page.dart';
-import 'request_received_accept_page.dart';
 import 'request_sent_been_rjected_do_nothing_page.dart';
 import '../../widgets/custom_bottom_bar.dart';
 import '../../widgets/custom_icon_button.dart';
@@ -37,80 +40,101 @@ class RequestReceivedTabContainerScreenState
   @override
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
+    context.read<UserCubit>().getMyProfile();
 
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: theme.colorScheme.onPrimaryContainer,
-        body: SizedBox(
-          width: double.maxFinite,
-          child: Column(
-            children: [
-              SizedBox(height: 49.v),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 59.h),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CustomImageView(
-                          imagePath: ImageConstant.imgSearchPrimary,
-                          height: 21.v,
-                          width: 19.h,
-                          margin: EdgeInsets.only(
-                            top: 7.v,
-                            bottom: 5.v,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 4.h),
-                          child: Text(
-                            "lbl_received".tr,
-                            style: CustomTextStyles.headlineSmallPrimary,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CustomImageView(
-                          imagePath: ImageConstant.imgGroup144Gray70001,
-                          height: 21.v,
-                          width: 19.h,
-                          margin: EdgeInsets.symmetric(vertical: 6.v),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 4.h),
-                          child: Text(
-                            "lbl_sent".tr,
-                            style: CustomTextStyles.headlineSmallGray70001,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 34.v),
-              _buildSeventy(context),
-              SizedBox(
-                height: 531.v,
-                child: TabBarView(
-                  controller: tabviewController,
-                  children: [
-                    RequestReceivedAcceptPage.builder(context),
-                    RequestReceivedAcceptPage.builder(context),
-                  ],
-                ),
-              ),
-            ],
-          ),
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<UserCubit, UserState>(
+          listener: (context, state) {
+            if (state is UserNeedsProfileSetUp) {
+              context
+                  .replaceNamed(RoutePath.routeName(RoutePath.setDisplayName));
+            }
+            if (state is UserProfileSetupInProgressState) {
+              if (state.profileSetUp.gender != null) {
+                context.read<UserCubit>().completeProfileSetup();
+              } else if (state.profileSetUp.birthday != null) {
+                context.replaceNamed(RoutePath.routeName(RoutePath.setGender));
+              } else if (state.profileSetUp.name != null) {
+                context
+                    .replaceNamed(RoutePath.routeName(RoutePath.setBirthday));
+              }
+            }
+          },
         ),
-        bottomNavigationBar: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 51.h),
-          child: _buildBottomBar(context),
+        BlocListener<RequestCubit, RequestState>(
+          listener: (context, state) {
+            // TODO: implement listener
+          },
+        ),
+      ],
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: theme.colorScheme.onPrimaryContainer,
+          body: SizedBox(
+            width: double.maxFinite,
+            child: Column(
+              children: [
+                SizedBox(height: 49.v),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 59.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CustomImageView(
+                            imagePath: ImageConstant.imgSearchPrimary,
+                            height: 21.v,
+                            width: 19.h,
+                            margin: EdgeInsets.only(
+                              top: 7.v,
+                              bottom: 5.v,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 4.h),
+                            child: Text(
+                              "received",
+                              style: CustomTextStyles.headlineSmallPrimary,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CustomImageView(
+                            imagePath: ImageConstant.imgGroup144Gray70001,
+                            height: 21.v,
+                            width: 19.h,
+                            margin: EdgeInsets.symmetric(vertical: 6.v),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 4.h),
+                            child: Text(
+                              "sent",
+                              style: CustomTextStyles.headlineSmallGray70001,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 34.v),
+                _buildSeventy(context),
+                SizedBox(
+                  height: 531.v,
+                ),
+              ],
+            ),
+          ),
+          bottomNavigationBar: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 51.h),
+            child: _buildBottomBar(context),
+          ),
         ),
       ),
     );
@@ -139,7 +163,7 @@ class RequestReceivedTabContainerScreenState
               bottom: 12.v,
             ),
             child: Text(
-              "lbl_91906123456".tr,
+              "91906123456",
               style: theme.textTheme.titleMedium,
             ),
           ),
@@ -178,12 +202,12 @@ class RequestReceivedTabContainerScreenState
               tabs: [
                 Tab(
                   child: Text(
-                    "lbl_accept".tr,
+                    "accept",
                   ),
                 ),
                 Tab(
                   child: Text(
-                    "lbl_reject".tr,
+                    "reject",
                   ),
                 ),
               ],
@@ -198,8 +222,8 @@ class RequestReceivedTabContainerScreenState
   Widget _buildBottomBar(BuildContext context) {
     return CustomBottomBar(
       onChanged: (BottomBarEnum type) {
-        Navigator.pushNamed(
-            navigatorKey.currentContext!, getCurrentRoute(type));
+        print(getCurrentRoute(type));
+        context.go(getCurrentRoute(type));
       },
     );
   }
@@ -208,15 +232,15 @@ class RequestReceivedTabContainerScreenState
   String getCurrentRoute(BottomBarEnum type) {
     switch (type) {
       case BottomBarEnum.Companion:
-        return AppRoutes.companionSNameWhenAcceptedPage;
+        return RoutePath.companion;
       case BottomBarEnum.Request:
-        return AppRoutes.requestSentBeenRjectedDoNothingPage;
+        return RoutePath.main;
       case BottomBarEnum.Entertainment:
-        return "/";
+        return RoutePath.main;
       case BottomBarEnum.Mine:
-        return AppRoutes.minePage;
+        return RoutePath.mine;
       default:
-        return "/";
+        return RoutePath.main;
     }
   }
 

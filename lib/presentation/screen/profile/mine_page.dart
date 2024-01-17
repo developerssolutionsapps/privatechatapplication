@@ -39,14 +39,14 @@ class MinePage extends StatelessWidget {
                                         EdgeInsets.only(top: 2.v, bottom: 3.v)),
                                 Padding(
                                     padding: EdgeInsets.only(left: 6.h),
-                                    child: Text("lbl_1990_11_21".tr,
+                                    child: Text("1990 11 21",
                                         style: CustomTextStyles
                                             .titleMediumGray500))
                               ]),
                           SizedBox(height: 6.v),
                           CustomTextFormField(
                               controller: null,
-                              hintText: "lbl_not_shown".tr,
+                              hintText: "not shown",
                               textInputAction: TextInputAction.done,
                               prefix: Container(
                                   margin: EdgeInsets.only(
@@ -63,7 +63,7 @@ class MinePage extends StatelessWidget {
                                   TextFormFieldStyleHelper.underLineBlueGray),
                           SizedBox(height: 16.v),
                           Row(children: [
-                            Text("lbl_about_me".tr,
+                            Text("about me",
                                 style: theme.textTheme.headlineSmall),
                             Padding(
                                 padding: EdgeInsets.only(
@@ -81,14 +81,13 @@ class MinePage extends StatelessWidget {
                           Container(
                               width: 336.h,
                               margin: EdgeInsets.only(right: 27.h),
-                              child: Text("msg_duis_aute_irure".tr,
+                              child: Text("duis aute irure",
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: theme.textTheme.bodyMedium!
                                       .copyWith(height: 1.57))),
                           SizedBox(height: 28.v),
-                          Text("lbl_moment".tr,
-                              style: theme.textTheme.headlineSmall),
+                          Text("moment", style: theme.textTheme.headlineSmall),
                           SizedBox(height: 5.v),
                           _buildTimeLine(context),
                           SizedBox(height: 5.v)
@@ -131,7 +130,7 @@ class MinePage extends StatelessWidget {
           padding: EdgeInsets.only(left: 7.h, top: 4.v, bottom: 4.v),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text("msg_a_given_display".tr, style: theme.textTheme.titleMedium),
+            Text("a given display", style: theme.textTheme.titleMedium),
             SizedBox(height: 6.v),
             Row(children: [
               CustomImageView(
@@ -140,14 +139,14 @@ class MinePage extends StatelessWidget {
                   width: 16.adaptSize),
               Padding(
                   padding: EdgeInsets.only(left: 1.h),
-                  child: Text("lbl_917568123456".tr,
+                  child: Text("917568123456",
                       style: CustomTextStyles.titleSmallGray500))
             ])
           ])),
       Spacer(),
       CustomOutlinedButton(
           width: 98.h,
-          text: "lbl_edit_profile".tr,
+          text: "edit profile",
           margin: EdgeInsets.only(top: 7.v, bottom: 16.v))
     ]);
   }
@@ -226,11 +225,11 @@ class MinePage extends StatelessWidget {
                                   child: RichText(
                                       text: TextSpan(children: [
                                         TextSpan(
-                                            text: "lbl_09_11".tr,
+                                            text: "09 11",
                                             style: CustomTextStyles
                                                 .headlineSmallGray200),
                                         TextSpan(
-                                            text: "lbl_2023".tr,
+                                            text: "2023",
                                             style: CustomTextStyles
                                                 .titleMediumGray200_1)
                                       ]),
@@ -239,7 +238,7 @@ class MinePage extends StatelessWidget {
                               Padding(
                                   padding:
                                       EdgeInsets.only(top: 22.v, bottom: 18.v),
-                                  child: Text("lbl_first_hello".tr,
+                                  child: Text("first hello",
                                       style:
                                           CustomTextStyles.titleMediumGray200)),
                               Spacer(flex: 53),
@@ -305,11 +304,11 @@ class MinePage extends StatelessWidget {
                                   child: RichText(
                                       text: TextSpan(children: [
                                         TextSpan(
-                                            text: "lbl_09_21".tr,
+                                            text: "09 21",
                                             style: CustomTextStyles
                                                 .headlineSmallGray200),
                                         TextSpan(
-                                            text: "lbl_2023".tr,
+                                            text: "2023",
                                             style: CustomTextStyles
                                                 .titleMediumGray200_1)
                                       ]),
@@ -318,7 +317,7 @@ class MinePage extends StatelessWidget {
                               Padding(
                                   padding:
                                       EdgeInsets.only(top: 25.v, bottom: 13.v),
-                                  child: Text("msg_sent_first_photo".tr,
+                                  child: Text("sent first photo",
                                       style:
                                           CustomTextStyles.titleMediumGray200)),
                               CustomImageView(

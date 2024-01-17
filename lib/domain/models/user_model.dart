@@ -60,14 +60,14 @@ class UserModel {
 
   factory UserModel.fromMap(Map<dynamic, dynamic> map) {
     return UserModel(
-      id: map['id'],
-      avatar: map['avatar'],
-      name: map['name'],
-      phone: map['phone'],
-      gender: map['gender'],
-      dateOfBirth: map['dateOfBirth'],
-      location: map['location'],
-      description: map['description'],
+      id: map['id'].toString(),
+      avatar: map['avatar'].toString(),
+      name: map['name'].toString(),
+      phone: map['phone'].toString(),
+      gender: map['gender'].toString(),
+      dateOfBirth: map['dateOfBirth'].toString(),
+      location: map['location'].toString(),
+      description: map['description'].toString(),
     );
   }
 
