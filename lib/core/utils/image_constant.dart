@@ -68,9 +68,11 @@ class ImageConstant {
   static String imgGroup62 = '$imagePath/img_group_62.svg';
 
   // ProfileSetup-Sex images
+  static String imgGroup26 = '$imagePath/img_group_26.svg';
   static String imgGroup27 = '$imagePath/img_group_27.svg';
 
   static String imgGroup28 = '$imagePath/img_group_28.svg';
+  static String imgGroup29 = '$imagePath/img_group_29.svg';
 
   // Invite images
   static String imgPolygon5Gray50001 =
