@@ -30,8 +30,9 @@ class _SetBirthdayState extends State<SetBirthday> {
     mediaQueryData = MediaQuery.of(context);
     return BlocListener<UserCubit, UserState>(
       listener: (context, state) {
-        if (state is UserMyProfileState) context.replace(RoutePath.main);
+        // if (state is UserMyProfileState) context.replace(RoutePath.main);
         if (state is UserProfileSetupInProgressState) {
+          print(state.profileSetUp.birthday);
           if (state.profileSetUp.birthday != null) {
             context.replaceNamed(RoutePath.routeName(RoutePath.setGender));
           }
@@ -87,26 +88,6 @@ class _SetBirthdayState extends State<SetBirthday> {
                                                     .titleLargeAlibabaPuHuiTi20Gray800)
                                           ]),
                                           textAlign: TextAlign.left))),
-                              Align(
-                                  alignment: Alignment.center,
-                                  child: SizedBox(
-                                      width: 192.h,
-                                      child: RichText(
-                                          text: TextSpan(children: [
-                                            TextSpan(
-                                                text: "hello",
-                                                style: theme
-                                                    .textTheme.displaySmall),
-                                            TextSpan(
-                                                text: " \n",
-                                                style: theme
-                                                    .textTheme.displayMedium),
-                                            TextSpan(
-                                                text: "let's know you better",
-                                                style: CustomTextStyles
-                                                    .titleLargeAlibabaPuHuiTi20Gray800)
-                                          ]),
-                                          textAlign: TextAlign.left)))
                             ])),
                         SizedBox(height: 34.v),
                         Padding(
@@ -117,7 +98,7 @@ class _SetBirthdayState extends State<SetBirthday> {
                         Padding(
                             padding: EdgeInsets.symmetric(horizontal: 9.h),
                             child: CustomTextFormField(
-                                controller: null,
+                                controller: bithdayTextController,
                                 hintText: "1990/09/01",
                                 textInputAction: TextInputAction.done,
                                 alignment: Alignment.center)),
@@ -127,9 +108,10 @@ class _SetBirthdayState extends State<SetBirthday> {
                           text: "next",
                           alignment: Alignment.center,
                           onPressed: () {
+                            print(bithdayTextController.text);
                             context
                                 .read<UserCubit>()
-                                .setProfileName(bithdayTextController.text);
+                                .setProfileBirthDay(bithdayTextController.text);
                           },
                         ),
                         Spacer(flex: 63)

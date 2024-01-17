@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../../core/app_export.dart';
 import '../../../logic/user/user_cubit.dart';
+import '../../routes/path.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_text_form_field.dart';
 
@@ -16,17 +18,23 @@ class _SetDisplayNameState extends State<SetDisplayName> {
 
   @override
   void dispose() {
+    nameController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<UserCubit, UserState>(
-      listener: (context, state) {
-        // if (state is UserMyProfileState) context.replace(RoutePath.main);
-      },
-      builder: (context, state) {
-        return SafeArea(
+    nameController.addListener(() {});
+    return BlocListener<UserCubit, UserState>(
+        listener: (context, state) {
+          // if (state is UserMyProfileState) context.replace(RoutePath.main);
+          if (state is UserProfileSetupInProgressState) {
+            if (state.profileSetUp.name != null) {
+              context.replaceNamed(RoutePath.routeName(RoutePath.setBirthday));
+            }
+          }
+        },
+        child: SafeArea(
           child: Scaffold(
             resizeToAvoidBottomInset: false,
             body: Container(
@@ -85,8 +93,12 @@ class _SetDisplayNameState extends State<SetDisplayName> {
                     width: 226.h,
                     text: "Next",
                     margin: EdgeInsets.only(right: 49.h),
-                    buttonStyle: CustomButtonStyles.fillGray,
-                    buttonTextStyle: CustomTextStyles.titleMediumGray500,
+                    buttonStyle: nameController.text == ""
+                        ? CustomButtonStyles.fillGray
+                        : null,
+                    buttonTextStyle: nameController.text == ""
+                        ? CustomTextStyles.titleMediumGray500
+                        : theme.textTheme.titleLarge,
                     alignment: Alignment.centerRight,
                     onPressed: () {
                       context
@@ -101,8 +113,6 @@ class _SetDisplayNameState extends State<SetDisplayName> {
               ),
             ),
           ),
-        );
-      },
-    );
+        ));
   }
 }
