@@ -1,10 +1,13 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:private_chat/domain/models/user_model.dart';
-import 'package:private_chat/domain/repositories/user_repository.dart';
 import 'package:uuid/uuid.dart';
 
+import 'package:private_chat/domain/models/user_model.dart';
+import 'package:private_chat/domain/repositories/user_repository.dart';
+
 import '../../domain/models/request.dart';
+import '../../domain/repositories/auth_repository.dart';
 import '../../domain/repositories/request_repository.dart';
 
 part 'request_state.dart';
@@ -12,8 +15,12 @@ part 'request_state.dart';
 class RequestCubit extends Cubit<RequestState> {
   final RequestRepository _requestRepository;
   final UserRepository _userRepository;
-  RequestCubit(this._requestRepository, this._userRepository)
-      : super(RequestInitial());
+  final AuthRepository _authRepository;
+  RequestCubit(
+    this._requestRepository,
+    this._userRepository,
+    this._authRepository,
+  ) : super(RequestInitial());
 
   findRequestWithPhone(phone) async {
     emit(LoadingState());
@@ -30,27 +37,31 @@ class RequestCubit extends Cubit<RequestState> {
     emit(RequestFailure());
   }
 
-  findRequests(phone) async {
-    final received = await _requestRepository.getAllRequestReceived();
-    final sent = await _requestRepository.getAllRequestSent();
-    emit(RequestGetSuccess(
-      requestsReceived: received,
-      requestsSent: sent,
-    ));
-  }
-
   getRequests() async {
     final received = await _requestRepository.getAllRequestReceived();
     final sent = await _requestRepository.getAllRequestSent();
-    emit(RequestGetSuccess(
-      requestsReceived: received,
-      requestsSent: sent,
-    ));
+    if (received.isEmpty && sent.isEmpty) {
+      emit(RequestInvitingState());
+    } else {
+      emit(RequestGetSuccess(
+        requestsReceived: received,
+        requestsSent: sent,
+      ));
+    }
   }
 
-  createRequest(phone, myPhone) async {
+  createRequest(phone) async {
     emit(LoadingState());
+    print(phone);
+    phone = _extractPhoneNumber(phone);
     final id = Uuid().v1();
+    final String? myPhone = _authRepository.currentUser!.phoneNumber;
+    print(myPhone);
+    print(phone);
+    if (phone == null || myPhone == null) {
+      emit(RequestCreateFailure());
+      return;
+    }
     final Request req = Request(
       id: id,
       sender: myPhone,
@@ -87,5 +98,20 @@ class RequestCubit extends Cubit<RequestState> {
     emit(LoadingState());
     Request? req = await _requestRepository.findRequestConnected();
     if (req != null) emit(RequestFailure());
+  }
+
+  _extractPhoneNumber(String input) {
+    // Define the regular expression pattern for extracting phone numbers
+    RegExp regex = RegExp(r'\+\d{1,}');
+
+    // Find the match in the input string
+    Match? match = regex.firstMatch(input);
+
+    // Extract and return the matched phone number
+    if (match != null) {
+      return match.group(0)!;
+    } else {
+      return "No phone number found";
+    }
   }
 }
