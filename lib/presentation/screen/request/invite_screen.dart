@@ -1,5 +1,8 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:private_chat/logic/request/request_cubit.dart';
+import 'package:private_chat/logic/user/user_cubit.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/app_export.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_phone_number.dart';
@@ -33,25 +36,25 @@ class _InviteScreenState extends State<InviteScreen> {
   );
 
   final countryCodeController = TextEditingController();
+  final String myName = "";
 
   final phoneController = TextEditingController();
+  final myNameController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
-
+    countryCodeController.text = "🇰🇪 +254";
     countryCodeController.addListener(() {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(countryCodeController.text),
-      ));
+      countryCodeController.text;
     });
 
     phoneController.addListener(() {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(phoneController.text),
-      ));
+      print(phoneController.value);
     });
+
+    _getMyName();
   }
 
   @override
@@ -59,6 +62,12 @@ class _InviteScreenState extends State<InviteScreen> {
     phoneController.dispose();
     countryCodeController.dispose();
     super.dispose;
+  }
+
+  _getMyName() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? stringValue = prefs.getString('myName');
+    myNameController.text = stringValue != null ? stringValue : "";
   }
 
   @override
@@ -82,7 +91,7 @@ class _InviteScreenState extends State<InviteScreen> {
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: "lbl_welcome2".tr,
+                        text: "Welcome",
                         style: CustomTextStyles.displaySmallDeeppurpleA400,
                       ),
                       TextSpan(
@@ -93,13 +102,18 @@ class _InviteScreenState extends State<InviteScreen> {
                   textAlign: TextAlign.left,
                 ),
                 SizedBox(height: 24.v),
-                Text(
-                  "msg_given_display_name".tr,
-                  style: CustomTextStyles.titleLargeAlibabaPuHuiTi20Gray800_1,
+                BlocBuilder<UserCubit, UserState>(
+                  builder: (context, state) {
+                    return Text(
+                      myNameController.text,
+                      style:
+                          CustomTextStyles.titleLargeAlibabaPuHuiTi20Gray800_1,
+                    );
+                  },
                 ),
                 SizedBox(height: 69.v),
                 Text(
-                  "msg_now_invite_your".tr,
+                  "Now Invite Your Companion",
                   style: CustomTextStyles.headlineSmallPrimary,
                 ),
                 SizedBox(height: 30.v),
@@ -109,11 +123,13 @@ class _InviteScreenState extends State<InviteScreen> {
                 ),
                 CustomElevatedButton(
                   width: 226.h,
-                  text: "lbl_invite".tr,
+                  text: "invite",
                   margin: EdgeInsets.only(right: 49.h),
                   alignment: Alignment.centerRight,
-                  onPressed: () => NavigatorService.pushNamed(
-                      AppRoutes.companionSNameWhenAcceptedContainerScreen),
+                  onPressed: () {
+                    context.read<RequestCubit>().createRequest(
+                        countryCodeController.text + phoneController.text);
+                  },
                 ),
                 Spacer(
                   flex: 48,
@@ -141,7 +157,7 @@ class _InviteScreenState extends State<InviteScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "lbl_phone_number".tr,
+          "Phone Number",
           style: CustomTextStyles.headlineSmallGray700,
         ),
         SizedBox(height: 7.v),

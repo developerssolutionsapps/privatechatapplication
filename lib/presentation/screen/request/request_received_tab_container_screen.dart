@@ -35,6 +35,7 @@ class RequestReceivedTabContainerScreenState
   void initState() {
     super.initState();
     tabviewController = TabController(length: 2, vsync: this);
+    context.read<RequestCubit>().getRequests();
   }
 
   @override
@@ -64,7 +65,10 @@ class RequestReceivedTabContainerScreenState
         ),
         BlocListener<RequestCubit, RequestState>(
           listener: (context, state) {
-            // TODO: implement listener
+            if (state is RequestInvitingState) {
+              context
+                  .replaceNamed(RoutePath.routeName(RoutePath.requestInvite));
+            }
           },
         ),
       ],
