@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:private_chat/domain/models/user_model.dart';
 import 'package:private_chat/domain/repositories/auth_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../core/enums/gender.dart';
 import '../../domain/repositories/user_repository.dart';
@@ -20,15 +21,20 @@ class UserCubit extends Cubit<UserState> {
     try {
       emit(LoadingState());
       UserModel? myProfile = await _userRepository.me();
+      SharedPreferences prefs = await SharedPreferences.getInstance();
       if (myProfile == null) {
         await _userRepository.insertUserToFireStore(_authRepository.me!);
         myProfile = await _userRepository.me();
       }
       if (myProfile != null) {
+        prefs.setString('myPhone', myProfile.phone);
         final String name = myProfile.name;
         final String dateOfBirth = myProfile.dateOfBirth;
         final String gender = myProfile.gender;
         if (name.isNotEmpty && gender.isNotEmpty && dateOfBirth.isNotEmpty) {
+          prefs.setString('myName', myProfile.name);
+          prefs.setString('myGender', myProfile.gender);
+          prefs.setString('myDOB', myProfile.dateOfBirth);
           print("profile already set");
           emit(UserMyProfileState(myProfile));
         } else {
