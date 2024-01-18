@@ -24,4 +24,6 @@ final class RequestGetSuccess extends RequestState {
 
 final class RequestCreateFailure extends RequestState {}
 
+final class RequestInvitingState extends RequestState {}
+
 final class RequestFailure extends RequestState {}
