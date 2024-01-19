@@ -1,7 +1,9 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:private_chat/logic/request/request_cubit.dart';
 import 'package:private_chat/logic/user/user_cubit.dart';
+import 'package:private_chat/presentation/routes/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/app_export.dart';
 import '../../widgets/custom_elevated_button.dart';
@@ -74,67 +76,74 @@ class _InviteScreenState extends State<InviteScreen> {
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
 
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Form(
-          key: _formKey,
-          child: Container(
-            width: double.maxFinite,
-            padding: EdgeInsets.symmetric(
-              horizontal: 24.h,
-              vertical: 96.v,
-            ),
-            child: Column(
-              children: [
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: "Welcome",
-                        style: CustomTextStyles.displaySmallDeeppurpleA400,
-                      ),
-                      TextSpan(
-                        text: " ",
-                      ),
-                    ],
+    return BlocListener<RequestCubit, RequestState>(
+      listener: (context, state) {
+        if (state is RequestGetSuccess) {
+          context.replace(RoutePath.main);
+        }
+      },
+      child: SafeArea(
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          body: Form(
+            key: _formKey,
+            child: Container(
+              width: double.maxFinite,
+              padding: EdgeInsets.symmetric(
+                horizontal: 24.h,
+                vertical: 96.v,
+              ),
+              child: Column(
+                children: [
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: "Welcome",
+                          style: CustomTextStyles.displaySmallDeeppurpleA400,
+                        ),
+                        TextSpan(
+                          text: " ",
+                        ),
+                      ],
+                    ),
+                    textAlign: TextAlign.left,
                   ),
-                  textAlign: TextAlign.left,
-                ),
-                SizedBox(height: 24.v),
-                BlocBuilder<UserCubit, UserState>(
-                  builder: (context, state) {
-                    return Text(
-                      myNameController.text,
-                      style:
-                          CustomTextStyles.titleLargeAlibabaPuHuiTi20Gray800_1,
-                    );
-                  },
-                ),
-                SizedBox(height: 69.v),
-                Text(
-                  "Now Invite Your Companion",
-                  style: CustomTextStyles.headlineSmallPrimary,
-                ),
-                SizedBox(height: 30.v),
-                _buildPhoneValidate(context),
-                Spacer(
-                  flex: 51,
-                ),
-                CustomElevatedButton(
-                  width: 226.h,
-                  text: "invite",
-                  margin: EdgeInsets.only(right: 49.h),
-                  alignment: Alignment.centerRight,
-                  onPressed: () {
-                    context.read<RequestCubit>().createRequest(
-                        countryCodeController.text + phoneController.text);
-                  },
-                ),
-                Spacer(
-                  flex: 48,
-                ),
-              ],
+                  SizedBox(height: 24.v),
+                  BlocBuilder<UserCubit, UserState>(
+                    builder: (context, state) {
+                      return Text(
+                        myNameController.text,
+                        style: CustomTextStyles
+                            .titleLargeAlibabaPuHuiTi20Gray800_1,
+                      );
+                    },
+                  ),
+                  SizedBox(height: 69.v),
+                  Text(
+                    "Now Invite Your Companion",
+                    style: CustomTextStyles.headlineSmallPrimary,
+                  ),
+                  SizedBox(height: 30.v),
+                  _buildPhoneValidate(context),
+                  Spacer(
+                    flex: 51,
+                  ),
+                  CustomElevatedButton(
+                    width: 226.h,
+                    text: "invite",
+                    margin: EdgeInsets.only(right: 49.h),
+                    alignment: Alignment.centerRight,
+                    onPressed: () {
+                      context.read<RequestCubit>().createRequest(
+                          countryCodeController.text + phoneController.text);
+                    },
+                  ),
+                  Spacer(
+                    flex: 48,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

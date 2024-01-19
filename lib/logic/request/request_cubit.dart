@@ -65,7 +65,7 @@ class RequestCubit extends Cubit<RequestState> {
       return;
     }
     final Request req = Request(
-      accepted: false,
+      accepted: null,
       canceled: false,
       id: id,
       sender: myPhone,
