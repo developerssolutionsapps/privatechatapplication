@@ -14,6 +14,7 @@ import 'package:private_chat/presentation/screen/profile/mine_page.dart';
 import 'package:private_chat/presentation/screen/profile/set_birthday.dart';
 import 'package:private_chat/presentation/screen/profile/set_display_name.dart';
 import 'package:private_chat/presentation/screen/profile/set_gender.dart';
+import 'package:private_chat/presentation/screen/request/cubit/home_cubit.dart';
 import 'package:private_chat/presentation/screen/request/invite_screen.dart';
 import 'package:private_chat/presentation/screen/request/request_received_tab_container_screen.dart';
 
@@ -136,6 +137,9 @@ class MultiBlocRepoAndProvider extends StatelessWidget {
               RepositoryProvider.of<UserRepositoryImpl>(_),
               RepositoryProvider.of<AuthRepositoryImpl>(_),
             ),
+          ),
+          BlocProvider(
+            create: (_) => HomeCubit(),
           ),
           BlocProvider(
             create: (_) =>

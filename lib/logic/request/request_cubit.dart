@@ -40,6 +40,8 @@ class RequestCubit extends Cubit<RequestState> {
   getRequests() async {
     final received = await _requestRepository.getAllRequestReceived();
     final sent = await _requestRepository.getAllRequestSent();
+    print(received);
+    print(sent);
     if (received.isEmpty && sent.isEmpty) {
       emit(RequestInvitingState());
     } else {
@@ -63,6 +65,8 @@ class RequestCubit extends Cubit<RequestState> {
       return;
     }
     final Request req = Request(
+      accepted: false,
+      canceled: false,
       id: id,
       sender: myPhone,
       receiver: phone,
