@@ -6,6 +6,7 @@ import '../../../logic/request/request_cubit.dart';
 import '../../../logic/user/user_cubit.dart';
 import '../companion/companion_s_name_when_accepted_page.dart';
 import '../profile/mine_page.dart';
+import 'cubit/home_cubit.dart';
 import 'request_sent_been_rjected_do_nothing_page.dart';
 import '../../widgets/custom_bottom_bar.dart';
 import '../../widgets/custom_icon_button.dart';
@@ -66,8 +67,7 @@ class RequestReceivedTabContainerScreenState
         BlocListener<RequestCubit, RequestState>(
           listener: (context, state) {
             if (state is RequestInvitingState) {
-              context
-                  .replaceNamed(RoutePath.routeName(RoutePath.requestInvite));
+              context.goNamed(RoutePath.routeName(RoutePath.requestInvite));
             }
           },
         ),
@@ -128,7 +128,7 @@ class RequestReceivedTabContainerScreenState
                   ),
                 ),
                 SizedBox(height: 34.v),
-                _buildSeventy(context),
+                _buildRequestTabs(context),
                 SizedBox(
                   height: 531.v,
                 ),
@@ -145,80 +145,176 @@ class RequestReceivedTabContainerScreenState
   }
 
   /// Section Widget
-  Widget _buildSeventy(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 13.h),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CustomIconButton(
-            height: 52.adaptSize,
-            width: 52.adaptSize,
-            padding: EdgeInsets.all(7.h),
-            decoration: IconButtonStyleHelper.fillGray,
-            child: CustomImageView(
-              imagePath: ImageConstant.imgProfileGray500,
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(
-              left: 6.h,
-              top: 16.v,
-              bottom: 12.v,
-            ),
-            child: Text(
-              "91906123456",
-              style: theme.textTheme.titleMedium,
-            ),
-          ),
-          Spacer(),
-          Container(
-            height: 32.v,
-            width: 140.h,
-            margin: EdgeInsets.symmetric(vertical: 10.v),
-            decoration: BoxDecoration(
-              color: appTheme.gray200,
-              borderRadius: BorderRadius.circular(
-                4.h,
-              ),
-            ),
-            child: TabBar(
-              controller: tabviewController,
-              labelPadding: EdgeInsets.zero,
-              labelColor: appTheme.gray200,
-              labelStyle: TextStyle(
-                fontSize: 16.fSize,
-                fontFamily: 'Alibaba PuHuiTi 2.0',
-                fontWeight: FontWeight.w500,
-              ),
-              unselectedLabelColor: appTheme.gray500,
-              unselectedLabelStyle: TextStyle(
-                fontSize: 16.fSize,
-                fontFamily: 'Alibaba PuHuiTi 2.0',
-                fontWeight: FontWeight.w500,
-              ),
-              indicator: BoxDecoration(
-                color: theme.colorScheme.primary,
-                borderRadius: BorderRadius.circular(
-                  4.h,
+  Widget _buildRequestTabs(BuildContext context) {
+    return BlocBuilder<RequestCubit, RequestState>(
+      builder: (context, state) {
+        if (state is RequestGetSuccess && state.requestsReceived.length > 0) {
+          print(state.requestsReceived);
+          return BlocBuilder<HomeCubit, HomeState>(
+            builder: (context, homeState) {
+              if (homeState is HomeSentTab) {
+                return _buildRequestSentTab(context, state);
+              } else {
+                return _buildRequestReceivedTab(context, state);
+              }
+            },
+          );
+        } else {
+          return Text("you don't have any received request yet");
+        }
+      },
+    );
+  }
+
+  Widget _buildRequestReceivedTab(
+      BuildContext context, RequestGetSuccess state) {
+    return ListView.builder(
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      itemCount: state.requestsReceived.length,
+      itemBuilder: ((context, index) {
+        print(index);
+        return Padding(
+          padding: EdgeInsets.symmetric(horizontal: 13.h),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CustomIconButton(
+                height: 52.adaptSize,
+                width: 52.adaptSize,
+                padding: EdgeInsets.all(7.h),
+                decoration: IconButtonStyleHelper.fillGray,
+                child: CustomImageView(
+                  imagePath: ImageConstant.imgProfileGray500,
                 ),
               ),
-              tabs: [
-                Tab(
-                  child: Text(
-                    "accept",
+              Padding(
+                padding: EdgeInsets.only(
+                  left: 6.h,
+                  top: 16.v,
+                  bottom: 12.v,
+                ),
+                child: Text(
+                  state.requestsReceived[index].sender,
+                  style: theme.textTheme.titleMedium,
+                ),
+              ),
+              Spacer(),
+              Container(
+                height: 32.v,
+                width: 140.h,
+                margin: EdgeInsets.symmetric(vertical: 10.v),
+                decoration: BoxDecoration(
+                  color: appTheme.gray200,
+                  borderRadius: BorderRadius.circular(
+                    4.h,
                   ),
                 ),
-                Tab(
-                  child: Text(
-                    "reject",
+                child: TabBar(
+                  labelPadding: EdgeInsets.zero,
+                  labelColor: appTheme.gray200,
+                  labelStyle: TextStyle(
+                    fontSize: 16.fSize,
+                    fontFamily: 'Alibaba PuHuiTi 2.0',
+                    fontWeight: FontWeight.w500,
                   ),
+                  unselectedLabelColor: appTheme.gray500,
+                  unselectedLabelStyle: TextStyle(
+                    fontSize: 16.fSize,
+                    fontFamily: 'Alibaba PuHuiTi 2.0',
+                    fontWeight: FontWeight.w500,
+                  ),
+                  indicator: BoxDecoration(
+                    color: theme.colorScheme.primary,
+                    borderRadius: BorderRadius.circular(
+                      4.h,
+                    ),
+                  ),
+                  tabs: [
+                    Tab(
+                      child: Text(
+                        "accept",
+                      ),
+                    ),
+                    Tab(
+                      child: Text(
+                        "reject",
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      }),
+    );
+  }
+
+  Widget _buildRequestSentTab(BuildContext context, RequestGetSuccess state) {
+    return ListView.builder(
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      itemCount: state.requestsSent.length,
+      itemBuilder: ((context, index) {
+        print(index);
+        return Padding(
+          padding: EdgeInsets.symmetric(horizontal: 13.h),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CustomIconButton(
+                height: 56.adaptSize,
+                width: 56.adaptSize,
+                padding: EdgeInsets.all(6.h),
+                decoration: IconButtonStyleHelper.fillGray,
+                child: CustomImageView(
+                  imagePath: ImageConstant.imgProfileGreenA200,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                  left: 4.h,
+                  top: 14.v,
+                  bottom: 18.v,
+                ),
+                child: Text(
+                  state.requestsSent[index].receiver,
+                  style: theme.textTheme.titleMedium,
+                ),
+              ),
+              Spacer(),
+              Builder(builder: (context) {
+                if (!state.requestsSent[index].accepted!) {
+                  return Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16.v),
+                    child: Text(
+                      "rejected",
+                      style: theme.textTheme.titleMedium,
+                    ),
+                  );
+                } else if (state.requestsSent[index].accepted!) {
+                  return Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16.v),
+                    child: Text(
+                      "accepted",
+                      style: theme.textTheme.titleMedium,
+                    ),
+                  );
+                } else {
+                  return Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16.v),
+                    child: Text(
+                      "cancel",
+                      style: theme.textTheme.titleMedium,
+                    ),
+                  );
+                }
+              }),
+            ],
+          ),
+        );
+      }),
     );
   }
 
