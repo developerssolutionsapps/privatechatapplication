@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:private_chat/presentation/routes/path.dart';
 import '../../../core/app_export.dart';
+import '../../../domain/models/request.dart';
 import '../../../logic/request/request_cubit.dart';
 import '../../../logic/user/user_cubit.dart';
 import '../companion/companion_s_name_when_accepted_page.dart';
@@ -37,6 +38,7 @@ class RequestReceivedTabContainerScreenState
     super.initState();
     tabviewController = TabController(length: 2, vsync: this);
     context.read<RequestCubit>().getRequests();
+    context.read<HomeCubit>().onRequestReceivedTab();
   }
 
   @override
@@ -74,65 +76,121 @@ class RequestReceivedTabContainerScreenState
       ],
       child: SafeArea(
         child: Scaffold(
+          resizeToAvoidBottomInset: false,
           backgroundColor: theme.colorScheme.onPrimaryContainer,
           body: SizedBox(
             width: double.maxFinite,
-            child: Column(
-              children: [
-                SizedBox(height: 49.v),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 59.h),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CustomImageView(
-                            imagePath: ImageConstant.imgSearchPrimary,
-                            height: 21.v,
-                            width: 19.h,
-                            margin: EdgeInsets.only(
-                              top: 7.v,
-                              bottom: 5.v,
-                            ),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(height: 49.v),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 59.h),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            context.read<HomeCubit>().onRequestReceivedTab();
+                          },
+                          child: BlocBuilder<HomeCubit, HomeState>(
+                            builder: (context, state) {
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Builder(builder: (context) {
+                                    if (state is HomeSentTab) {
+                                      return CustomImageView(
+                                        imagePath:
+                                            ImageConstant.imgSearchPrimaryGreen,
+                                        height: 21.v,
+                                        width: 19.h,
+                                        margin:
+                                            EdgeInsets.symmetric(vertical: 6.v),
+                                      );
+                                    } else {
+                                      return CustomImageView(
+                                        imagePath:
+                                            ImageConstant.imgSearchPrimaryGray,
+                                        height: 21.v,
+                                        width: 19.h,
+                                        margin:
+                                            EdgeInsets.symmetric(vertical: 6.v),
+                                      );
+                                    }
+                                  }),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 4.h),
+                                    child: Text(
+                                      "received",
+                                      style: (state is HomeReceivedTab)
+                                          ? CustomTextStyles
+                                              .headlineSmallPrimary
+                                          : CustomTextStyles
+                                              .headlineSmallGray70001,
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 4.h),
-                            child: Text(
-                              "received",
-                              style: CustomTextStyles.headlineSmallPrimary,
-                            ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            context.read<HomeCubit>().onRequestSentTab();
+                          },
+                          child: BlocBuilder<HomeCubit, HomeState>(
+                            builder: (context, state) {
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Builder(builder: (context) {
+                                    if (state is HomeSentTab) {
+                                      return CustomImageView(
+                                        imagePath:
+                                            ImageConstant.imgGroup144Green70001,
+                                        height: 21.v,
+                                        width: 19.h,
+                                        margin:
+                                            EdgeInsets.symmetric(vertical: 6.v),
+                                      );
+                                    } else {
+                                      return CustomImageView(
+                                        imagePath:
+                                            ImageConstant.imgGroup144Gray70001,
+                                        height: 21.v,
+                                        width: 19.h,
+                                        margin:
+                                            EdgeInsets.symmetric(vertical: 6.v),
+                                      );
+                                    }
+                                  }),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 4.h),
+                                    child: Text(
+                                      "sent",
+                                      style: (state is HomeSentTab)
+                                          ? CustomTextStyles
+                                              .headlineSmallPrimary
+                                          : CustomTextStyles
+                                              .headlineSmallGray70001,
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
                           ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CustomImageView(
-                            imagePath: ImageConstant.imgGroup144Gray70001,
-                            height: 21.v,
-                            width: 19.h,
-                            margin: EdgeInsets.symmetric(vertical: 6.v),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 4.h),
-                            child: Text(
-                              "sent",
-                              style: CustomTextStyles.headlineSmallGray70001,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                SizedBox(height: 34.v),
-                _buildRequestTabs(context),
-                SizedBox(
-                  height: 531.v,
-                ),
-              ],
+                  SizedBox(height: 34.v),
+                  SingleChildScrollView(child: _buildRequestTabs(context)),
+                  SizedBox(
+                    height: 531.v,
+                  ),
+                ],
+              ),
             ),
           ),
           bottomNavigationBar: Padding(
@@ -146,32 +204,45 @@ class RequestReceivedTabContainerScreenState
 
   /// Section Widget
   Widget _buildRequestTabs(BuildContext context) {
-    return BlocBuilder<RequestCubit, RequestState>(
-      builder: (context, state) {
-        if (state is RequestGetSuccess && state.requestsReceived.length > 0) {
-          print(state.requestsReceived);
-          return BlocBuilder<HomeCubit, HomeState>(
-            builder: (context, homeState) {
-              if (homeState is HomeSentTab) {
+    return BlocBuilder<HomeCubit, HomeState>(
+      builder: (context, homeState) {
+        if (homeState is HomeReceivedTab) {
+          return BlocBuilder<RequestCubit, RequestState>(
+            builder: (context, state) {
+              if (state is RequestGetSuccess &&
+                  state.requestsReceived.length > 0) {
+                print(state.requestsReceived);
+                return _buildRequestReceivedTab(
+                    context, state.requestsReceived);
+              } else {
+                return Text("you don't have any received request yet");
+              }
+            },
+          );
+        } else if (homeState is HomeSentTab) {
+          return BlocBuilder<RequestCubit, RequestState>(
+            builder: (context, state) {
+              if (state is RequestGetSuccess && state.requestsSent.length > 0) {
+                print(state.requestsSent);
                 return _buildRequestSentTab(context, state);
               } else {
-                return _buildRequestReceivedTab(context, state);
+                return Text("you don't have any sent request yet");
               }
             },
           );
         } else {
-          return Text("you don't have any received request yet");
+          return Text("you don't have any request yet");
         }
       },
     );
   }
 
   Widget _buildRequestReceivedTab(
-      BuildContext context, RequestGetSuccess state) {
+      BuildContext context, List<Request> requestsReceived) {
     return ListView.builder(
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
-      itemCount: state.requestsReceived.length,
+      itemCount: requestsReceived.length,
       itemBuilder: ((context, index) {
         print(index);
         return Padding(
@@ -195,7 +266,7 @@ class RequestReceivedTabContainerScreenState
                   bottom: 12.v,
                 ),
                 child: Text(
-                  state.requestsReceived[index].sender,
+                  requestsReceived[index].sender,
                   style: theme.textTheme.titleMedium,
                 ),
               ),
@@ -211,6 +282,7 @@ class RequestReceivedTabContainerScreenState
                   ),
                 ),
                 child: TabBar(
+                  controller: tabviewController,
                   labelPadding: EdgeInsets.zero,
                   labelColor: appTheme.gray200,
                   labelStyle: TextStyle(
@@ -285,7 +357,15 @@ class RequestReceivedTabContainerScreenState
               ),
               Spacer(),
               Builder(builder: (context) {
-                if (!state.requestsSent[index].accepted!) {
+                if (state.requestsSent[index].accepted == null) {
+                  return Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16.v),
+                    child: Text(
+                      "pending",
+                      style: theme.textTheme.titleMedium,
+                    ),
+                  );
+                } else if (!state.requestsSent[index].accepted!) {
                   return Padding(
                     padding: EdgeInsets.symmetric(vertical: 16.v),
                     child: Text(
@@ -305,7 +385,7 @@ class RequestReceivedTabContainerScreenState
                   return Padding(
                     padding: EdgeInsets.symmetric(vertical: 16.v),
                     child: Text(
-                      "cancel",
+                      "pending",
                       style: theme.textTheme.titleMedium,
                     ),
                   );
@@ -323,7 +403,7 @@ class RequestReceivedTabContainerScreenState
     return CustomBottomBar(
       onChanged: (BottomBarEnum type) {
         print(getCurrentRoute(type));
-        context.go(getCurrentRoute(type));
+        context.goNamed(RoutePath.routeName(getCurrentRoute(type)));
       },
     );
   }
