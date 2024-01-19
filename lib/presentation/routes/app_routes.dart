@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../screen/auth/auto_login.dart';
 import '../screen/profile/profilesetup_two_screen.dart';
 import '../screen/profile/account_delete_screen.dart';
-import '../screen/companion/companion_s_name_when_accepted_container_screen.dart';
+import '../screen/companion/companion_home.dart';
 import '../screen/companion/companion_s_name_unfriend_screen.dart';
 import '../screen/searchhistory_screen.dart';
 import '../screen/entertainment/chatinterface_screen.dart';
@@ -79,7 +79,7 @@ class AppRoutes {
         profilesetupTwoScreen: ProfilesetupTwoScreen.builder,
         accountDeleteScreen: AccountDeleteScreen.builder,
         companionSNameWhenAcceptedContainerScreen:
-            CompanionSNameWhenAcceptedContainerScreen.builder,
+            CompanionHome.builder,
         companionSNameUnfriendScreen: CompanionSNameUnfriendScreen.builder,
         searchhistoryScreen: SearchhistoryScreen.builder,
         chatinterfaceScreen: ChatinterfaceScreen.builder,
