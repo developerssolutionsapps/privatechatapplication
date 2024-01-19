@@ -116,6 +116,16 @@ class RequestCubit extends Cubit<RequestState> {
     if (req != null) emit(RequestFailure());
   }
 
+  findRequestAmConnected() async {
+    emit(LoadingState());
+    Request? req = await _requestRepository.findRequestConnected();
+    if (req == null) {
+      emit(RequestFailure());
+    } else {
+      emit(RequestAmConnected(request: req));
+    }
+  }
+
   _extractPhoneNumber(String input) {
     // Define the regular expression pattern for extracting phone numbers
     RegExp regex = RegExp(r'\+\d{1,}');

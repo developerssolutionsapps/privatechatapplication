@@ -71,6 +71,9 @@ class RequestReceivedTabContainerScreenState
             if (state is RequestInvitingState) {
               context.goNamed(RoutePath.routeName(RoutePath.requestInvite));
             }
+            if (state is RequestAmConnected) {
+              context.goNamed(RoutePath.routeName(RoutePath.companion));
+            }
           },
         ),
       ],

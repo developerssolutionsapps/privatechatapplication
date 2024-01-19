@@ -27,3 +27,8 @@ final class RequestCreateFailure extends RequestState {}
 final class RequestInvitingState extends RequestState {}
 
 final class RequestFailure extends RequestState {}
+
+final class RequestAmConnected extends RequestState {
+  final Request request;
+  const RequestAmConnected({required this.request});
+}
