@@ -102,7 +102,7 @@ class RequestReceivedTabContainerScreenState
                                     if (state is HomeSentTab) {
                                       return CustomImageView(
                                         imagePath:
-                                            ImageConstant.imgSearchPrimaryGreen,
+                                            ImageConstant.imgSearchPrimaryGray,
                                         height: 21.v,
                                         width: 19.h,
                                         margin:
@@ -111,7 +111,7 @@ class RequestReceivedTabContainerScreenState
                                     } else {
                                       return CustomImageView(
                                         imagePath:
-                                            ImageConstant.imgSearchPrimaryGray,
+                                            ImageConstant.imgSearchPrimaryGreen,
                                         height: 21.v,
                                         width: 19.h,
                                         margin:
@@ -245,6 +245,7 @@ class RequestReceivedTabContainerScreenState
       itemCount: requestsReceived.length,
       itemBuilder: ((context, index) {
         print(index);
+        TabController controller = TabController(length: 2, vsync: this);
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 13.h),
           child: Row(
@@ -272,7 +273,7 @@ class RequestReceivedTabContainerScreenState
               ),
               Spacer(),
               Container(
-                height: 32.v,
+                height: 40.v,
                 width: 140.h,
                 margin: EdgeInsets.symmetric(vertical: 10.v),
                 decoration: BoxDecoration(
@@ -282,7 +283,7 @@ class RequestReceivedTabContainerScreenState
                   ),
                 ),
                 child: TabBar(
-                  controller: tabviewController,
+                  controller: controller,
                   labelPadding: EdgeInsets.zero,
                   labelColor: appTheme.gray200,
                   labelStyle: TextStyle(
@@ -303,14 +304,36 @@ class RequestReceivedTabContainerScreenState
                     ),
                   ),
                   tabs: [
-                    Tab(
+                    TextButton(
+                      onPressed: () {
+                        print("clicked accept  " +
+                            requestsReceived[index].sender);
+                        context
+                            .read<RequestCubit>()
+                            .acceptRequest(requestsReceived[index]);
+                      },
                       child: Text(
                         "accept",
+                        style: TextStyle(
+                          color: appTheme.gray100,
+                        ),
                       ),
                     ),
-                    Tab(
-                      child: Text(
-                        "reject",
+                    TextButton(
+                      onPressed: () {
+                        print("clicked reject  " +
+                            requestsReceived[index].sender);
+                        context
+                            .read<RequestCubit>()
+                            .rejectRequest(requestsReceived[index]);
+                      },
+                      child: Tab(
+                        child: Text(
+                          "reject",
+                          style: TextStyle(
+                            color: appTheme.gray500,
+                          ),
+                        ),
                       ),
                     ),
                   ],
