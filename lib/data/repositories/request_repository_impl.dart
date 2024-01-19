@@ -28,13 +28,13 @@ class RequestRepositoryImpl implements RequestRepository {
     }
   }
 
-  _getRequestsWithId(String id) async {
+  _getRequestsIfConnected(String phone) async {
     try {
       Request? reqSent;
       Request? reqReceived;
       QuerySnapshot sentActive = await firestore
           .collection("requests")
-          .where("sender", isEqualTo: id)
+          .where("sender", isEqualTo: phone)
           .where("accepted", isEqualTo: true)
           .where("canceled", isEqualTo: false)
           .orderBy("time", descending: true)
@@ -42,7 +42,7 @@ class RequestRepositoryImpl implements RequestRepository {
           .get();
       QuerySnapshot receivedActive = await firestore
           .collection("requests")
-          .where("receiver", isEqualTo: id)
+          .where("receiver", isEqualTo: phone)
           .where("accepted", isEqualTo: true)
           .where("canceled", isEqualTo: false)
           .orderBy("time", descending: true)
@@ -205,18 +205,18 @@ class RequestRepositoryImpl implements RequestRepository {
   @override
   Future<Request?> findRequestConnected() async {
     try {
-      String? myID = _firebaseAuth.currentUser?.uid;
-      if (myID == null) return null;
-      return await _getRequestsWithId(myID);
+      String? myPhone = _firebaseAuth.currentUser?.phoneNumber;
+      if (myPhone == null) return null;
+      return await _getRequestsIfConnected(myPhone);
     } catch (_) {
       rethrow;
     }
   }
 
   @override
-  Future<Request?> findRequestIfConnected(String id) async {
+  Future<Request?> findRequestIfConnected(String phone) async {
     try {
-      return await _getRequestsWithId(id);
+      return await _getRequestsIfConnected(phone);
     } catch (_) {
       rethrow;
     }
