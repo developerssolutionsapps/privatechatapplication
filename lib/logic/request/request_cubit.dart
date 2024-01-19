@@ -81,21 +81,33 @@ class RequestCubit extends Cubit<RequestState> {
   }
 
   cancelRequest(request) async {
-    emit(LoadingState());
-    await cancelRequest(request);
-    await getRequests();
+    try {
+      emit(LoadingState());
+      await _requestRepository.cancelRequest(request);
+      await getRequests();
+    } catch (e) {
+      print(e);
+    }
   }
 
   rejectRequest(request) async {
-    emit(LoadingState());
-    await rejectRequest(request);
-    await getRequests();
+    try {
+      emit(LoadingState());
+      await _requestRepository.rejectRequest(request);
+      await getRequests();
+    } catch (e) {
+      print(e);
+    }
   }
 
   acceptRequest(request) async {
-    emit(LoadingState());
-    await acceptRequest(request);
-    await getRequests();
+    try {
+      emit(LoadingState());
+      await _requestRepository.acceptRequest(request);
+      await getRequests();
+    } catch (e) {
+      print(e);
+    }
   }
 
   findConnectedRequest() async {
