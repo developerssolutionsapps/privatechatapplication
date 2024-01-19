@@ -97,7 +97,13 @@ class ImageConstant {
   static String imgProfileGreenA200 = '$imagePath/img_profile_green_a200.svg';
 
   // Request-received - Tab Container images
-  static String imgSearchPrimary = '$imagePath/img_search_primary.svg';
+  static String imgSearchPrimaryGreen =
+      '$imagePath/img_search_primary_green.svg';
+
+  static String imgSearchPrimaryGray = '$imagePath/img_search_primary_gray.svg';
+
+  static String imgGroup144Green70001 =
+      '$imagePath/img_group_144_green_700_01.svg';
 
   static String imgGroup144Gray70001 =
       '$imagePath/img_group_144_gray_700_01.svg';
