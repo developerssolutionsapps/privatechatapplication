@@ -37,7 +37,7 @@ class RequestRepositoryImpl implements RequestRepository {
           .where("sender", isEqualTo: id)
           .where("accepted", isEqualTo: true)
           .where("canceled", isEqualTo: false)
-          .orderBy("time")
+          .orderBy("time", descending: true)
           .limit(1)
           .get();
       QuerySnapshot receivedActive = await firestore
@@ -45,7 +45,7 @@ class RequestRepositoryImpl implements RequestRepository {
           .where("receiver", isEqualTo: id)
           .where("accepted", isEqualTo: true)
           .where("canceled", isEqualTo: false)
-          .orderBy("time")
+          .orderBy("time", descending: true)
           .limit(1)
           .get();
       for (var doc in receivedActive.docs) {
@@ -82,7 +82,7 @@ class RequestRepositoryImpl implements RequestRepository {
   @override
   Future<Request?> cancelRequest(Request request) async {
     try {
-      final Request req = request.copyWith(accepted: true);
+      final Request req = request.copyWith(canceled: true);
       return await _updateRequest(req);
     } catch (_) {
       rethrow;
@@ -149,6 +149,8 @@ class RequestRepositoryImpl implements RequestRepository {
       QuerySnapshot querySnapshot = await firestore
           .collection("requests")
           .where("receiver", isEqualTo: _firebaseAuth.currentUser?.phoneNumber)
+          .where("accepted", isEqualTo: null)
+          .where("canceled", isNotEqualTo: true)
           .get();
       for (var doc in querySnapshot.docs) {
         Request user = Request.fromMap(doc.data() as Map);
