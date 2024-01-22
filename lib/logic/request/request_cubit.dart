@@ -84,9 +84,10 @@ class RequestCubit extends Cubit<RequestState> {
     try {
       emit(LoadingState());
       await _requestRepository.cancelRequest(request);
+      emit(RequestCancelSuccessfulState());
       await getRequests();
     } catch (e) {
-      print(e);
+      emit(RequestCancelFailurefulState());
     }
   }
 
