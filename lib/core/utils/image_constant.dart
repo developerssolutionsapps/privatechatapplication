@@ -141,6 +141,8 @@ class ImageConstant {
 
   static String imgFacebook = '$imagePath/img_facebook.svg';
 
+  static String imgUnfriend = '$imagePath/img_unfriend.svg';
+
   static String imgCalender = '$imagePath/img_calender.svg';
 
   static String imgLocation = '$imagePath/img_location.svg';
