@@ -56,7 +56,11 @@ class RequestRepositoryImpl implements RequestRepository {
         Request req = Request.fromMap(doc.data() as Map);
         reqReceived = req;
       }
-      if (reqSent!.time > reqReceived!.time) return reqSent;
+      if (reqReceived != null &&
+          reqSent != null &&
+          reqSent.time > reqReceived.time) return reqSent;
+      if (reqSent != null) return reqSent;
+      if (reqReceived != null) return reqReceived;
       return reqReceived;
     } on FirebaseException catch (e) {
       if (e.code == "not Found") {
@@ -64,7 +68,7 @@ class RequestRepositoryImpl implements RequestRepository {
       } else {
         throw RequestFetchFailedException();
       }
-    } catch (_) {
+    } catch (e) {
       throw RequestFetchFailedException();
     }
   }
@@ -150,7 +154,7 @@ class RequestRepositoryImpl implements RequestRepository {
           .collection("requests")
           .where("receiver", isEqualTo: _firebaseAuth.currentUser?.phoneNumber)
           .where("accepted", isEqualTo: null)
-          .where("canceled", isNotEqualTo: true)
+          .where("canceled", isEqualTo: false)
           .get();
       for (var doc in querySnapshot.docs) {
         Request user = Request.fromMap(doc.data() as Map);
