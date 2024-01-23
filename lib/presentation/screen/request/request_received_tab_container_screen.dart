@@ -5,6 +5,7 @@ import '../../../core/app_export.dart';
 import '../../../domain/models/request.dart';
 import '../../../logic/request/request_cubit.dart';
 import '../../../logic/user/user_cubit.dart';
+import '../../dialogs/generic_dialog.dart';
 import '../../widgets/custom_overlayentry.dart';
 import '../companion/companion_s_name_when_accepted_page.dart';
 import '../profile/mine_page.dart';
@@ -52,12 +53,6 @@ class RequestReceivedTabContainerScreenState
       listeners: [
         BlocListener<UserCubit, UserState>(
           listener: (context, state) {
-            if (state is UserLoadingState) {
-              CustomOverlayEntry.instance
-                  .loadingCircularProgressIndicator(context);
-            } else {
-              CustomOverlayEntry.instance.hideOverlay();
-            }
             if (state is UserNeedsProfileSetUp) {
               context
                   .replaceNamed(RoutePath.routeName(RoutePath.setDisplayName));
@@ -76,16 +71,46 @@ class RequestReceivedTabContainerScreenState
         ),
         BlocListener<RequestCubit, RequestState>(
           listener: (context, state) {
+            if (state is RequestInviteSuccessful) {
+              Future<bool> showInviteSuccessDialog(BuildContext context) {
+                return showGenericDialog(
+                  context: context,
+                  title: "",
+                  content: "Bravo! You made it",
+                  optionsBuilder: () => {
+                    "Check": false,
+                  },
+                ).then((value) => value ?? false);
+              }
+
+              showInviteSuccessDialog(context);
+            }
+            if (state is RequestInviteFailed) {
+              Future<bool> showInviteErrorDialog(BuildContext context) {
+                return showGenericDialog(
+                  context: context,
+                  title: "",
+                  content: state.error,
+                  optionsBuilder: () => {
+                    "Okay": null,
+                  },
+                ).then((value) => value ?? false);
+              }
+
+              showInviteErrorDialog(context);
+            }
             if (state is RequestLoadingState) {
+              CustomOverlayEntry.instance.hideOverlay();
               CustomOverlayEntry.instance
                   .loadingCircularProgressIndicator(context);
             } else {
               CustomOverlayEntry.instance.hideOverlay();
             }
-            if (state is RequestInvitingState) {
+            if (state is RequestInviteInProgress) {
               context.goNamed(RoutePath.routeName(RoutePath.requestInvite));
             }
             if (state is RequestAmConnected) {
+              CustomOverlayEntry.instance.hideOverlay();
               context.goNamed(RoutePath.routeName(RoutePath.companion));
             }
           },
@@ -322,12 +347,27 @@ class RequestReceivedTabContainerScreenState
                   ),
                   tabs: [
                     TextButton(
-                      onPressed: () {
+                      onPressed: () async {
                         print("clicked accept  " +
                             requestsReceived[index].sender);
-                        context
-                            .read<RequestCubit>()
-                            .acceptRequest(requestsReceived[index]);
+                        Future<bool> showAcceptDialog(BuildContext context) {
+                          return showGenericDialog(
+                            context: context,
+                            title: "",
+                            content:
+                                "Are you sure you want to accept ${requestsReceived[index].sender}'s request",
+                            optionsBuilder: () => {
+                              "Accept": true,
+                            },
+                          ).then((value) => value ?? false);
+                        }
+
+                        final bool accept = await showAcceptDialog(context);
+                        if (accept) {
+                          context
+                              .read<RequestCubit>()
+                              .acceptRequest(requestsReceived[index]);
+                        }
                       },
                       child: Text(
                         "accept",
@@ -337,12 +377,27 @@ class RequestReceivedTabContainerScreenState
                       ),
                     ),
                     TextButton(
-                      onPressed: () {
+                      onPressed: () async {
                         print("clicked reject  " +
                             requestsReceived[index].sender);
-                        context
-                            .read<RequestCubit>()
-                            .rejectRequest(requestsReceived[index]);
+                        Future<bool> showRejectDialog(BuildContext context) {
+                          return showGenericDialog(
+                            context: context,
+                            title: "",
+                            content:
+                                "Are you sure you want to reject ${requestsReceived[index].sender}'s request",
+                            optionsBuilder: () => {
+                              "Reject": true,
+                            },
+                          ).then((value) => value ?? false);
+                        }
+
+                        final bool reject = await showRejectDialog(context);
+                        if (reject) {
+                          context
+                              .read<RequestCubit>()
+                              .rejectRequest(requestsReceived[index]);
+                        }
                       },
                       child: Tab(
                         child: Text(

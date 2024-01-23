@@ -23,6 +23,12 @@ class RequestCubit extends Cubit<RequestState> {
     this._authRepository,
   ) : super(RequestInitial());
 
+  _isUserConnected(phone) async {
+    final req = await _requestRepository.findRequestIfConnected(phone);
+    if (req != null) return true;
+    return false;
+  }
+
   findRequestWithPhone(phone) async {
     emit(RequestLoadingState());
     UserModel? user = await _userRepository.findUserWithPhone(phone);
@@ -30,7 +36,7 @@ class RequestCubit extends Cubit<RequestState> {
       emit(RequestFailure());
       return;
     }
-    Request? req = await _requestRepository.findRequestIfConnected(user!.id);
+    Request? req = await _requestRepository.findRequestIfConnected(user!.phone);
     if (req != null) {
       emit(RequestFailure());
       return;
@@ -44,7 +50,7 @@ class RequestCubit extends Cubit<RequestState> {
     print(received);
     print(sent);
     if (received.isEmpty && sent.isEmpty) {
-      emit(RequestInvitingState());
+      emit(RequestInviteInProgress());
     } else {
       emit(RequestGetSuccess(
         requestsReceived: received,
@@ -57,12 +63,18 @@ class RequestCubit extends Cubit<RequestState> {
     emit(RequestLoadingState());
     print(phone);
     phone = _extractPhoneNumber(phone);
+    final bool isConnected = _isUserConnected(phone);
+    if (isConnected) {
+      emit(RequestInviteFailed(error: "User Already Connected"));
+      return;
+    }
     final id = Uuid().v1();
     final String? myPhone = _authRepository.currentUser!.phoneNumber;
     print(myPhone);
     print(phone);
     if (phone == null || myPhone == null) {
-      emit(RequestCreateFailure());
+      emit(RequestInviteFailed(
+          error: 'Inviting user with phone ${phone} failed\ntry again later'));
       return;
     }
     final Request req = Request(
@@ -75,14 +87,21 @@ class RequestCubit extends Cubit<RequestState> {
     );
     final res = await _requestRepository.createRequest(req);
     if (!res!) {
-      emit(RequestCreateFailure());
+      emit(RequestInviteFailed(
+          error:
+              'An error occured while inviting the user with phone ${phone}'));
     } else {
+      emit(RequestInviteSuccessful());
       await getRequests();
     }
   }
 
   cancelRequest() async {
-    Request request = await _requestAmConnected();
+    Request? request = await _requestAmConnected();
+    if (request == null) {
+      emit(RequestCancelSuccessfulState());
+      return;
+    }
     try {
       emit(RequestLoadingState());
       await _requestRepository.cancelRequest(request);

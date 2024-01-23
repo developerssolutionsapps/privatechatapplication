@@ -28,7 +28,14 @@ final class RequestCancelSuccessfulState extends RequestState {}
 
 final class RequestCancelFailurefulState extends RequestState {}
 
-final class RequestInvitingState extends RequestState {}
+final class RequestInviteInProgress extends RequestState {}
+
+final class RequestInviteSuccessful extends RequestState {}
+
+final class RequestInviteFailed extends RequestState {
+  final String error;
+  const RequestInviteFailed({required this.error});
+}
 
 final class RequestFailure extends RequestState {}
 

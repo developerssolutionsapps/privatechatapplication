@@ -12,3 +12,5 @@ final class HomeInitial extends HomeState {}
 final class HomeSentTab extends HomeState {}
 
 final class HomeReceivedTab extends HomeState {}
+
+final class HomeClickedAcceptRequest extends HomeState {}

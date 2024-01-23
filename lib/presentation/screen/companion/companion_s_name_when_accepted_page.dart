@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:private_chat/logic/request/request_cubit.dart';
 import 'package:private_chat/presentation/routes/path.dart';
 import '../../../core/app_export.dart';
+import '../../dialogs/generic_dialog.dart';
 import '../../widgets/custom_overlayentry.dart';
 
 class CompanionSNameWhenAcceptedPage extends StatelessWidget {
@@ -17,11 +18,12 @@ class CompanionSNameWhenAcceptedPage extends StatelessWidget {
     mediaQueryData = MediaQuery.of(context);
     return BlocListener<RequestCubit, RequestState>(
       listener: (context, state) {
-        // if (state is RequestLoadingState) {
-        //   CustomOverlayEntry.instance.loadingCircularProgressIndicator(context);
-        // } else {
-        //   CustomOverlayEntry.instance.hideOverlay();
-        // }
+        CustomOverlayEntry.instance.hideOverlay();
+        if (state is RequestLoadingState) {
+          CustomOverlayEntry.instance.loadingCircularProgressIndicator(context);
+        } else {
+          CustomOverlayEntry.instance.hideOverlay();
+        }
         if (state is RequestCancelSuccessfulState) {
           context.go(RoutePath.main);
         }
@@ -277,8 +279,27 @@ class CompanionSNameWhenAcceptedPage extends StatelessWidget {
                               return CustomImageView(
                                 imagePath: ImageConstant.imgUnfriend,
                                 height: 32.v,
-                                onTap: () {
-                                  context.read<RequestCubit>().cancelRequest();
+                                onTap: () async {
+                                  Future<bool> showUnfriendDialog(
+                                      BuildContext context) {
+                                    return showGenericDialog(
+                                      context: context,
+                                      title: "",
+                                      content:
+                                          "Are you sure you want to unfriend",
+                                      optionsBuilder: () => {
+                                        "Unfried": true,
+                                      },
+                                    ).then((value) => value ?? false);
+                                  }
+
+                                  final bool unfriend =
+                                      await showUnfriendDialog(context);
+                                  if (unfriend) {
+                                    context
+                                        .read<RequestCubit>()
+                                        .cancelRequest();
+                                  }
                                 },
                               );
                             },
