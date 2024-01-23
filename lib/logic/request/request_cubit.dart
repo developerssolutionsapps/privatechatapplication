@@ -1,6 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:private_chat/domain/models/user_model.dart';
@@ -80,7 +83,8 @@ class RequestCubit extends Cubit<RequestState> {
     }
   }
 
-  cancelRequest(request) async {
+  cancelRequest() async {
+    Request request = await _requestAmConnected();
     try {
       emit(LoadingState());
       await _requestRepository.cancelRequest(request);
@@ -97,6 +101,7 @@ class RequestCubit extends Cubit<RequestState> {
       await _requestRepository.rejectRequest(request);
       await getRequests();
     } catch (e) {
+      await getRequests();
       print(e);
     }
   }
@@ -106,7 +111,9 @@ class RequestCubit extends Cubit<RequestState> {
       emit(LoadingState());
       await _requestRepository.acceptRequest(request);
       await getRequests();
+      await findRequestAmConnected();
     } catch (e) {
+      await getRequests();
       print(e);
     }
   }
@@ -119,12 +126,23 @@ class RequestCubit extends Cubit<RequestState> {
 
   findRequestAmConnected() async {
     emit(LoadingState());
-    Request? req = await _requestRepository.findRequestConnected();
+    Request? req = await _requestAmConnected();
     if (req == null) {
       emit(RequestFailure());
     } else {
       emit(RequestAmConnected(request: req));
     }
+  }
+
+  _requestAmConnected() async {
+    final request = await _requestRepository.findRequestConnected();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (request != null) {
+      prefs.setString("requestConnected", request.toJson());
+    } else {
+      prefs.remove("requestConnected");
+    }
+    return request;
   }
 
   _extractPhoneNumber(String input) {

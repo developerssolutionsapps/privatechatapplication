@@ -37,8 +37,8 @@ class RequestReceivedTabContainerScreenState
   void initState() {
     super.initState();
     tabviewController = TabController(length: 2, vsync: this);
-    context.read<RequestCubit>().getRequests();
     context.read<RequestCubit>().findRequestAmConnected();
+    context.read<RequestCubit>().getRequests();
     context.read<HomeCubit>().onRequestReceivedTab();
   }
 
