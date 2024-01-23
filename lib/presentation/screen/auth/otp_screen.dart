@@ -4,6 +4,7 @@ import 'package:private_chat/presentation/routes/path.dart';
 import '../../../core/app_export.dart';
 import '../../../logic/auth/auth_bloc.dart';
 import '../../widgets/custom_elevated_button.dart';
+import '../../widgets/custom_overlayentry.dart';
 import '../../widgets/custom_pin_code_text_field.dart';
 
 class OtpScreen extends StatefulWidget {
@@ -34,6 +35,11 @@ class _OtpScreenState extends State<OtpScreen> {
 
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
+        if (state is Loading) {
+          CustomOverlayEntry.instance.loadingCircularProgressIndicator(context);
+        } else {
+          CustomOverlayEntry.instance.hideOverlay();
+        }
         if (state is AuthCodeVerificationFailedState) {
           context.replace(RoutePath.signin);
         }

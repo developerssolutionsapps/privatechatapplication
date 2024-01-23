@@ -11,6 +11,8 @@ import 'package:private_chat/presentation/routes/path.dart';
 import 'package:private_chat/presentation/widgets/custom_elevated_button.dart';
 import 'package:private_chat/presentation/widgets/custom_phone_number.dart';
 
+import '../../widgets/custom_overlayentry.dart';
+
 class SignInScreen extends StatefulWidget {
   SignInScreen({Key? key})
       : super(
@@ -57,6 +59,11 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
+        if (state is Loading) {
+          CustomOverlayEntry.instance.loadingCircularProgressIndicator(context);
+        } else {
+          CustomOverlayEntry.instance.hideOverlay();
+        }
         if (state is Authenticated)
           context.read<AuthBloc>().add(AuthEventLogout());
 

@@ -26,7 +26,7 @@ class RequestCubit extends Cubit<RequestState> {
   ) : super(RequestInitial());
 
   findRequestWithPhone(phone) async {
-    emit(LoadingState());
+    emit(RequestLoadingState());
     UserModel? user = await _userRepository.findUserWithPhone(phone);
     if (user != null) {
       emit(RequestFailure());
@@ -56,7 +56,7 @@ class RequestCubit extends Cubit<RequestState> {
   }
 
   createRequest(phone) async {
-    emit(LoadingState());
+    emit(RequestLoadingState());
     print(phone);
     phone = _extractPhoneNumber(phone);
     final id = Uuid().v1();
@@ -86,7 +86,7 @@ class RequestCubit extends Cubit<RequestState> {
   cancelRequest() async {
     Request request = await _requestAmConnected();
     try {
-      emit(LoadingState());
+      emit(RequestLoadingState());
       await _requestRepository.cancelRequest(request);
       emit(RequestCancelSuccessfulState());
       await getRequests();
@@ -97,7 +97,7 @@ class RequestCubit extends Cubit<RequestState> {
 
   rejectRequest(request) async {
     try {
-      emit(LoadingState());
+      emit(RequestLoadingState());
       await _requestRepository.rejectRequest(request);
       await getRequests();
     } catch (e) {
@@ -108,7 +108,7 @@ class RequestCubit extends Cubit<RequestState> {
 
   acceptRequest(request) async {
     try {
-      emit(LoadingState());
+      emit(RequestLoadingState());
       await _requestRepository.acceptRequest(request);
       await getRequests();
       await findRequestAmConnected();
@@ -119,13 +119,13 @@ class RequestCubit extends Cubit<RequestState> {
   }
 
   findConnectedRequest() async {
-    emit(LoadingState());
+    emit(RequestLoadingState());
     Request? req = await _requestRepository.findRequestConnected();
     if (req != null) emit(RequestFailure());
   }
 
   findRequestAmConnected() async {
-    emit(LoadingState());
+    emit(RequestLoadingState());
     Request? req = await _requestAmConnected();
     if (req == null) {
       emit(RequestFailure());

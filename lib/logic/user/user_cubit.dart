@@ -19,7 +19,7 @@ class UserCubit extends Cubit<UserState> {
 
   getMyProfile() async {
     try {
-      emit(LoadingState());
+      emit(UserLoadingState());
       UserModel? myProfile = await _userRepository.me();
       SharedPreferences prefs = await SharedPreferences.getInstance();
       if (myProfile == null) {
@@ -52,7 +52,7 @@ class UserCubit extends Cubit<UserState> {
   }
 
   updateMyProfile(UserModel user) async {
-    emit(LoadingState());
+    emit(UserLoadingState());
     bool isupdated = await _userRepository.updateProfile(user: user);
     if (isupdated) {
       emit(UserProfileSetUpSuccess(user));
@@ -62,7 +62,7 @@ class UserCubit extends Cubit<UserState> {
   }
 
   deleteMyAccount() async {
-    emit(LoadingState());
+    emit(UserLoadingState());
     bool isDeleted = await _userRepository.deleteMyAccount();
     if (isDeleted) {
       emit(UserDeletedSuccessful());
@@ -72,7 +72,7 @@ class UserCubit extends Cubit<UserState> {
   }
 
   viewConnectedProfile() async {
-    emit(LoadingState());
+    emit(UserLoadingState());
     UserModel? myProfile = await _userRepository.me();
     if (myProfile != null) {
       emit(UserConnectedMyProfileState(myProfile));

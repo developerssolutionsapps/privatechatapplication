@@ -9,7 +9,7 @@ sealed class RequestState extends Equatable {
 
 final class RequestInitial extends RequestState {}
 
-final class LoadingState extends RequestState {}
+final class RequestLoadingState extends RequestState {}
 
 final class ConnectedState extends RequestState {}
 

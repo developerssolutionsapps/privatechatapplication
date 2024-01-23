@@ -5,6 +5,7 @@ import '../../../core/app_export.dart';
 import '../../../domain/models/request.dart';
 import '../../../logic/request/request_cubit.dart';
 import '../../../logic/user/user_cubit.dart';
+import '../../widgets/custom_overlayentry.dart';
 import '../companion/companion_s_name_when_accepted_page.dart';
 import '../profile/mine_page.dart';
 import 'cubit/home_cubit.dart';
@@ -51,6 +52,12 @@ class RequestReceivedTabContainerScreenState
       listeners: [
         BlocListener<UserCubit, UserState>(
           listener: (context, state) {
+            if (state is UserLoadingState) {
+              CustomOverlayEntry.instance
+                  .loadingCircularProgressIndicator(context);
+            } else {
+              CustomOverlayEntry.instance.hideOverlay();
+            }
             if (state is UserNeedsProfileSetUp) {
               context
                   .replaceNamed(RoutePath.routeName(RoutePath.setDisplayName));
@@ -69,6 +76,12 @@ class RequestReceivedTabContainerScreenState
         ),
         BlocListener<RequestCubit, RequestState>(
           listener: (context, state) {
+            if (state is RequestLoadingState) {
+              CustomOverlayEntry.instance
+                  .loadingCircularProgressIndicator(context);
+            } else {
+              CustomOverlayEntry.instance.hideOverlay();
+            }
             if (state is RequestInvitingState) {
               context.goNamed(RoutePath.routeName(RoutePath.requestInvite));
             }

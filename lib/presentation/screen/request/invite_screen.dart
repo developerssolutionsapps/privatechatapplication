@@ -7,6 +7,7 @@ import 'package:private_chat/presentation/routes/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/app_export.dart';
 import '../../widgets/custom_elevated_button.dart';
+import '../../widgets/custom_overlayentry.dart';
 import '../../widgets/custom_phone_number.dart';
 
 class InviteScreen extends StatefulWidget {
@@ -78,6 +79,11 @@ class _InviteScreenState extends State<InviteScreen> {
 
     return BlocListener<RequestCubit, RequestState>(
       listener: (context, state) {
+        if (state is UserLoadingState) {
+          CustomOverlayEntry.instance.loadingCircularProgressIndicator(context);
+        } else {
+          CustomOverlayEntry.instance.hideOverlay();
+        }
         if (state is RequestGetSuccess) {
           context.replace(RoutePath.main);
         }

@@ -44,18 +44,17 @@ class _SplashScreenState extends State<SplashScreen> {
             if (state is Loading) {
               CustomOverlayEntry.instance
                   .loadingCircularProgressIndicator(context);
+            } else {
+              CustomOverlayEntry.instance.hideOverlay();
             }
             if (state is UnAuthenticated) {
-              CustomOverlayEntry.instance.hideOverlay();
               contex.replace(RoutePath.signin);
             }
             if (state is Authenticated) {
-              CustomOverlayEntry.instance.hideOverlay();
               contex.replace(RoutePath.main);
             }
             if (state is AuthStateCodeSent) {
               print("Code sent spash screen");
-              CustomOverlayEntry.instance.hideOverlay();
               context.go(RoutePath.otpScreen, extra: state.verificationId);
             }
           },
