@@ -17,11 +17,11 @@ class CompanionSNameWhenAcceptedPage extends StatelessWidget {
     mediaQueryData = MediaQuery.of(context);
     return BlocListener<RequestCubit, RequestState>(
       listener: (context, state) {
-        if (state is RequestLoadingState) {
-          CustomOverlayEntry.instance.loadingCircularProgressIndicator(context);
-        } else {
-          CustomOverlayEntry.instance.hideOverlay();
-        }
+        // if (state is RequestLoadingState) {
+        //   CustomOverlayEntry.instance.loadingCircularProgressIndicator(context);
+        // } else {
+        //   CustomOverlayEntry.instance.hideOverlay();
+        // }
         if (state is RequestCancelSuccessfulState) {
           context.go(RoutePath.main);
         }

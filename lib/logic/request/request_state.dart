@@ -36,3 +36,8 @@ final class RequestAmConnected extends RequestState {
   final Request request;
   const RequestAmConnected({required this.request});
 }
+
+final class RequestUserAlreadyConnectedState extends RequestState {
+  final Request request;
+  const RequestUserAlreadyConnectedState({required this.request});
+}

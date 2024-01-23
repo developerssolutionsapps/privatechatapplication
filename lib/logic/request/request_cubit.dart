@@ -1,6 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -114,14 +112,17 @@ class RequestCubit extends Cubit<RequestState> {
       await findRequestAmConnected();
     } catch (e) {
       await getRequests();
-      print(e);
     }
   }
 
   findConnectedRequest() async {
     emit(RequestLoadingState());
     Request? req = await _requestRepository.findRequestConnected();
-    if (req != null) emit(RequestFailure());
+    if (req == null) {
+      emit(RequestFailure());
+    } else {
+      emit(RequestUserAlreadyConnectedState(request: req));
+    }
   }
 
   findRequestAmConnected() async {
