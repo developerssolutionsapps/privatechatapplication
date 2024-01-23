@@ -6,13 +6,13 @@ import '../request/request_sent_been_rjected_do_nothing_page.dart';
 import '../../widgets/custom_bottom_bar.dart';
 
 // ignore_for_file: must_be_immutable
-class CompanionSNameWhenAcceptedContainerScreen extends StatelessWidget {
-  CompanionSNameWhenAcceptedContainerScreen({Key? key}) : super(key: key);
+class CompanionHome extends StatelessWidget {
+  CompanionHome({Key? key}) : super(key: key);
 
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
   static Widget builder(BuildContext context) {
-    return CompanionSNameWhenAcceptedContainerScreen();
+    return CompanionHome();
   }
 
   @override

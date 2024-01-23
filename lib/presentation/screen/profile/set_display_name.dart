@@ -4,6 +4,7 @@ import '../../../core/app_export.dart';
 import '../../../logic/user/user_cubit.dart';
 import '../../routes/path.dart';
 import '../../widgets/custom_elevated_button.dart';
+import '../../widgets/custom_overlayentry.dart';
 import '../../widgets/custom_text_form_field.dart';
 
 class SetDisplayName extends StatefulWidget {
@@ -27,7 +28,12 @@ class _SetDisplayNameState extends State<SetDisplayName> {
     nameController.addListener(() {});
     return BlocListener<UserCubit, UserState>(
         listener: (context, state) {
-          // if (state is UserMyProfileState) context.replace(RoutePath.main);
+          if (state is UserLoadingState) {
+            CustomOverlayEntry.instance
+                .loadingCircularProgressIndicator(context);
+          } else {
+            CustomOverlayEntry.instance.hideOverlay();
+          }
           if (state is UserProfileSetupInProgressState) {
             if (state.profileSetUp.name != null) {
               context.replaceNamed(RoutePath.routeName(RoutePath.setBirthday));

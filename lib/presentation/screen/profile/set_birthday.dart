@@ -4,6 +4,7 @@ import '../../../core/app_export.dart';
 import '../../../logic/user/user_cubit.dart';
 import '../../routes/path.dart';
 import '../../widgets/custom_elevated_button.dart';
+import '../../widgets/custom_overlayentry.dart';
 import '../../widgets/custom_text_form_field.dart';
 
 class SetBirthday extends StatefulWidget {
@@ -30,7 +31,11 @@ class _SetBirthdayState extends State<SetBirthday> {
     mediaQueryData = MediaQuery.of(context);
     return BlocListener<UserCubit, UserState>(
       listener: (context, state) {
-        // if (state is UserMyProfileState) context.replace(RoutePath.main);
+        if (state is UserLoadingState) {
+          CustomOverlayEntry.instance.loadingCircularProgressIndicator(context);
+        } else {
+          CustomOverlayEntry.instance.hideOverlay();
+        }
         if (state is UserProfileSetupInProgressState) {
           print(state.profileSetUp.birthday);
           if (state.profileSetUp.birthday != null) {

@@ -6,6 +6,7 @@ import '../../../core/enums/gender.dart';
 import '../../../logic/user/user_cubit.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_icon_button.dart';
+import '../../widgets/custom_overlayentry.dart';
 
 class SetGender extends StatefulWidget {
   const SetGender({Key? key}) : super(key: key);
@@ -25,12 +26,11 @@ class _SetGenderState extends State<SetGender> {
     mediaQueryData = MediaQuery.of(context);
     return BlocListener<UserCubit, UserState>(
       listener: (context, state) {
-        // if (state is UserProfileSetupInProgressState) {
-        //   print(state.profileSetUp.gender);
-        //   if (state.profileSetUp.gender != null) {
-        //     context.replaceNamed(RoutePath.routeName(RoutePath.setGender));
-        //   }
-        // }
+        if (state is UserLoadingState) {
+          CustomOverlayEntry.instance.loadingCircularProgressIndicator(context);
+        } else {
+          CustomOverlayEntry.instance.hideOverlay();
+        }
         if (state is UserProfileSetUpSuccess) {
           context.replace(RoutePath.main);
         }

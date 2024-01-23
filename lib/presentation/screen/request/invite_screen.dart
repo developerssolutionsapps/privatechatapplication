@@ -1,7 +1,13 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:private_chat/logic/request/request_cubit.dart';
+import 'package:private_chat/logic/user/user_cubit.dart';
+import 'package:private_chat/presentation/routes/path.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/app_export.dart';
 import '../../widgets/custom_elevated_button.dart';
+import '../../widgets/custom_overlayentry.dart';
 import '../../widgets/custom_phone_number.dart';
 
 class InviteScreen extends StatefulWidget {
@@ -33,25 +39,25 @@ class _InviteScreenState extends State<InviteScreen> {
   );
 
   final countryCodeController = TextEditingController();
+  final String myName = "";
 
   final phoneController = TextEditingController();
+  final myNameController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
-
+    countryCodeController.text = "🇰🇪 +254";
     countryCodeController.addListener(() {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(countryCodeController.text),
-      ));
+      countryCodeController.text;
     });
 
     phoneController.addListener(() {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(phoneController.text),
-      ));
+      print(phoneController.value);
     });
+
+    _getMyName();
   }
 
   @override
@@ -61,64 +67,89 @@ class _InviteScreenState extends State<InviteScreen> {
     super.dispose;
   }
 
+  _getMyName() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? stringValue = prefs.getString('myName');
+    myNameController.text = stringValue != null ? stringValue : "";
+  }
+
   @override
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
 
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Form(
-          key: _formKey,
-          child: Container(
-            width: double.maxFinite,
-            padding: EdgeInsets.symmetric(
-              horizontal: 24.h,
-              vertical: 96.v,
-            ),
-            child: Column(
-              children: [
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: "lbl_welcome2".tr,
-                        style: CustomTextStyles.displaySmallDeeppurpleA400,
-                      ),
-                      TextSpan(
-                        text: " ",
-                      ),
-                    ],
+    return BlocListener<RequestCubit, RequestState>(
+      listener: (context, state) {
+        if (state is UserLoadingState) {
+          CustomOverlayEntry.instance.loadingCircularProgressIndicator(context);
+        } else {
+          CustomOverlayEntry.instance.hideOverlay();
+        }
+        if (state is RequestGetSuccess) {
+          context.replace(RoutePath.main);
+        }
+      },
+      child: SafeArea(
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          body: Form(
+            key: _formKey,
+            child: Container(
+              width: double.maxFinite,
+              padding: EdgeInsets.symmetric(
+                horizontal: 24.h,
+                vertical: 96.v,
+              ),
+              child: Column(
+                children: [
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: "Welcome",
+                          style: CustomTextStyles.displaySmallDeeppurpleA400,
+                        ),
+                        TextSpan(
+                          text: " ",
+                        ),
+                      ],
+                    ),
+                    textAlign: TextAlign.left,
                   ),
-                  textAlign: TextAlign.left,
-                ),
-                SizedBox(height: 24.v),
-                Text(
-                  "msg_given_display_name".tr,
-                  style: CustomTextStyles.titleLargeAlibabaPuHuiTi20Gray800_1,
-                ),
-                SizedBox(height: 69.v),
-                Text(
-                  "msg_now_invite_your".tr,
-                  style: CustomTextStyles.headlineSmallPrimary,
-                ),
-                SizedBox(height: 30.v),
-                _buildPhoneValidate(context),
-                Spacer(
-                  flex: 51,
-                ),
-                CustomElevatedButton(
-                  width: 226.h,
-                  text: "lbl_invite".tr,
-                  margin: EdgeInsets.only(right: 49.h),
-                  alignment: Alignment.centerRight,
-                  onPressed: () => NavigatorService.pushNamed(
-                      AppRoutes.companionSNameWhenAcceptedContainerScreen),
-                ),
-                Spacer(
-                  flex: 48,
-                ),
-              ],
+                  SizedBox(height: 24.v),
+                  BlocBuilder<UserCubit, UserState>(
+                    builder: (context, state) {
+                      return Text(
+                        myNameController.text,
+                        style: CustomTextStyles
+                            .titleLargeAlibabaPuHuiTi20Gray800_1,
+                      );
+                    },
+                  ),
+                  SizedBox(height: 69.v),
+                  Text(
+                    "Now Invite Your Companion",
+                    style: CustomTextStyles.headlineSmallPrimary,
+                  ),
+                  SizedBox(height: 30.v),
+                  _buildPhoneValidate(context),
+                  Spacer(
+                    flex: 51,
+                  ),
+                  CustomElevatedButton(
+                    width: 226.h,
+                    text: "invite",
+                    margin: EdgeInsets.only(right: 49.h),
+                    alignment: Alignment.centerRight,
+                    onPressed: () {
+                      context.read<RequestCubit>().createRequest(
+                          countryCodeController.text + phoneController.text);
+                    },
+                  ),
+                  Spacer(
+                    flex: 48,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -141,7 +172,7 @@ class _InviteScreenState extends State<InviteScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "lbl_phone_number".tr,
+          "Phone Number",
           style: CustomTextStyles.headlineSmallGray700,
         ),
         SizedBox(height: 7.v),

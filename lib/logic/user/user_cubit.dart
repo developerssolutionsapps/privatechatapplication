@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:private_chat/domain/models/user_model.dart';
 import 'package:private_chat/domain/repositories/auth_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../core/enums/gender.dart';
 import '../../domain/repositories/user_repository.dart';
@@ -18,17 +19,22 @@ class UserCubit extends Cubit<UserState> {
 
   getMyProfile() async {
     try {
-      emit(LoadingState());
+      emit(UserLoadingState());
       UserModel? myProfile = await _userRepository.me();
+      SharedPreferences prefs = await SharedPreferences.getInstance();
       if (myProfile == null) {
         await _userRepository.insertUserToFireStore(_authRepository.me!);
         myProfile = await _userRepository.me();
       }
       if (myProfile != null) {
+        prefs.setString('myPhone', myProfile.phone);
         final String name = myProfile.name;
         final String dateOfBirth = myProfile.dateOfBirth;
         final String gender = myProfile.gender;
         if (name.isNotEmpty && gender.isNotEmpty && dateOfBirth.isNotEmpty) {
+          prefs.setString('myName', myProfile.name);
+          prefs.setString('myGender', myProfile.gender);
+          prefs.setString('myDOB', myProfile.dateOfBirth);
           print("profile already set");
           emit(UserMyProfileState(myProfile));
         } else {
@@ -46,7 +52,7 @@ class UserCubit extends Cubit<UserState> {
   }
 
   updateMyProfile(UserModel user) async {
-    emit(LoadingState());
+    emit(UserLoadingState());
     bool isupdated = await _userRepository.updateProfile(user: user);
     if (isupdated) {
       emit(UserProfileSetUpSuccess(user));
@@ -56,7 +62,7 @@ class UserCubit extends Cubit<UserState> {
   }
 
   deleteMyAccount() async {
-    emit(LoadingState());
+    emit(UserLoadingState());
     bool isDeleted = await _userRepository.deleteMyAccount();
     if (isDeleted) {
       emit(UserDeletedSuccessful());
@@ -66,7 +72,7 @@ class UserCubit extends Cubit<UserState> {
   }
 
   viewConnectedProfile() async {
-    emit(LoadingState());
+    emit(UserLoadingState());
     UserModel? myProfile = await _userRepository.me();
     if (myProfile != null) {
       emit(UserConnectedMyProfileState(myProfile));

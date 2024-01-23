@@ -28,24 +28,24 @@ class RequestRepositoryImpl implements RequestRepository {
     }
   }
 
-  _getRequestsWithId(String id) async {
+  _getRequestsIfConnected(String phone) async {
     try {
       Request? reqSent;
       Request? reqReceived;
       QuerySnapshot sentActive = await firestore
           .collection("requests")
-          .where("sender", isEqualTo: id)
+          .where("sender", isEqualTo: phone)
           .where("accepted", isEqualTo: true)
           .where("canceled", isEqualTo: false)
-          .orderBy("time")
+          .orderBy("time", descending: true)
           .limit(1)
           .get();
       QuerySnapshot receivedActive = await firestore
           .collection("requests")
-          .where("receiver", isEqualTo: id)
+          .where("receiver", isEqualTo: phone)
           .where("accepted", isEqualTo: true)
           .where("canceled", isEqualTo: false)
-          .orderBy("time")
+          .orderBy("time", descending: true)
           .limit(1)
           .get();
       for (var doc in receivedActive.docs) {
@@ -56,7 +56,11 @@ class RequestRepositoryImpl implements RequestRepository {
         Request req = Request.fromMap(doc.data() as Map);
         reqReceived = req;
       }
-      if (reqSent!.time > reqReceived!.time) return reqSent;
+      if (reqReceived != null &&
+          reqSent != null &&
+          reqSent.time > reqReceived.time) return reqSent;
+      if (reqSent != null) return reqSent;
+      if (reqReceived != null) return reqReceived;
       return reqReceived;
     } on FirebaseException catch (e) {
       if (e.code == "not Found") {
@@ -64,7 +68,7 @@ class RequestRepositoryImpl implements RequestRepository {
       } else {
         throw RequestFetchFailedException();
       }
-    } catch (_) {
+    } catch (e) {
       throw RequestFetchFailedException();
     }
   }
@@ -82,7 +86,7 @@ class RequestRepositoryImpl implements RequestRepository {
   @override
   Future<Request?> cancelRequest(Request request) async {
     try {
-      final Request req = request.copyWith(accepted: true);
+      final Request req = request.copyWith(canceled: true);
       return await _updateRequest(req);
     } catch (_) {
       rethrow;
@@ -95,10 +99,10 @@ class RequestRepositoryImpl implements RequestRepository {
       final docRequestReciever =
           firestore.collection('requests').doc(request.id);
       await docRequestReciever.set(request.toMap());
+      return true;
     } catch (e) {
       throw RequestCreateFailedException();
     }
-    return false;
   }
 
   @override
@@ -149,6 +153,8 @@ class RequestRepositoryImpl implements RequestRepository {
       QuerySnapshot querySnapshot = await firestore
           .collection("requests")
           .where("receiver", isEqualTo: _firebaseAuth.currentUser?.phoneNumber)
+          .where("accepted", isEqualTo: null)
+          .where("canceled", isEqualTo: false)
           .get();
       for (var doc in querySnapshot.docs) {
         Request user = Request.fromMap(doc.data() as Map);
@@ -203,18 +209,18 @@ class RequestRepositoryImpl implements RequestRepository {
   @override
   Future<Request?> findRequestConnected() async {
     try {
-      String? myID = _firebaseAuth.currentUser?.uid;
-      if (myID == null) return null;
-      return await _getRequestsWithId(myID);
+      String? myPhone = _firebaseAuth.currentUser?.phoneNumber;
+      if (myPhone == null) return null;
+      return await _getRequestsIfConnected(myPhone);
     } catch (_) {
       rethrow;
     }
   }
 
   @override
-  Future<Request?> findRequestIfConnected(String id) async {
+  Future<Request?> findRequestIfConnected(String phone) async {
     try {
-      return await _getRequestsWithId(id);
+      return await _getRequestsIfConnected(phone);
     } catch (_) {
       rethrow;
     }
