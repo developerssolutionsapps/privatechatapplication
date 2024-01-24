@@ -12,4 +12,7 @@ class StringsConstants {
   static const String userId = 'userId';
   static const String username = 'username';
   static const String profilePic = 'profilePic';
+
+  // Audio Player
+  static const String audiosSavingPath = '/flutter_sound.aac';
 }

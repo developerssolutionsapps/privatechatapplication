@@ -5,7 +5,7 @@ import '../screen/profile/account_delete_screen.dart';
 import '../screen/companion/companion_home.dart';
 import '../screen/companion/companion_s_name_unfriend_screen.dart';
 import '../screen/searchhistory_screen.dart';
-import '../screen/entertainment/chatinterface_screen.dart';
+import '../screen/entertainment/chat_screen.dart';
 import '../screen/request/invite_screen.dart';
 import '../screen/profile/profilesetup_screen.dart';
 import '../screen/profile/profilesetup_location_screen.dart';
@@ -78,11 +78,10 @@ class AppRoutes {
         authWidget: PhoneAuthScreen.builder,
         profilesetupTwoScreen: ProfilesetupTwoScreen.builder,
         accountDeleteScreen: AccountDeleteScreen.builder,
-        companionSNameWhenAcceptedContainerScreen:
-            CompanionHome.builder,
+        companionSNameWhenAcceptedContainerScreen: CompanionHome.builder,
         companionSNameUnfriendScreen: CompanionSNameUnfriendScreen.builder,
         searchhistoryScreen: SearchhistoryScreen.builder,
-        chatinterfaceScreen: ChatinterfaceScreen.builder,
+        chatinterfaceScreen: ChatScreen.builder,
         inviteScreen: InviteScreen.builder,
         profilesetupScreen: ProfilesetupScreen.builder,
         profilesetupLocationScreen: ProfilesetupLocationScreen.builder,

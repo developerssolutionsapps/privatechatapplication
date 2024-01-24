@@ -10,6 +10,7 @@ import 'package:private_chat/presentation/screen/auth/otp_screen.dart';
 import 'package:private_chat/presentation/screen/auth/sign_in.dart';
 import 'package:private_chat/presentation/screen/common/splash_screen.dart';
 import 'package:private_chat/presentation/screen/companion/companion_home.dart';
+import 'package:private_chat/presentation/screen/entertainment/chat_screen.dart';
 import 'package:private_chat/presentation/screen/profile/mine_page.dart';
 import 'package:private_chat/presentation/screen/profile/set_birthday.dart';
 import 'package:private_chat/presentation/screen/profile/set_display_name.dart';
@@ -77,6 +78,10 @@ class App extends StatelessWidget {
                 name: RoutePath.routeName(RoutePath.companion),
                 path: RoutePath.companion,
                 builder: (_, state) => CompanionHome()),
+            GoRoute(
+                name: RoutePath.routeName(RoutePath.chat),
+                path: RoutePath.chat,
+                builder: (_, state) => ChatScreen()),
             GoRoute(
                 name: RoutePath.routeName(RoutePath.entertainment),
                 path: RoutePath.entertainment,
