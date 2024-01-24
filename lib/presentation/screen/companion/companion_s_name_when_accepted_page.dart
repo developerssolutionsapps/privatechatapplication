@@ -271,6 +271,10 @@ class CompanionSNameWhenAcceptedPage extends StatelessWidget {
                           CustomImageView(
                             imagePath: ImageConstant.imgFacebook,
                             height: 32.v,
+                            onTap: () {
+                              context
+                                  .goNamed(RoutePath.routeName(RoutePath.chat));
+                            },
                           ),
                           BlocBuilder<RequestCubit, RequestState>(
                             buildWhen: (previous, current) =>

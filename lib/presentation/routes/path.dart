@@ -8,6 +8,7 @@ class RoutePath {
   static const String setGender = 'main/set_gender';
   static const String requestInvite = 'main/request_invite';
   static const String companion = 'main/companion';
+  static const String chat = 'main/chat';
   static const String entertainment = 'main/entertainment';
   static const String mine = 'main/mine';
 
