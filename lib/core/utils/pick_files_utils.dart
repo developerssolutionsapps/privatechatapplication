@@ -44,3 +44,19 @@ Future<File?> pickVideoFromGallery(BuildContext context) async {
 
   return videoFile;
 }
+
+// /// Invoke to pick GIF.
+// Future<GiphyGif?> pickGIG(BuildContext context) async {
+//   GiphyGif? gif;
+//   try {
+//     gif = await GiphyPicker.pickGif(
+//       title: const Text('Pick GIF'),
+//       context: context,
+//       apiKey: StringsConstants.giphyApiKey,
+//     );
+//   } catch (e) {
+//     showSnackBar(context, content: e.toString());
+//   }
+//   return gif;
+// }
+
