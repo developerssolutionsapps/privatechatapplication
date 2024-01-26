@@ -1,3 +1,5 @@
+import 'package:private_chat/domain/models/request.dart';
+
 class RoutePath {
   static const String splash = '/';
   static const String signin = '/sign_in';
