@@ -1,5 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:private_chat/core/enums/message_type.dart';
+import 'package:private_chat/domain/models/request.dart';
 import '../../../core/app_export.dart';
+import '../../../core/utils/pick_files_utils.dart';
+import '../../../logic/chat/chat_cubit.dart';
 import '../../widgets/app_bar/appbar_leading_image.dart';
 import '../../widgets/app_bar/appbar_title.dart';
 import '../../widgets/app_bar/appbar_trailing_image.dart';
@@ -11,11 +17,8 @@ import '../../widgets/custom_text_form_field.dart';
 import '../../widgets/chat/messages_list.dart';
 
 class ChatScreen extends StatelessWidget {
-  const ChatScreen({Key? key}) : super(key: key);
-
-  static Widget builder(BuildContext context) {
-    return ChatScreen();
-  }
+  final Request request;
+  const ChatScreen({Key? key, required this.request}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +62,7 @@ class ChatScreen extends StatelessWidget {
             )),
             SizedBox(height: 11.v),
             BottomChatTextField(
-              userId: 'otheruseruid',
+              request: request,
             ),
           ]),
         ),
@@ -160,6 +163,7 @@ class ChatScreen extends StatelessWidget {
             child: CustomImageView(
                 onTap: () {
                   // opens camera
+                  _pickAndSendVideo(context);
                 },
                 imagePath: ImageConstant.imgCameraDeepPurpleA400),
           ),
@@ -168,6 +172,7 @@ class ChatScreen extends StatelessWidget {
             child: CustomIconButton(
               onTap: () {
                 // opens images
+                _pickAndSendImage(context);
               },
               height: 40.adaptSize,
               width: 40.adaptSize,
@@ -181,6 +186,7 @@ class ChatScreen extends StatelessWidget {
             child: CustomIconButton(
               onTap: () {
                 // opens files
+                _pickAndSendImage(context);
               },
               height: 40.adaptSize,
               width: 40.adaptSize,
@@ -204,7 +210,7 @@ class ChatScreen extends StatelessWidget {
             ),
           ),
           BottomChatTextField(
-            userId: "otheruseruid",
+            request: request,
           ),
         ],
       ),
@@ -325,5 +331,34 @@ class ChatScreen extends StatelessWidget {
   /// Navigates to the previous screen.
   onTapArrowLeft(BuildContext context) {
     NavigatorService.goBack();
+  }
+
+  void _pickAndSendVideo(BuildContext context) async {
+    File? videoFile = await pickVideoFromGallery(context);
+    if (videoFile != null) {
+      context
+          .read<ChatCubit>()
+          .sendFileMessage(request, videoFile, MessageType.video);
+    }
+
+    // if (!mounted) return;
+    // Navigator.pop(context);
+  }
+
+  void _pickAndSendImage(BuildContext context) async {
+    print("\n\n\n\nprinting the request before picking the image\n\n\n\n");
+    print("\n\n\n\n${request}\n\n\n\n");
+    File? imageFile = await pickImageFromGallery(context);
+    if (imageFile != null) {
+      print(
+          "\n\n\n\nprinting the imagefile before sending then file to firebase\n\n\n\n");
+      print("\n\n\n\n${imageFile}\n\n\n\n");
+      context
+          .read<ChatCubit>()
+          .sendFileMessage(request, imageFile, MessageType.image);
+    }
+    print(
+        "\n\n\n\nprinting the imagefile after sending then file to firebase\n\n\n\n");
+    print("\n\n\n\n${imageFile}\n\n\n\n");
   }
 }

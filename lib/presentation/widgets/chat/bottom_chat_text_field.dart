@@ -9,15 +9,16 @@ import 'package:private_chat/core/app_export.dart';
 import 'package:private_chat/presentation/widgets/chat/helper_widgets.dart';
 import 'package:private_chat/presentation/widgets/chat/material_icon_button.dart';
 
+import '../../../domain/models/request.dart';
 import '../../../logic/chat/chat_cubit.dart';
 
 class BottomChatTextField extends StatefulWidget {
   const BottomChatTextField({
     super.key,
-    required this.userId,
+    required this.request,
   });
 
-  final String userId;
+  final Request request;
 
   @override
   State<BottomChatTextField> createState() => _BottomChatTextFieldState();
@@ -192,7 +193,10 @@ class _BottomChatTextFieldState extends State<BottomChatTextField> {
   }
 
   void _sendTextMessage() {
-    context.read<ChatCubit>().sendTextMessage("message");
+    print("seding text message");
+    context
+        .read<ChatCubit>()
+        .sendTextMessage(widget.request, _messageController.text);
   }
 
   // void _pickAndSendGif() async {

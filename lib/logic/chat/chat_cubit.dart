@@ -43,15 +43,39 @@ class ChatCubit extends Cubit<ChatState> {
     });
   }
 
-  void sendTextMessage(Message message) async {
-    emit(ChatSendingState());
+  void sendTextMessage(Request request, String msg) async {
+    final id = Uuid().v1();
+    final createdAt = DateTime.timestamp();
+    final sender = _authRepository.currentUser!.phoneNumber;
+    final receiver =
+        request.sender == sender ? request.receiver : request.sender;
+    Message message = Message(
+      id: id,
+      sender: sender,
+      receiver: receiver,
+      message: msg,
+      createdAt: createdAt,
+      fileUrl: "",
+      messageType: MessageType.text,
+    );
+    emit(ChatMessageSendingState(msg, message.messageType));
 
     try {
       await _messagesRepository.sendTextMessage(message);
-      emit(ChatSentState(message));
+      emit(ChatMessageSentState());
     } catch (e) {
-      emit(ChatErrorState('Failed to send message: $e'));
+      emit(ChatMessageSendingErrorState(
+          "There was an error sending text message"));
     }
+
+    // emit(ChatSendingState());
+
+    // try {
+    //   await _messagesRepository.sendTextMessage(message);
+    //   emit(ChatSentState(message));
+    // } catch (e) {
+    //   emit(ChatErrorState('Failed to send message: $e'));
+    // }
   }
 
   void sendFileMessage(
@@ -73,7 +97,7 @@ class ChatCubit extends Cubit<ChatState> {
 
     try {
       await _messagesRepository.sendFileMessage(message, true, file);
-      emit(ChatFileSentState(message));
+      emit(ChatFileSentState(message, message.messageType));
     } catch (e) {
       emit(ChatFileSendingErrorState('Failed to send file: $e'));
     }
