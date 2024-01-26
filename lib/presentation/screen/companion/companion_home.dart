@@ -1,35 +1,35 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:private_chat/presentation/screen/companion/companion_s_name_when_accepted_page.dart';
+
 import '../../../core/app_export.dart';
-import 'companion_s_name_when_accepted_page.dart';
-import '../profile/mine_page.dart';
-import '../request/request_sent_been_rjected_do_nothing_page.dart';
+import '../../../domain/models/request.dart';
 import '../../widgets/custom_bottom_bar.dart';
 
 // ignore_for_file: must_be_immutable
 class CompanionHome extends StatelessWidget {
-  CompanionHome({Key? key}) : super(key: key);
+  Request request;
+  CompanionHome({
+    Key? key,
+    required this.request,
+  }) : super(key: key);
 
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
-
-  static Widget builder(BuildContext context) {
-    return CompanionHome();
-  }
 
   @override
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
     return SafeArea(
-        child: Scaffold(
-            body: Navigator(
-                key: navigatorKey,
-                initialRoute: AppRoutes.companionSNameWhenAcceptedPage,
-                onGenerateRoute: (routeSetting) => PageRouteBuilder(
-                    pageBuilder: (ctx, ani, ani1) =>
-                        getCurrentPage(context, routeSetting.name!),
-                    transitionDuration: Duration(seconds: 0))),
-            bottomNavigationBar: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 51.h),
-                child: _buildBottomBar(context))));
+      child: Scaffold(
+        body: CompanionSNameWhenAcceptedPage(
+          request: request,
+        ),
+        bottomNavigationBar: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 51.h),
+          child: _buildBottomBar(context),
+        ),
+      ),
+    );
   }
 
   /// Section Widget
@@ -55,20 +55,20 @@ class CompanionHome extends StatelessWidget {
     }
   }
 
-  ///Handling page based on route
-  Widget getCurrentPage(
-    BuildContext context,
-    String currentRoute,
-  ) {
-    switch (currentRoute) {
-      case AppRoutes.companionSNameWhenAcceptedPage:
-        return CompanionSNameWhenAcceptedPage.builder(context);
-      case AppRoutes.requestSentBeenRjectedDoNothingPage:
-        return RequestSentBeenRjectedDoNothingPage.builder(context);
-      case AppRoutes.minePage:
-        return MinePage.builder(context);
-      default:
-        return DefaultWidget();
-    }
-  }
+  // ///Handling page based on route
+  // Widget getCurrentPage(
+  //   BuildContext context,
+  //   String currentRoute,
+  // ) {
+  //   switch (currentRoute) {
+  //     case AppRoutes.companionSNameWhenAcceptedPage:
+  //       return CompanionSNameWhenAcceptedPage.builder(context);
+  //     case AppRoutes.requestSentBeenRjectedDoNothingPage:
+  //       return RequestSentBeenRjectedDoNothingPage.builder(context);
+  //     case AppRoutes.minePage:
+  //       return MinePage.builder(context);
+  //     default:
+  //       return DefaultWidget();
+  //   }
+  // }
 }

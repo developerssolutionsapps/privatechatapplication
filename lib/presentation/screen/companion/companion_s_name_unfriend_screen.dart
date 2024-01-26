@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../../core/app_export.dart';
-import 'companion_s_name_when_accepted_page.dart';
-import '../profile/mine_page.dart';
-import '../request/request_sent_been_rjected_do_nothing_page.dart';
 import '../../widgets/custom_bottom_bar.dart';
 
 class CompanionSNameUnfriendScreen extends StatelessWidget {
@@ -77,20 +74,20 @@ class CompanionSNameUnfriendScreen extends StatelessWidget {
     }
   }
 
-  ///Handling page based on route
-  Widget getCurrentPage(
-    BuildContext context,
-    String currentRoute,
-  ) {
-    switch (currentRoute) {
-      case AppRoutes.companionSNameWhenAcceptedPage:
-        return CompanionSNameWhenAcceptedPage.builder(context);
-      case AppRoutes.requestSentBeenRjectedDoNothingPage:
-        return RequestSentBeenRjectedDoNothingPage.builder(context);
-      case AppRoutes.minePage:
-        return MinePage.builder(context);
-      default:
-        return DefaultWidget();
-    }
-  }
+//   ///Handling page based on route
+//   Widget getCurrentPage(
+//     BuildContext context,
+//     String currentRoute,
+//   ) {
+//     switch (currentRoute) {
+//       case AppRoutes.companionSNameWhenAcceptedPage:
+//         return CompanionSNameWhenAcceptedPage.builder(context);
+//       case AppRoutes.requestSentBeenRjectedDoNothingPage:
+//         return RequestSentBeenRjectedDoNothingPage.builder(context);
+//       case AppRoutes.minePage:
+//         return MinePage.builder(context);
+//       default:
+//         return DefaultWidget();
+//     }
+//   }
 }

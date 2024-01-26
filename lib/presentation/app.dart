@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:private_chat/core/app_export.dart';
 import 'package:private_chat/data/repositories/messages_repository_impl.dart';
+import 'package:private_chat/domain/models/request.dart';
 import 'package:private_chat/logic/chat/chat_cubit.dart';
 import 'package:private_chat/logic/request/request_cubit.dart';
 import 'package:private_chat/logic/user/user_cubit.dart';
@@ -77,11 +78,15 @@ class App extends StatelessWidget {
             GoRoute(
                 name: RoutePath.routeName(RoutePath.companion),
                 path: RoutePath.companion,
-                builder: (_, state) => CompanionHome()),
+                builder: (_, state) => CompanionHome(
+                      request: (state.extra) as Request,
+                    )),
             GoRoute(
                 name: RoutePath.routeName(RoutePath.chat),
                 path: RoutePath.chat,
-                builder: (_, state) => ChatScreen()),
+                builder: (_, state) => ChatScreen(
+                      request: (state.extra) as Request,
+                    )),
             GoRoute(
                 name: RoutePath.routeName(RoutePath.entertainment),
                 path: RoutePath.entertainment,
@@ -147,8 +152,10 @@ class MultiBlocRepoAndProvider extends StatelessWidget {
             create: (_) => HomeCubit(),
           ),
           BlocProvider(
-            create: (_) =>
-                ChatCubit(RepositoryProvider.of<MessagesRepositoryImpl>(_)),
+            create: (_) => ChatCubit(
+              RepositoryProvider.of<MessagesRepositoryImpl>(_),
+              RepositoryProvider.of<AuthRepositoryImpl>(_),
+            ),
           ),
         ], child: child));
   }
