@@ -111,7 +111,8 @@ class RequestReceivedTabContainerScreenState
             }
             if (state is RequestAmConnected) {
               CustomOverlayEntry.instance.hideOverlay();
-              context.goNamed(RoutePath.routeName(RoutePath.companion));
+              context.goNamed(RoutePath.routeName(RoutePath.companion),
+                  extra: state.request);
             }
           },
         ),
@@ -519,20 +520,20 @@ class RequestReceivedTabContainerScreenState
     }
   }
 
-  ///Handling page based on route
-  Widget getCurrentPage(
-    BuildContext context,
-    String currentRoute,
-  ) {
-    switch (currentRoute) {
-      case AppRoutes.companionSNameWhenAcceptedPage:
-        return CompanionSNameWhenAcceptedPage.builder(context);
-      case AppRoutes.requestSentBeenRjectedDoNothingPage:
-        return RequestSentBeenRjectedDoNothingPage.builder(context);
-      case AppRoutes.minePage:
-        return MinePage.builder(context);
-      default:
-        return DefaultWidget();
-    }
-  }
+  // ///Handling page based on route
+  // Widget getCurrentPage(
+  //   BuildContext context,
+  //   String currentRoute,
+  // ) {
+  //   switch (currentRoute) {
+  //     case AppRoutes.companionSNameWhenAcceptedPage:
+  //       return CompanionSNameWhenAcceptedPage.builder(context);
+  //     case AppRoutes.requestSentBeenRjectedDoNothingPage:
+  //       return RequestSentBeenRjectedDoNothingPage.builder(context);
+  //     case AppRoutes.minePage:
+  //       return MinePage.builder(context);
+  //     default:
+  //       return DefaultWidget();
+  //   }
+  // }
 }
