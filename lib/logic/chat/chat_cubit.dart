@@ -8,15 +8,19 @@ import 'package:private_chat/domain/repositories/messages_repository.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../core/enums/message_type.dart';
+import '../../domain/models/user_model.dart';
 import '../../domain/repositories/auth_repository.dart';
+import '../../domain/repositories/user_repository.dart';
 
 part 'chat_state.dart';
 
 class ChatCubit extends Cubit<ChatState> {
   final MessagesRepository _messagesRepository;
   final AuthRepository _authRepository;
+  final UserRepository _userRepository;
 
-  ChatCubit(this._messagesRepository, this._authRepository)
+  ChatCubit(
+      this._messagesRepository, this._authRepository, this._userRepository)
       : super(ChatInitial());
 
   Stream<List<Message>> getMessages({
@@ -29,10 +33,17 @@ class ChatCubit extends Cubit<ChatState> {
     );
   }
 
-  void receiveMessages({
-    required String senderUserId,
-    required String receiverUserId,
-  }) {
+  Future<void> receiveMessages({
+    required String senderPhone,
+    required String receiverPhone,
+  }) async {
+    final UserModel? senderUser =
+        await _userRepository.findUserWithPhone(senderPhone);
+    final UserModel? receiverUser =
+        await _userRepository.findUserWithPhone(receiverPhone);
+    final String senderUserId = senderUser!.phone;
+    final String receiverUserId = receiverUser!.phone;
+
     Stream<List<Message>> messages = getMessages(
       senderUserId: senderUserId,
       receiverUserId: receiverUserId,
@@ -49,10 +60,14 @@ class ChatCubit extends Cubit<ChatState> {
     final sender = _authRepository.currentUser!.phoneNumber;
     final receiver =
         request.sender == sender ? request.receiver : request.sender;
+    final senderUser = await _userRepository.findUserWithPhone(sender);
+    final receiverUser = await _userRepository.findUserWithPhone(receiver);
+    if (senderUser == null) return;
+    if (receiverUser == null) return;
     Message message = Message(
       id: id,
-      sender: sender,
-      receiver: receiver,
+      sender: senderUser.id,
+      receiver: receiverUser.id,
       message: msg,
       createdAt: createdAt,
       fileUrl: "",

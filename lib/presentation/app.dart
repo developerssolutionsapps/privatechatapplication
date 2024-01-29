@@ -155,6 +155,7 @@ class MultiBlocRepoAndProvider extends StatelessWidget {
             create: (_) => ChatCubit(
               RepositoryProvider.of<MessagesRepositoryImpl>(_),
               RepositoryProvider.of<AuthRepositoryImpl>(_),
+              RepositoryProvider.of<UserRepositoryImpl>(_),
             ),
           ),
         ], child: child));
