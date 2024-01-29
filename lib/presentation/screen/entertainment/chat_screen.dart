@@ -16,9 +16,20 @@ import '../../widgets/custom_radio_button.dart';
 import '../../widgets/custom_text_form_field.dart';
 import '../../widgets/chat/messages_list.dart';
 
-class ChatScreen extends StatelessWidget {
+class ChatScreen extends StatefulWidget {
   final Request request;
   const ChatScreen({Key? key, required this.request}) : super(key: key);
+
+  @override
+  State<ChatScreen> createState() => _ChatScreenState();
+}
+
+class _ChatScreenState extends State<ChatScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<ChatCubit>().receiveMessages(request: widget.request);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +73,7 @@ class ChatScreen extends StatelessWidget {
             )),
             SizedBox(height: 11.v),
             BottomChatTextField(
-              request: request,
+              request: widget.request,
             ),
           ]),
         ),
@@ -210,7 +221,7 @@ class ChatScreen extends StatelessWidget {
             ),
           ),
           BottomChatTextField(
-            request: request,
+            request: widget.request,
           ),
         ],
       ),
@@ -338,7 +349,7 @@ class ChatScreen extends StatelessWidget {
     if (videoFile != null) {
       context
           .read<ChatCubit>()
-          .sendFileMessage(request, videoFile, MessageType.video);
+          .sendFileMessage(widget.request, videoFile, MessageType.video);
     }
 
     // if (!mounted) return;
@@ -347,7 +358,7 @@ class ChatScreen extends StatelessWidget {
 
   void _pickAndSendImage(BuildContext context) async {
     print("\n\n\n\nprinting the request before picking the image\n\n\n\n");
-    print("\n\n\n\n${request}\n\n\n\n");
+    print("\n\n\n\n${widget.request}\n\n\n\n");
     File? imageFile = await pickImageFromGallery(context);
     if (imageFile != null) {
       print(
@@ -355,7 +366,7 @@ class ChatScreen extends StatelessWidget {
       print("\n\n\n\n${imageFile}\n\n\n\n");
       context
           .read<ChatCubit>()
-          .sendFileMessage(request, imageFile, MessageType.image);
+          .sendFileMessage(widget.request, imageFile, MessageType.image);
     }
     print(
         "\n\n\n\nprinting the imagefile after sending then file to firebase\n\n\n\n");

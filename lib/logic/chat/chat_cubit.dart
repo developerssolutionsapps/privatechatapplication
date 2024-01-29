@@ -33,10 +33,10 @@ class ChatCubit extends Cubit<ChatState> {
     );
   }
 
-  Future<void> receiveMessages({
-    required String senderPhone,
-    required String receiverPhone,
-  }) async {
+  Future<void> receiveMessages({required Request request}) async {
+    final String senderPhone = _authRepository.currentUser!.phoneNumber;
+    final String receiverPhone =
+        request.sender == senderPhone ? request.receiver : request.sender;
     final UserModel? senderUser =
         await _userRepository.findUserWithPhone(senderPhone);
     final UserModel? receiverUser =
