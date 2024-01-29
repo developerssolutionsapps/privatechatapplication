@@ -63,14 +63,15 @@ class _ChatScreenState extends State<ChatScreen> {
             SizedBox(height: 26.v),
             SizedBox(height: 26.v),
             _actionBar(context),
-            Expanded(
-                child: Column(
-              children: [
-                _chatLeft(context),
-                SizedBox(height: 6.v),
-                _chatRight(context),
-              ],
-            )),
+            // Expanded(
+            //     child: Column(
+            //   children: [
+            //     _chatLeft(context),
+            //     SizedBox(height: 6.v),
+            //     _chatRight(context),
+            //   ],
+            // )),
+            MessagesList(),
             SizedBox(height: 11.v),
             BottomChatTextField(
               request: widget.request,

@@ -12,12 +12,7 @@ import '../../../logic/chat/chat_cubit.dart';
 class MessagesList extends StatefulWidget {
   const MessagesList({
     super.key,
-    required this.uId,
-    required this.myUId,
   });
-
-  final String uId;
-  final String myUId;
 
   @override
   State<MessagesList> createState() => _MessagesListState();
@@ -72,7 +67,7 @@ class _MessagesListState extends State<MessagesList> {
                   Message message = state.messageList[index];
 
                   return MessageCard(
-                    isSender: message.sender == widget.myUId ? true : false,
+                    isSender: message.sender == state.myUId,
                     message: message.message,
                     messageType: message.messageType,
                     time: DateFormat.Hm().format(message.createdAt),

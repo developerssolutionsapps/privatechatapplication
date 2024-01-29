@@ -50,7 +50,7 @@ class ChatCubit extends Cubit<ChatState> {
     );
 
     messages.listen((messageList) {
-      emit(ChatMessageListState(messageList));
+      emit(ChatMessageListState(messageList, senderUserId, receiverUserId));
     });
   }
 

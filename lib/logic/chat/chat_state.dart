@@ -12,12 +12,14 @@ class ChatInitial extends ChatState {}
 class ChatSendingState extends ChatState {}
 
 class ChatMessageListState extends ChatState {
+  final String myUId;
+  final String otherUId;
   final List<Message> messageList;
 
-  ChatMessageListState(this.messageList);
+  ChatMessageListState(this.messageList, this.myUId, this.otherUId);
 
   @override
-  List<Object> get props => [messageList];
+  List<Object> get props => [messageList, myUId, otherUId];
 }
 
 class ChatSentState extends ChatState {
