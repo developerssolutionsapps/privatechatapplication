@@ -63,19 +63,14 @@ class _ChatScreenState extends State<ChatScreen> {
             SizedBox(height: 26.v),
             SizedBox(height: 26.v),
             _actionBar(context),
-            // Expanded(
-            //     child: Column(
-            //   children: [
-            //     _chatLeft(context),
-            //     SizedBox(height: 6.v),
-            //     _chatRight(context),
-            //   ],
-            // )),
-            MessagesList(),
-            SizedBox(height: 11.v),
-            BottomChatTextField(
-              request: widget.request,
+            Expanded(
+              child: _buildBody(context),
             ),
+            // MessagesList(),
+            // SizedBox(height: 11.v),
+            // BottomChatTextField(
+            //   request: widget.request,
+            // ),
           ]),
         ),
       ),
@@ -216,10 +211,7 @@ class _ChatScreenState extends State<ChatScreen> {
       child: Column(
         children: [
           Expanded(
-            child: MessagesList(
-              uId: "otheruseruid",
-              myUId: "myuid",
-            ),
+            child: MessagesList(),
           ),
           BottomChatTextField(
             request: widget.request,
