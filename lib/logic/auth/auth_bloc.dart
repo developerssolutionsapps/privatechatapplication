@@ -16,11 +16,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository _authRepository;
   AuthBloc(this._authRepository) : super(const AuthStateOnInitialize()) {
     on<AuthEventInitialize>((event, emit) async {
-      emit(Loading());
       await _authRepository.initialize();
       add(AuthCheckLoggedInUserEvent());
     });
     on<AuthCheckLoggedInUserEvent>((event, emit) async {
+      emit(Loading());
       final user = await _authRepository.currentUser;
       if (user == null) {
         emit(UnAuthenticated());
