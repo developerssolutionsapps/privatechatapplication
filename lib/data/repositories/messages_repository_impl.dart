@@ -23,7 +23,7 @@ class MessagesRepositoryImpl implements MessagesRepository {
           .collection("chats")
           .doc(receiverUserId)
           .collection("messages")
-          .orderBy('time')
+          .orderBy('createdAt')
           .snapshots()
           .map(
         (messagesMap) {
