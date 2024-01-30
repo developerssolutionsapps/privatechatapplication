@@ -41,8 +41,8 @@ class ChatCubit extends Cubit<ChatState> {
         await _userRepository.findUserWithPhone(senderPhone);
     final UserModel? receiverUser =
         await _userRepository.findUserWithPhone(receiverPhone);
-    final String senderUserId = senderUser!.phone;
-    final String receiverUserId = receiverUser!.phone;
+    final String senderUserId = senderUser!.id;
+    final String receiverUserId = receiverUser!.id;
 
     Stream<List<Message>> messages = getMessages(
       senderUserId: senderUserId,
@@ -100,6 +100,10 @@ class ChatCubit extends Cubit<ChatState> {
     final sender = _authRepository.currentUser!.phoneNumber;
     final receiver =
         request.sender == sender ? request.receiver : request.sender;
+    final senderUser = await _userRepository.findUserWithPhone(sender);
+    final receiverUser = await _userRepository.findUserWithPhone(receiver);
+    if (senderUser == null) return;
+    if (receiverUser == null) return;
     Message message = Message(
         id: id,
         sender: sender,
