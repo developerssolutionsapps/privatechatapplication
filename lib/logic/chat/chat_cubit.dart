@@ -106,8 +106,8 @@ class ChatCubit extends Cubit<ChatState> {
     if (receiverUser == null) return;
     Message message = Message(
         id: id,
-        sender: sender,
-        receiver: receiver,
+        sender: senderUser.id,
+        receiver: receiverUser.id,
         message: "",
         createdAt: createdAt,
         fileUrl: "",
