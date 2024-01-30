@@ -71,49 +71,56 @@ class _BottomChatTextFieldState extends State<BottomChatTextField> {
       _keyboardSize = viewInsets.bottom;
     }
 
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(100.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.shade200,
-                        spreadRadius: 1,
-                        blurRadius: 3,
-                        offset: const Offset(2, 2),
-                      ),
-                      BoxShadow(
+    return BlocListener<ChatCubit, ChatState>(
+      listener: (context, state) {
+        if (state is ChatMessageSentState) {
+          _messageController.clear();
+        }
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(100.0),
+                      boxShadow: [
+                        BoxShadow(
                           color: Colors.grey.shade200,
-                          offset: const Offset(-2, -2),
+                          spreadRadius: 1,
                           blurRadius: 3,
-                          spreadRadius: 1),
-                    ],
+                          offset: const Offset(2, 2),
+                        ),
+                        BoxShadow(
+                            color: Colors.grey.shade200,
+                            offset: const Offset(-2, -2),
+                            blurRadius: 3,
+                            spreadRadius: 1),
+                      ],
+                    ),
+                    child: _buildChatTextField(),
                   ),
-                  child: _buildChatTextField(),
                 ),
-              ),
-              addHorizontalSpace(8.0),
-              _buildMicOrSendButton(),
-            ],
-          ),
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            height: _isEmojiIconTapped ? _keyboardSize ?? 310 : 0.0,
-            width: double.infinity,
-            child: EmojiPicker(
-              textEditingController: _messageController,
-              onEmojiSelected: (_, __) => setState(() {}),
+                addHorizontalSpace(8.0),
+                _buildMicOrSendButton(),
+              ],
             ),
-          )
-        ],
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              height: _isEmojiIconTapped ? _keyboardSize ?? 310 : 0.0,
+              width: double.infinity,
+              child: EmojiPicker(
+                textEditingController: _messageController,
+                onEmojiSelected: (_, __) => setState(() {}),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
