@@ -43,9 +43,7 @@ class MessageCard extends StatelessWidget {
             ),
             padding: const EdgeInsets.all(8.0),
             decoration: BoxDecoration(
-              color: isSender
-                  ? theme.colorScheme.primary
-                  : theme.colorScheme.onPrimary,
+              color: isSender ? theme.colorScheme.onPrimary : appTheme.gray200,
               borderRadius: BorderRadius.only(
                 topLeft: isSender ? const Radius.circular(12.0) : Radius.zero,
                 topRight: const Radius.circular(12.0),
