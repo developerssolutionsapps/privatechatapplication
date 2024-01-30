@@ -111,7 +111,7 @@ class RequestReceivedTabContainerScreenState
             }
             if (state is RequestAmConnected) {
               CustomOverlayEntry.instance.hideOverlay();
-              context.goNamed(RoutePath.routeName(RoutePath.companion),
+              context.pushNamed(RoutePath.routeName(RoutePath.companion),
                   extra: state.request);
             }
           },
@@ -498,6 +498,7 @@ class RequestReceivedTabContainerScreenState
   Widget _buildBottomBar(BuildContext context) {
     return CustomBottomBar(
       onChanged: (BottomBarEnum type) {
+        print(type.toString);
         print(getCurrentRoute(type));
         context.goNamed(RoutePath.routeName(getCurrentRoute(type)));
       },
@@ -512,7 +513,7 @@ class RequestReceivedTabContainerScreenState
       case BottomBarEnum.Request:
         return RoutePath.main;
       case BottomBarEnum.Entertainment:
-        return RoutePath.main;
+        return RoutePath.entertainment;
       case BottomBarEnum.Mine:
         return RoutePath.mine;
       default:

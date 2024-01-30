@@ -334,7 +334,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   /// Navigates to the previous screen.
   onTapArrowLeft(BuildContext context) {
-    NavigatorService.goBack();
+    Navigator.of(context).pop();
   }
 
   void _pickAndSendVideo(BuildContext context) async {
@@ -350,19 +350,11 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void _pickAndSendImage(BuildContext context) async {
-    print("\n\n\n\nprinting the request before picking the image\n\n\n\n");
-    print("\n\n\n\n${widget.request}\n\n\n\n");
     File? imageFile = await pickImageFromGallery(context);
     if (imageFile != null) {
-      print(
-          "\n\n\n\nprinting the imagefile before sending then file to firebase\n\n\n\n");
-      print("\n\n\n\n${imageFile}\n\n\n\n");
       context
           .read<ChatCubit>()
           .sendFileMessage(widget.request, imageFile, MessageType.image);
     }
-    print(
-        "\n\n\n\nprinting the imagefile after sending then file to firebase\n\n\n\n");
-    print("\n\n\n\n${imageFile}\n\n\n\n");
   }
 }
