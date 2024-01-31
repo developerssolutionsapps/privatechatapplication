@@ -1,11 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:private_chat/domain/models/user_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/app_export.dart';
 import '../../routes/path.dart';
 import '../../widgets/custom_bottom_bar.dart';
 import '../../widgets/custom_icon_button.dart';
 import '../../widgets/custom_outlined_button.dart';
-import '../../widgets/custom_text_form_field.dart';
 
 class MinePage extends StatelessWidget {
   const MinePage({Key? key}) : super(key: key);
@@ -25,71 +27,120 @@ class MinePage extends StatelessWidget {
           decoration: AppDecoration.fillGray,
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 12.h, vertical: 46.v),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              _buildEditProfile(context),
-              SizedBox(height: 18.v),
-              Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                CustomImageView(
-                  imagePath: ImageConstant.imgGroup194,
-                  height: 17.v,
-                  width: 20.h,
-                  margin: EdgeInsets.only(top: 2.v, bottom: 3.v),
+            child: Column(
+              children: [
+                FutureBuilder(
+                  future: _getStoredValue(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CircularProgressIndicator();
+                    } else if (snapshot.hasError) {
+                      return Text(
+                        "can't retrieve your information for now ${snapshot.error}",
+                      );
+                    } else {
+                      final UserModel? user = snapshot.data;
+                      if (user == null)
+                        return Text(
+                          "There was an error while retrieving your information ${snapshot.data}",
+                        );
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildEditProfile(
+                            context,
+                            user.name,
+                            user.phone,
+                            user.avatar,
+                          ),
+                          SizedBox(height: 18.v),
+                          Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CustomImageView(
+                                  imagePath: ImageConstant.imgGroup194,
+                                  height: 17.v,
+                                  width: 20.h,
+                                  margin:
+                                      EdgeInsets.only(top: 2.v, bottom: 3.v),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 6.h),
+                                  child: Text(
+                                    user.dateOfBirth == ""
+                                        ? "date of birth not set"
+                                        : "${user.dateOfBirth}",
+                                    style: CustomTextStyles.titleMediumGray500,
+                                  ),
+                                ),
+                              ]),
+                          SizedBox(height: 6.v),
+                          Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CustomImageView(
+                                  imagePath: ImageConstant.imgGroup193,
+                                  height: 22.v,
+                                  width: 20.h,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 6.h),
+                                  child: Text(
+                                    user.dateOfBirth == ""
+                                        ? "location not set"
+                                        : "${user.location}",
+                                    style: CustomTextStyles.titleMediumGray500,
+                                  ),
+                                ),
+                              ]),
+                          SizedBox(height: 16.v),
+                          Row(children: [
+                            Text(
+                              "About Me",
+                              style: theme.textTheme.headlineSmall,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  left: 5.h, top: 3.v, bottom: 2.v),
+                              child: CustomIconButton(
+                                height: 28.adaptSize,
+                                width: 28.adaptSize,
+                                padding: EdgeInsets.all(5.h),
+                                decoration: IconButtonStyleHelper.fillPrimary,
+                                child: CustomImageView(
+                                    imagePath: ImageConstant.imgEdit),
+                              ),
+                            ),
+                          ]),
+                          SizedBox(height: 9.v),
+                          Container(
+                            width: 336.h,
+                            margin: EdgeInsets.only(right: 27.h),
+                            child: Text(
+                              user.description == ""
+                                  ? "About me not set"
+                                  : "${user.description}",
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: theme.textTheme.bodyMedium!
+                                  .copyWith(height: 1.57),
+                            ),
+                          ),
+                          SizedBox(height: 28.v),
+                          Text(
+                            "Moment",
+                            style: theme.textTheme.headlineSmall,
+                          ),
+                        ],
+                      );
+                    }
+                  },
                 ),
-                Padding(
-                  padding: EdgeInsets.only(left: 6.h),
-                  child: Text(
-                    "1990 11 21",
-                    style: CustomTextStyles.titleMediumGray500,
-                  ),
-                ),
-              ]),
-              SizedBox(height: 6.v),
-              Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                CustomImageView(
-                  imagePath: ImageConstant.imgGroup193,
-                  height: 22.v,
-                  width: 20.h,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 6.h),
-                  child: Text(
-                    "not shown",
-                    style: CustomTextStyles.titleMediumGray500,
-                  ),
-                ),
-              ]),
-              SizedBox(height: 16.v),
-              Row(children: [
-                Text("about me", style: theme.textTheme.headlineSmall),
-                Padding(
-                  padding: EdgeInsets.only(left: 5.h, top: 3.v, bottom: 2.v),
-                  child: CustomIconButton(
-                    height: 28.adaptSize,
-                    width: 28.adaptSize,
-                    padding: EdgeInsets.all(5.h),
-                    decoration: IconButtonStyleHelper.fillPrimary,
-                    child: CustomImageView(imagePath: ImageConstant.imgEdit),
-                  ),
-                ),
-              ]),
-              SizedBox(height: 9.v),
-              Container(
-                width: 336.h,
-                margin: EdgeInsets.only(right: 27.h),
-                child: Text(
-                  "duis aute irure",
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: theme.textTheme.bodyMedium!.copyWith(height: 1.57),
-                ),
-              ),
-              SizedBox(height: 28.v),
-              Text("moment", style: theme.textTheme.headlineSmall),
-              SizedBox(height: 5.v),
-              _buildTimeLine(context),
-              SizedBox(height: 5.v)
-            ]),
+                SizedBox(height: 5.v),
+                _buildTimeLine(context),
+                SizedBox(height: 5.v)
+              ],
+            ),
           ),
         ),
         bottomNavigationBar: Padding(
@@ -101,18 +152,22 @@ class MinePage extends StatelessWidget {
   }
 
   /// Section Widget
-  Widget _buildEditProfile(BuildContext context) {
+  Widget _buildEditProfile(
+      BuildContext context, String name, String phone, String avatar) {
     return Row(children: [
       SizedBox(
         height: 56.adaptSize,
         width: 56.adaptSize,
         child: Stack(alignment: Alignment.topRight, children: [
-          CustomImageView(
-              imagePath: ImageConstant.imgEllipse69,
-              height: 56.adaptSize,
-              width: 56.adaptSize,
-              radius: BorderRadius.circular(28.h),
-              alignment: Alignment.center),
+          CircleAvatar(
+            radius: 56,
+            backgroundImage: CachedNetworkImageProvider(avatar),
+          ),
+          // CachedNetworkImage(
+          //   imageUrl: avatar,
+          //   height: 56.adaptSize,
+          //   width: 56.adaptSize,
+          //   alignment: Alignment.center),
           Align(
             alignment: Alignment.topRight,
             child: Container(
@@ -138,23 +193,29 @@ class MinePage extends StatelessWidget {
       Padding(
         padding: EdgeInsets.only(left: 7.h, top: 4.v, bottom: 4.v),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text("a given display", style: theme.textTheme.titleMedium),
+          Text(name, style: theme.textTheme.titleMedium),
           SizedBox(height: 6.v),
           Row(children: [
             CustomImageView(
-                imagePath: ImageConstant.imgProfile,
-                height: 16.adaptSize,
-                width: 16.adaptSize),
+              imagePath: ImageConstant.imgProfile,
+              height: 16.adaptSize,
+              width: 16.adaptSize,
+            ),
             Padding(
               padding: EdgeInsets.only(left: 1.h),
-              child: Text("917568123456",
-                  style: CustomTextStyles.titleSmallGray500),
+              child: Text(
+                phone,
+                style: CustomTextStyles.titleSmallGray500,
+              ),
             ),
           ]),
         ]),
       ),
       Spacer(),
       CustomOutlinedButton(
+        buttonStyle: ButtonStyle(
+            backgroundColor:
+                MaterialStateProperty.all(theme.colorScheme.primary)),
         width: 98.h,
         text: "edit profile",
         margin: EdgeInsets.only(top: 7.v, bottom: 16.v),
@@ -358,6 +419,18 @@ class MinePage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<UserModel?> _getStoredValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? userString = prefs.getString("myInfo");
+    print("user information as a string");
+    print(userString);
+    if (userString == null) return null;
+    UserModel me = UserModel.fromJson(userString);
+    print("user as a user model");
+    print(me);
+    return me;
   }
 
   /// Navigates to the previous screen.
