@@ -6,6 +6,7 @@ import 'package:flutter_sound/public/flutter_sound_recorder.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:private_chat/core/app_export.dart';
+import 'package:private_chat/core/enums/message_type.dart';
 import 'package:private_chat/presentation/widgets/chat/helper_widgets.dart';
 import 'package:private_chat/presentation/widgets/chat/material_icon_button.dart';
 
@@ -74,7 +75,7 @@ class _BottomChatTextFieldState extends State<BottomChatTextField> {
     return BlocListener<ChatCubit, ChatState>(
       listener: (context, state) {
         if (state is ChatMessageSentState) {
-          _messageController.clear();
+          // _messageController.clear();
         }
       },
       child: Padding(
@@ -204,6 +205,7 @@ class _BottomChatTextFieldState extends State<BottomChatTextField> {
     context
         .read<ChatCubit>()
         .sendTextMessage(widget.request, _messageController.text);
+    _messageController.clear();
   }
 
   // void _pickAndSendGif() async {
@@ -225,7 +227,10 @@ class _BottomChatTextFieldState extends State<BottomChatTextField> {
       _soundRecorder.startRecorder(toFile: audioFilePath);
     } else {
       _soundRecorder.stopRecorder();
-      // context.read<ChatCubit>().sendFileMessage(audioFilePath);
+      File audioFile = File(audioFilePath);
+      context
+          .read<ChatCubit>()
+          .sendFileMessage(widget.request, audioFile, MessageType.audio);
     }
 
     setState(() => _isAudioRecording = !_isAudioRecording);
