@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:private_chat/presentation/screen/companion/companion_s_name_when_accepted_page.dart';
+import 'package:private_chat/presentation/screen/companion/no_companion.dart';
 
 import '../../../core/app_export.dart';
 import '../../../domain/models/request.dart';
@@ -8,10 +9,10 @@ import '../../widgets/custom_bottom_bar.dart';
 
 // ignore_for_file: must_be_immutable
 class CompanionHome extends StatelessWidget {
-  Request request;
+  Request? request;
   CompanionHome({
     Key? key,
-    required this.request,
+    this.request,
   }) : super(key: key);
 
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
@@ -21,9 +22,14 @@ class CompanionHome extends StatelessWidget {
     mediaQueryData = MediaQuery.of(context);
     return SafeArea(
       child: Scaffold(
-        body: CompanionSNameWhenAcceptedPage(
-          request: request,
-        ),
+        body: Builder(builder: (context) {
+          if (request == null) {
+            return NoCompanion();
+          }
+          return CompanionSNameWhenAcceptedPage(
+            request: request,
+          );
+        }),
         bottomNavigationBar: Padding(
           padding: EdgeInsets.symmetric(horizontal: 51.h),
           child: _buildBottomBar(context),
@@ -34,9 +40,17 @@ class CompanionHome extends StatelessWidget {
 
   /// Section Widget
   Widget _buildBottomBar(BuildContext context) {
-    return CustomBottomBar(onChanged: (BottomBarEnum type) {
-      Navigator.pushNamed(navigatorKey.currentContext!, getCurrentRoute(type));
-    });
+    return CustomBottomBar(
+      onChanged: (BottomBarEnum type) {
+        Navigator.pushNamed(
+          navigatorKey.currentContext!,
+          getCurrentRoute(
+            type,
+          ),
+        );
+      },
+      selectedIndex: 0,
+    );
   }
 
   ///Handling route based on bottom click actions

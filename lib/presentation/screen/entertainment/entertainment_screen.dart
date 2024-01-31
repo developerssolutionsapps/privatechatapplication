@@ -35,6 +35,7 @@ class EntertainmentScreen extends StatelessWidget {
         print(getCurrentRoute(type));
         context.goNamed(RoutePath.routeName(getCurrentRoute(type)));
       },
+      selectedIndex: 2,
     );
   }
 

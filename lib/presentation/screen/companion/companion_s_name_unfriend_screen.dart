@@ -53,8 +53,11 @@ class CompanionSNameUnfriendScreen extends StatelessWidget {
     return CustomBottomBar(
       onChanged: (BottomBarEnum type) {
         Navigator.pushNamed(
-            navigatorKey.currentContext!, getCurrentRoute(type));
+          navigatorKey.currentContext!,
+          getCurrentRoute(type),
+        );
       },
+      selectedIndex: 1,
     );
   }
 

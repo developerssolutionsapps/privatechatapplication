@@ -79,9 +79,13 @@ class App extends StatelessWidget {
             GoRoute(
                 name: RoutePath.routeName(RoutePath.companion),
                 path: RoutePath.companion,
-                builder: (_, state) => CompanionHome(
-                      request: (state.extra) as Request,
-                    )),
+                builder: (_, state) => state.extra == null
+                    ? CompanionHome(
+                        request: null,
+                      )
+                    : CompanionHome(
+                        request: (state.extra) as Request,
+                      )),
             GoRoute(
                 name: RoutePath.routeName(RoutePath.chat),
                 path: RoutePath.chat,
