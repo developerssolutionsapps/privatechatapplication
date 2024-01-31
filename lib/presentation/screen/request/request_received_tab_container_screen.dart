@@ -498,7 +498,7 @@ class RequestReceivedTabContainerScreenState
   Widget _buildBottomBar(BuildContext context) {
     return CustomBottomBar(
       onChanged: (BottomBarEnum type) {
-        print(type.toString);
+        print(type.toString());
         print(getCurrentRoute(type));
         context.goNamed(RoutePath.routeName(getCurrentRoute(type)));
       },

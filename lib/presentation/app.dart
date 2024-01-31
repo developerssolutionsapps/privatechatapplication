@@ -12,6 +12,7 @@ import 'package:private_chat/presentation/screen/auth/sign_in.dart';
 import 'package:private_chat/presentation/screen/common/splash_screen.dart';
 import 'package:private_chat/presentation/screen/companion/companion_home.dart';
 import 'package:private_chat/presentation/screen/entertainment/chat_screen.dart';
+import 'package:private_chat/presentation/screen/entertainment/entertainment_screen.dart';
 import 'package:private_chat/presentation/screen/profile/mine_page.dart';
 import 'package:private_chat/presentation/screen/profile/set_birthday.dart';
 import 'package:private_chat/presentation/screen/profile/set_display_name.dart';
@@ -90,7 +91,7 @@ class App extends StatelessWidget {
             GoRoute(
                 name: RoutePath.routeName(RoutePath.entertainment),
                 path: RoutePath.entertainment,
-                builder: (_, state) => RequestReceivedTabContainerScreen()),
+                builder: (_, state) => EntertainmentScreen()),
             GoRoute(
                 name: RoutePath.routeName(RoutePath.mine),
                 path: RoutePath.mine,
