@@ -17,6 +17,11 @@ class UserCubit extends Cubit<UserState> {
 
   ProfileSetUp profileSetUp = ProfileSetUp();
 
+  _saveMyInfo(UserModel me) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("myInfo", me.toJson());
+  }
+
   getMyProfile() async {
     try {
       emit(UserLoadingState());
@@ -27,6 +32,7 @@ class UserCubit extends Cubit<UserState> {
         myProfile = await _userRepository.me();
       }
       if (myProfile != null) {
+        _saveMyInfo(myProfile);
         prefs.setString('myPhone', myProfile.phone);
         final String name = myProfile.name;
         final String dateOfBirth = myProfile.dateOfBirth;
