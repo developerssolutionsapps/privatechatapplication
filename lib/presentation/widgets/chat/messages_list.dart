@@ -47,13 +47,17 @@ class _MessagesListState extends State<MessagesList> {
         // }
 
         // // adding callback to new message to scroll to bottom.
-        // SchedulerBinding.instance.addPostFrameCallback(
-        //   (_) => _messagesScrollController.animateTo(
-        //     _messagesScrollController.position.maxScrollExtent,
-        //     duration: const Duration(milliseconds: 500),
-        //     curve: Curves.linear,
-        //   ),
-        // );
+        SchedulerBinding.instance.addPostFrameCallback((_) {
+          // Ensure ListView is fully built
+          if (_messagesScrollController.hasClients) {
+            // Scroll to the bottom
+            _messagesScrollController.animateTo(
+              _messagesScrollController.position.maxScrollExtent,
+              duration: const Duration(milliseconds: 1000),
+              curve: Curves.linear,
+            );
+          }
+        });
 
         return BlocBuilder<ChatCubit, ChatState>(
           buildWhen: (context, state) {
@@ -62,6 +66,7 @@ class _MessagesListState extends State<MessagesList> {
           builder: (context, state) {
             if (state is ChatMessageListState) {
               return ListView.builder(
+                controller: _messagesScrollController,
                 itemCount: state.messageList.length,
                 itemBuilder: (context, index) {
                   Message message = state.messageList[index];
