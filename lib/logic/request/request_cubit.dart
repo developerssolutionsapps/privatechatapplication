@@ -96,6 +96,17 @@ class RequestCubit extends Cubit<RequestState> {
     }
   }
 
+  checkSavedRequest() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? requestStr = prefs.getString("requestConnected");
+    if (requestStr == null) {
+      emit(RequestNoneConnectedState());
+      return;
+    }
+    Request req = Request.fromJson(requestStr);
+    emit(RequestAmConnected(request: req));
+  }
+
   cancelRequest() async {
     Request? request = await _requestAmConnected();
     if (request == null) {

@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:private_chat/logic/request/request_cubit.dart';
 import 'package:private_chat/presentation/screen/companion/companion_s_name_when_accepted_page.dart';
 import 'package:private_chat/presentation/screen/companion/no_companion.dart';
 
@@ -8,14 +9,26 @@ import '../../../domain/models/request.dart';
 import '../../widgets/custom_bottom_bar.dart';
 
 // ignore_for_file: must_be_immutable
-class CompanionHome extends StatelessWidget {
+class CompanionHome extends StatefulWidget {
   Request? request;
   CompanionHome({
     Key? key,
     this.request,
   }) : super(key: key);
 
+  @override
+  State<CompanionHome> createState() => _CompanionHomeState();
+}
+
+class _CompanionHomeState extends State<CompanionHome> {
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<RequestCubit>().checkSavedRequest();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +36,19 @@ class CompanionHome extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         body: Builder(builder: (context) {
-          if (request == null) {
-            return NoCompanion();
-          }
-          return CompanionSNameWhenAcceptedPage(
-            request: request,
+          return BlocBuilder<RequestCubit, RequestState>(
+            buildWhen: (previous, current) =>
+                current is RequestNoneConnectedState &&
+                current is RequestAmConnected,
+            builder: (context, state) {
+              if (state is RequestAmConnected)
+                return CompanionSNameWhenAcceptedPage(
+                  request: state.request,
+                );
+              return CompanionSNameWhenAcceptedPage(
+                request: widget.request,
+              );
+            },
           );
         }),
         bottomNavigationBar: Padding(
@@ -68,21 +89,4 @@ class CompanionHome extends StatelessWidget {
         return "/";
     }
   }
-
-  // ///Handling page based on route
-  // Widget getCurrentPage(
-  //   BuildContext context,
-  //   String currentRoute,
-  // ) {
-  //   switch (currentRoute) {
-  //     case AppRoutes.companionSNameWhenAcceptedPage:
-  //       return CompanionSNameWhenAcceptedPage.builder(context);
-  //     case AppRoutes.requestSentBeenRjectedDoNothingPage:
-  //       return RequestSentBeenRjectedDoNothingPage.builder(context);
-  //     case AppRoutes.minePage:
-  //       return MinePage.builder(context);
-  //     default:
-  //       return DefaultWidget();
-  //   }
-  // }
 }
