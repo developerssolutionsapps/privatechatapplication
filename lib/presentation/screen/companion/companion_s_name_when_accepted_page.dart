@@ -3,15 +3,14 @@ import 'package:go_router/go_router.dart';
 import 'package:private_chat/logic/request/request_cubit.dart';
 import 'package:private_chat/presentation/routes/path.dart';
 import '../../../core/app_export.dart';
+import '../../../domain/models/request.dart';
 import '../../dialogs/generic_dialog.dart';
 import '../../widgets/custom_overlayentry.dart';
 
 class CompanionSNameWhenAcceptedPage extends StatelessWidget {
-  const CompanionSNameWhenAcceptedPage({Key? key}) : super(key: key);
-
-  static Widget builder(BuildContext context) {
-    return CompanionSNameWhenAcceptedPage();
-  }
+  final Request? request;
+  const CompanionSNameWhenAcceptedPage({Key? key, this.request})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +28,17 @@ class CompanionSNameWhenAcceptedPage extends StatelessWidget {
         }
       },
       child: SafeArea(
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          body: Container(
+        child: Builder(builder: (context) {
+          if (request == null) {
+            return Container(
+              width: double.maxFinite,
+              decoration: AppDecoration.fillGray,
+              child: Center(
+                child: Text("You dont have any companion yet"),
+              ),
+            );
+          }
+          return Container(
             width: double.maxFinite,
             decoration: AppDecoration.fillGray,
             child: Container(
@@ -209,8 +216,8 @@ class CompanionSNameWhenAcceptedPage extends StatelessWidget {
                     ),
                   ]),
             ),
-          ),
-        ),
+          );
+        }),
       ),
     );
   }
@@ -271,6 +278,13 @@ class CompanionSNameWhenAcceptedPage extends StatelessWidget {
                           CustomImageView(
                             imagePath: ImageConstant.imgFacebook,
                             height: 32.v,
+                            onTap: () {
+                              context.pushNamed(
+                                  RoutePath.routeName(
+                                    RoutePath.chat,
+                                  ),
+                                  extra: request);
+                            },
                           ),
                           BlocBuilder<RequestCubit, RequestState>(
                             buildWhen: (previous, current) =>

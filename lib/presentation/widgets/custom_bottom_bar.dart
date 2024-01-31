@@ -1,40 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:private_chat/presentation/routes/path.dart';
 import '../../core/app_export.dart';
 
 // ignore: must_be_immutable
 class CustomBottomBar extends StatefulWidget {
-  CustomBottomBar({this.onChanged});
+  CustomBottomBar({this.onChanged, required this.selectedIndex});
 
   Function(BottomBarEnum)? onChanged;
+  int selectedIndex;
 
   @override
   CustomBottomBarState createState() => CustomBottomBarState();
 }
 
 class CustomBottomBarState extends State<CustomBottomBar> {
-  int selectedIndex = 0;
-
   List<BottomMenuModel> bottomMenuList = [
     BottomMenuModel(
-      icon: ImageConstant.imgNavCompanionDeepPurpleA400,
+      icon: ImageConstant.imgNavCompanion,
       activeIcon: ImageConstant.imgNavCompanionDeepPurpleA400,
       title: "companion",
       type: BottomBarEnum.Companion,
     ),
     BottomMenuModel(
       icon: ImageConstant.imgNavRequest,
-      activeIcon: ImageConstant.imgNavRequest,
+      activeIcon: ImageConstant.imgNavRequestDeepPurpleA400,
       title: "request",
       type: BottomBarEnum.Request,
     ),
     BottomMenuModel(
-      icon: ImageConstant.imgNavEntertainment,
+      icon: ImageConstant.imgNavEntertainmentGray500,
       activeIcon: ImageConstant.imgNavEntertainment,
       title: "entertainment",
       type: BottomBarEnum.Entertainment,
     ),
     BottomMenuModel(
-      icon: ImageConstant.imgNavMineGray500,
+      icon: ImageConstant.imgNavMine,
       activeIcon: ImageConstant.imgNavMineGray500,
       title: "mine",
       type: BottomBarEnum.Mine,
@@ -68,7 +69,7 @@ class CustomBottomBarState extends State<CustomBottomBar> {
         showUnselectedLabels: false,
         selectedFontSize: 0,
         elevation: 0,
-        currentIndex: selectedIndex,
+        currentIndex: widget.selectedIndex,
         type: BottomNavigationBarType.fixed,
         items: List.generate(bottomMenuList.length, (index) {
           return BottomNavigationBarItem(
@@ -124,9 +125,15 @@ class CustomBottomBarState extends State<CustomBottomBar> {
           );
         }),
         onTap: (index) {
-          selectedIndex = index;
-          widget.onChanged?.call(bottomMenuList[index].type);
-          setState(() {});
+          if (index == 0) {
+            context.goNamed(RoutePath.routeName(RoutePath.companion));
+          } else if (index == 1) {
+            context.go(RoutePath.main);
+          } else if (index == 2) {
+            context.goNamed(RoutePath.routeName(RoutePath.entertainment));
+          } else if (index == 3) {
+            context.goNamed(RoutePath.routeName(RoutePath.mine));
+          }
         },
       ),
     );
@@ -169,7 +176,7 @@ class DefaultWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Please replace the respective Widget here',
+              'Page not found',
               style: TextStyle(
                 fontSize: 18,
               ),

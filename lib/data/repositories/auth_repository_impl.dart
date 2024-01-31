@@ -88,7 +88,8 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   AuthUser? get currentUser {
     final user = FirebaseAuth.instance.currentUser;
-    return AuthUser.fromFirebase(user!);
+    if (user == null) return null;
+    return AuthUser.fromFirebase(user);
   }
 
   @override

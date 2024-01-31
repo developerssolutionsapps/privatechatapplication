@@ -1,42 +1,77 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:private_chat/logic/request/request_cubit.dart';
+import 'package:private_chat/presentation/screen/companion/companion_s_name_when_accepted_page.dart';
+import 'package:private_chat/presentation/screen/companion/no_companion.dart';
+
 import '../../../core/app_export.dart';
-import 'companion_s_name_when_accepted_page.dart';
-import '../profile/mine_page.dart';
-import '../request/request_sent_been_rjected_do_nothing_page.dart';
+import '../../../domain/models/request.dart';
 import '../../widgets/custom_bottom_bar.dart';
 
 // ignore_for_file: must_be_immutable
-class CompanionHome extends StatelessWidget {
-  CompanionHome({Key? key}) : super(key: key);
+class CompanionHome extends StatefulWidget {
+  Request? request;
+  CompanionHome({
+    Key? key,
+    this.request,
+  }) : super(key: key);
 
+  @override
+  State<CompanionHome> createState() => _CompanionHomeState();
+}
+
+class _CompanionHomeState extends State<CompanionHome> {
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
-  static Widget builder(BuildContext context) {
-    return CompanionHome();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<RequestCubit>().checkSavedRequest();
   }
 
   @override
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
     return SafeArea(
-        child: Scaffold(
-            body: Navigator(
-                key: navigatorKey,
-                initialRoute: AppRoutes.companionSNameWhenAcceptedPage,
-                onGenerateRoute: (routeSetting) => PageRouteBuilder(
-                    pageBuilder: (ctx, ani, ani1) =>
-                        getCurrentPage(context, routeSetting.name!),
-                    transitionDuration: Duration(seconds: 0))),
-            bottomNavigationBar: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 51.h),
-                child: _buildBottomBar(context))));
+      child: Scaffold(
+        body: Builder(builder: (context) {
+          return BlocBuilder<RequestCubit, RequestState>(
+            buildWhen: (previous, current) =>
+                current is RequestNoneConnectedState &&
+                current is RequestAmConnected,
+            builder: (context, state) {
+              if (state is RequestAmConnected)
+                return CompanionSNameWhenAcceptedPage(
+                  request: state.request,
+                );
+              return CompanionSNameWhenAcceptedPage(
+                request: widget.request,
+              );
+            },
+          );
+        }),
+        bottomNavigationBar: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 51.h),
+          child: _buildBottomBar(context),
+        ),
+      ),
+    );
   }
 
   /// Section Widget
   Widget _buildBottomBar(BuildContext context) {
-    return CustomBottomBar(onChanged: (BottomBarEnum type) {
-      Navigator.pushNamed(navigatorKey.currentContext!, getCurrentRoute(type));
-    });
+    return CustomBottomBar(
+      onChanged: (BottomBarEnum type) {
+        Navigator.pushNamed(
+          navigatorKey.currentContext!,
+          getCurrentRoute(
+            type,
+          ),
+        );
+      },
+      selectedIndex: 0,
+    );
   }
 
   ///Handling route based on bottom click actions
@@ -52,23 +87,6 @@ class CompanionHome extends StatelessWidget {
         return AppRoutes.minePage;
       default:
         return "/";
-    }
-  }
-
-  ///Handling page based on route
-  Widget getCurrentPage(
-    BuildContext context,
-    String currentRoute,
-  ) {
-    switch (currentRoute) {
-      case AppRoutes.companionSNameWhenAcceptedPage:
-        return CompanionSNameWhenAcceptedPage.builder(context);
-      case AppRoutes.requestSentBeenRjectedDoNothingPage:
-        return RequestSentBeenRjectedDoNothingPage.builder(context);
-      case AppRoutes.minePage:
-        return MinePage.builder(context);
-      default:
-        return DefaultWidget();
     }
   }
 }

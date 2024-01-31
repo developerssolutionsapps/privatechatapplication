@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:private_chat/core/app_export.dart';
 import 'package:private_chat/data/repositories/messages_repository_impl.dart';
+import 'package:private_chat/domain/models/request.dart';
 import 'package:private_chat/logic/chat/chat_cubit.dart';
 import 'package:private_chat/logic/request/request_cubit.dart';
 import 'package:private_chat/logic/user/user_cubit.dart';
@@ -10,6 +11,8 @@ import 'package:private_chat/presentation/screen/auth/otp_screen.dart';
 import 'package:private_chat/presentation/screen/auth/sign_in.dart';
 import 'package:private_chat/presentation/screen/common/splash_screen.dart';
 import 'package:private_chat/presentation/screen/companion/companion_home.dart';
+import 'package:private_chat/presentation/screen/entertainment/chat_screen.dart';
+import 'package:private_chat/presentation/screen/entertainment/entertainment_screen.dart';
 import 'package:private_chat/presentation/screen/profile/mine_page.dart';
 import 'package:private_chat/presentation/screen/profile/set_birthday.dart';
 import 'package:private_chat/presentation/screen/profile/set_display_name.dart';
@@ -76,11 +79,23 @@ class App extends StatelessWidget {
             GoRoute(
                 name: RoutePath.routeName(RoutePath.companion),
                 path: RoutePath.companion,
-                builder: (_, state) => CompanionHome()),
+                builder: (_, state) => state.extra == null
+                    ? CompanionHome(
+                        request: null,
+                      )
+                    : CompanionHome(
+                        request: (state.extra) as Request,
+                      )),
+            GoRoute(
+                name: RoutePath.routeName(RoutePath.chat),
+                path: RoutePath.chat,
+                builder: (_, state) => ChatScreen(
+                      request: (state.extra) as Request,
+                    )),
             GoRoute(
                 name: RoutePath.routeName(RoutePath.entertainment),
                 path: RoutePath.entertainment,
-                builder: (_, state) => RequestReceivedTabContainerScreen()),
+                builder: (_, state) => EntertainmentScreen()),
             GoRoute(
                 name: RoutePath.routeName(RoutePath.mine),
                 path: RoutePath.mine,
@@ -142,8 +157,11 @@ class MultiBlocRepoAndProvider extends StatelessWidget {
             create: (_) => HomeCubit(),
           ),
           BlocProvider(
-            create: (_) =>
-                ChatCubit(RepositoryProvider.of<MessagesRepositoryImpl>(_)),
+            create: (_) => ChatCubit(
+              RepositoryProvider.of<MessagesRepositoryImpl>(_),
+              RepositoryProvider.of<AuthRepositoryImpl>(_),
+              RepositoryProvider.of<UserRepositoryImpl>(_),
+            ),
           ),
         ], child: child));
   }

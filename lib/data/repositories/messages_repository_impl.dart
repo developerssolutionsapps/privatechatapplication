@@ -23,7 +23,7 @@ class MessagesRepositoryImpl implements MessagesRepository {
           .collection("chats")
           .doc(receiverUserId)
           .collection("messages")
-          .orderBy('time')
+          .orderBy('createdAt')
           .snapshots()
           .map(
         (messagesMap) {
@@ -48,13 +48,15 @@ class MessagesRepositoryImpl implements MessagesRepository {
     try {
       if (!mounted) return;
       String fileName =
-          '${message.messageType}/${_auth.currentUser?.uid ?? message.sender}/${message.receiver}/${message.id}';
+          '${message.messageType.name}/${_auth.currentUser?.uid ?? message.sender}/${message.receiver}/${message.id}';
       final String fileUrl = await _storeFileToFirebaseStorage(
         file: file,
         path: 'chats',
         fileName: fileName,
       );
-      message = message.copyWith(message: fileUrl);
+      print(fileUrl);
+      message = message.copyWith(message: fileUrl, fileUrl: fileUrl);
+      print(message);
       _saveMessage(message: message);
     } on MessageNotSentException catch (_) {
       rethrow;
@@ -67,6 +69,7 @@ class MessagesRepositoryImpl implements MessagesRepository {
 
   @override
   Future<void> sendTextMessage(Message message) async {
+    print("on repository");
     try {
       await _saveMessage(message: message);
     } catch (e) {

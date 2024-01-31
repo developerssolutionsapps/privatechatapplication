@@ -111,7 +111,8 @@ class RequestReceivedTabContainerScreenState
             }
             if (state is RequestAmConnected) {
               CustomOverlayEntry.instance.hideOverlay();
-              context.goNamed(RoutePath.routeName(RoutePath.companion));
+              context.pushNamed(RoutePath.routeName(RoutePath.companion),
+                  extra: state.request);
             }
           },
         ),
@@ -497,9 +498,11 @@ class RequestReceivedTabContainerScreenState
   Widget _buildBottomBar(BuildContext context) {
     return CustomBottomBar(
       onChanged: (BottomBarEnum type) {
+        print(type.toString());
         print(getCurrentRoute(type));
         context.goNamed(RoutePath.routeName(getCurrentRoute(type)));
       },
+      selectedIndex: 1,
     );
   }
 
@@ -511,7 +514,7 @@ class RequestReceivedTabContainerScreenState
       case BottomBarEnum.Request:
         return RoutePath.main;
       case BottomBarEnum.Entertainment:
-        return RoutePath.main;
+        return RoutePath.entertainment;
       case BottomBarEnum.Mine:
         return RoutePath.mine;
       default:
@@ -519,20 +522,20 @@ class RequestReceivedTabContainerScreenState
     }
   }
 
-  ///Handling page based on route
-  Widget getCurrentPage(
-    BuildContext context,
-    String currentRoute,
-  ) {
-    switch (currentRoute) {
-      case AppRoutes.companionSNameWhenAcceptedPage:
-        return CompanionSNameWhenAcceptedPage.builder(context);
-      case AppRoutes.requestSentBeenRjectedDoNothingPage:
-        return RequestSentBeenRjectedDoNothingPage.builder(context);
-      case AppRoutes.minePage:
-        return MinePage.builder(context);
-      default:
-        return DefaultWidget();
-    }
-  }
+  // ///Handling page based on route
+  // Widget getCurrentPage(
+  //   BuildContext context,
+  //   String currentRoute,
+  // ) {
+  //   switch (currentRoute) {
+  //     case AppRoutes.companionSNameWhenAcceptedPage:
+  //       return CompanionSNameWhenAcceptedPage.builder(context);
+  //     case AppRoutes.requestSentBeenRjectedDoNothingPage:
+  //       return RequestSentBeenRjectedDoNothingPage.builder(context);
+  //     case AppRoutes.minePage:
+  //       return MinePage.builder(context);
+  //     default:
+  //       return DefaultWidget();
+  //   }
+  // }
 }
