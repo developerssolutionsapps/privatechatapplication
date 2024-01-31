@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:private_chat/presentation/routes/path.dart';
 import '../../core/app_export.dart';
 
 // ignore: must_be_immutable
@@ -124,9 +126,15 @@ class CustomBottomBarState extends State<CustomBottomBar> {
           );
         }),
         onTap: (index) {
-          selectedIndex = index;
-          widget.onChanged?.call(bottomMenuList[index].type);
-          setState(() {});
+          if (index == 0) {
+            context.goNamed(RoutePath.routeName(RoutePath.companion));
+          } else if (index == 1) {
+            context.go(RoutePath.main);
+          } else if (index == 2) {
+            context.goNamed(RoutePath.routeName(RoutePath.entertainment));
+          } else if (index == 3) {
+            context.goNamed(RoutePath.routeName(RoutePath.mine));
+          }
         },
       ),
     );
@@ -169,7 +177,7 @@ class DefaultWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Please replace the respective Widget here',
+              'Page not found',
               style: TextStyle(
                 fontSize: 18,
               ),
