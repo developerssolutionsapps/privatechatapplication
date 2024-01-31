@@ -29,6 +29,39 @@ class RequestCubit extends Cubit<RequestState> {
     return false;
   }
 
+  _getUserFromPhone(phone) async {
+    final user = await _userRepository.findUserWithPhone(phone);
+    return user;
+  }
+
+  _saveUserInfo(UserModel connectedUser) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("connectedUser", connectedUser.toJson());
+  }
+
+  _saveConnectedUser(Request req) async {
+    String phone = req.sender;
+    if (req.sender == _authRepository.currentUser?.phoneNumber) {
+      phone = req.receiver;
+    }
+    UserModel user = await _getUserFromPhone(phone);
+    _saveUserInfo(user);
+  }
+
+  _clearConnectedUser(Request req) async {
+    UserModel user = UserModel(
+      id: "",
+      avatar: "",
+      name: "",
+      phone: "",
+      gender: "",
+      dateOfBirth: "",
+      location: "",
+      description: "",
+    );
+    _saveUserInfo(user);
+  }
+
   findRequestWithPhone(phone) async {
     emit(RequestLoadingState());
     UserModel? user = await _userRepository.findUserWithPhone(phone);
@@ -161,6 +194,7 @@ class RequestCubit extends Cubit<RequestState> {
     if (req == null) {
       emit(RequestFailure());
     } else {
+      _saveConnectedUser(req);
       emit(RequestAmConnected(request: req));
     }
   }
