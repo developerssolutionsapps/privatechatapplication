@@ -14,6 +14,7 @@ import 'package:private_chat/presentation/screen/companion/companion_home.dart';
 import 'package:private_chat/presentation/screen/entertainment/chat_screen.dart';
 import 'package:private_chat/presentation/screen/entertainment/entertainment_screen.dart';
 import 'package:private_chat/presentation/screen/profile/mine_page.dart';
+import 'package:private_chat/presentation/screen/profile/edit_profile.dart';
 import 'package:private_chat/presentation/screen/profile/set_birthday.dart';
 import 'package:private_chat/presentation/screen/profile/set_display_name.dart';
 import 'package:private_chat/presentation/screen/profile/set_gender.dart';
@@ -100,6 +101,10 @@ class App extends StatelessWidget {
                 name: RoutePath.routeName(RoutePath.mine),
                 path: RoutePath.mine,
                 builder: (_, state) => MinePage()),
+            GoRoute(
+                name: RoutePath.routeName(RoutePath.editProfile),
+                path: RoutePath.editProfile,
+                builder: (_, state) => EditProfile()),
           ]),
     ],
   );

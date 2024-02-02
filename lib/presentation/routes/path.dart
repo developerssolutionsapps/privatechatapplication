@@ -13,6 +13,7 @@ class RoutePath {
   static const String chat = 'main/chat';
   static const String entertainment = 'main/entertainment';
   static const String mine = 'main/mine';
+  static const String editProfile = 'main/edit_profile';
 
   static routeName(String path) => path.substring(5);
 }
