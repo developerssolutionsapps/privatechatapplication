@@ -9,12 +9,27 @@ import '../../widgets/app_bar/appbar_title.dart';
 import '../../widgets/app_bar/appbar_trailing_image.dart';
 import '../../widgets/app_bar/custom_app_bar.dart';
 import '../../widgets/custom_elevated_button.dart';
+import '../../widgets/custom_text_form_field.dart';
 
-class EditProfile extends StatelessWidget {
+class EditProfile extends StatefulWidget {
   const EditProfile({Key? key}) : super(key: key);
 
-  static Widget builder(BuildContext context) {
-    return EditProfile();
+  @override
+  State<EditProfile> createState() => _EditProfileState();
+}
+
+class _EditProfileState extends State<EditProfile> {
+  final nameController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    super.dispose();
   }
 
   @override
@@ -164,13 +179,74 @@ class EditProfile extends StatelessWidget {
   Widget _buildNameInfo(BuildContext context, String displayName) {
     return Padding(
       padding: EdgeInsets.only(left: 1.h, right: 20.h),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text("Display Name", style: theme.textTheme.titleMedium),
-          Text(displayName == "" ? "Add" : displayName,
-              style: theme.textTheme.bodyMedium)
-        ],
+      child: GestureDetector(
+        onTap: () => showModalBottomSheet(
+          context: context,
+          builder: (BuildContext builderContext) {
+            return Padding(
+              padding: EdgeInsets.symmetric(horizontal: 40.h),
+              child: Container(
+                height: 300,
+                child: Column(
+                  children: [
+                    SizedBox(height: 34.v),
+                    Text(
+                      "Display Name",
+                      style: theme.textTheme.headlineSmall,
+                    ),
+                    SizedBox(height: 15.v),
+                    CustomTextFormField(
+                      controller: nameController,
+                      textInputAction: TextInputAction.done,
+                    ),
+                    Spacer(
+                      flex: 43,
+                    ),
+                    CustomElevatedButton(
+                      width: 226.h,
+                      text: "Submit",
+                      margin: EdgeInsets.only(right: 49.h),
+                      buttonStyle: nameController.text == ""
+                          ? CustomButtonStyles.fillGray
+                          : null,
+                      buttonTextStyle: nameController.text == ""
+                          ? CustomTextStyles.titleMediumGray500
+                          : theme.textTheme.titleLarge,
+                      alignment: Alignment.centerRight,
+                      onPressed: () {
+                        // context
+                        //     .read<UserCubit>()
+                        //     .setProfileName(nameController.text);
+                      },
+                    ),
+                    Spacer(
+                      flex: 56,
+                    ),
+                    Expanded(
+                      child: CupertinoDatePicker(
+                        mode: CupertinoDatePickerMode.date,
+                        initialDateTime: DateTime.now(),
+                        onDateTimeChanged: (DateTime newDate) {
+                          // setState(() {
+                          //   picked = newDate;
+                          // });
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text("Display Name", style: theme.textTheme.titleMedium),
+            Text(displayName == "" ? "Add" : displayName,
+                style: theme.textTheme.bodyMedium)
+          ],
+        ),
       ),
     );
   }
