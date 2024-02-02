@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../screen/auth/auto_login.dart';
 import '../screen/profile/account_delete_screen.dart';
-import '../screen/companion/companion_s_name_unfriend_screen.dart';
 import '../screen/searchhistory_screen.dart';
 import '../screen/request/invite_screen.dart';
 import '../screen/profile/profilesetup_screen.dart';
@@ -74,7 +73,6 @@ class AppRoutes {
   static Map<String, WidgetBuilder> get routes => {
         authWidget: PhoneAuthScreen.builder,
         accountDeleteScreen: AccountDeleteScreen.builder,
-        companionSNameUnfriendScreen: CompanionSNameUnfriendScreen.builder,
         searchhistoryScreen: SearchhistoryScreen.builder,
         inviteScreen: InviteScreen.builder,
         profilesetupScreen: ProfilesetupScreen.builder,
