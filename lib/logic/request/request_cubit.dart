@@ -36,7 +36,7 @@ class RequestCubit extends Cubit<RequestState> {
 
   _saveUserInfo(UserModel connectedUser) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString("connectedUser", connectedUser.toJson());
+    prefs.setString("userConnected", connectedUser.toJson());
   }
 
   _saveConnectedUser(Request req) async {
@@ -45,7 +45,8 @@ class RequestCubit extends Cubit<RequestState> {
       phone = req.receiver;
     }
     UserModel user = await _getUserFromPhone(phone);
-    _saveUserInfo(user);
+    await _saveUserInfo(user);
+    emit(UserConnectedSaved());
   }
 
   _clearConnectedUser(Request req) async {

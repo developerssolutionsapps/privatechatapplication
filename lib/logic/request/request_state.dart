@@ -50,3 +50,5 @@ final class RequestUserAlreadyConnectedState extends RequestState {
 }
 
 final class RequestNoneConnectedState extends RequestState {}
+
+final class UserConnectedSaved extends RequestState {}
