@@ -219,6 +219,9 @@ class MinePage extends StatelessWidget {
         width: 98.h,
         text: "edit profile",
         margin: EdgeInsets.only(top: 7.v, bottom: 16.v),
+        onPressed: () => context.pushNamed(
+          RoutePath.routeName(RoutePath.editProfile),
+        ),
       ),
     ]);
   }
