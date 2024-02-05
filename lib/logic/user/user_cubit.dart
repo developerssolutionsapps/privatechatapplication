@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:private_chat/domain/models/user_model.dart';
@@ -113,6 +115,49 @@ class UserCubit extends Cubit<UserState> {
           dateOfBirth: profileSetUp.birthday,
           gender: profileSetUp.gender);
       bool isupdated = await _userRepository.updateProfile(user: user);
+      if (isupdated) {
+        emit(UserProfileSetUpSuccess(user));
+      } else {
+        emit(UserErrorState("There  is an error updating your profile"));
+      }
+    }
+  }
+
+  editProfileSetup() async {
+    UserModel? user = await _userRepository.me();
+    if (user != null) {
+      user = user.copyWith(
+          name: profileSetUp.name,
+          dateOfBirth: profileSetUp.birthday,
+          gender: profileSetUp.gender);
+      bool isupdated = await _userRepository.updateProfile(user: user);
+      if (isupdated) {
+        emit(UserProfileSetUpSuccess(user));
+      } else {
+        emit(UserErrorState("There  is an error updating your profile"));
+      }
+    }
+  }
+
+  editMyProfile(
+    String name,
+    String gender,
+    String birthday,
+    String location,
+    File? image,
+  ) async {
+    UserModel? user = await _userRepository.me();
+    if (user != null) {
+      user = user.copyWith(
+        name: name,
+        dateOfBirth: birthday,
+        gender: gender,
+        location: location,
+      );
+      bool isupdated = await _userRepository.updateProfile(
+        user: user,
+        file: image,
+      );
       if (isupdated) {
         emit(UserProfileSetUpSuccess(user));
       } else {

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:private_chat/logic/user/user_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:csc_picker/csc_picker.dart';
 import '../../../core/app_export.dart';
@@ -103,7 +104,19 @@ class _EditProfileState extends State<EditProfile> {
                 _buildLocatioinInfo(context),
                 Spacer(flex: 48),
                 CustomElevatedButton(
-                    width: 226.h, text: "save", alignment: Alignment.center),
+                  width: 226.h,
+                  text: "save",
+                  alignment: Alignment.center,
+                  onPressed: () {
+                    context.read<UserCubit>().editMyProfile(
+                          nameValue,
+                          genderValue,
+                          birthdayValue,
+                          countryValue,
+                          null,
+                        );
+                  },
+                ),
                 Spacer(flex: 51)
               ],
             );
