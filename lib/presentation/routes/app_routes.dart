@@ -1,16 +1,3 @@
-import 'package:flutter/material.dart';
-import '../screen/auth/auto_login.dart';
-import '../screen/profile/profilesetup_two_screen.dart';
-import '../screen/profile/account_delete_screen.dart';
-import '../screen/companion/companion_s_name_unfriend_screen.dart';
-import '../screen/searchhistory_screen.dart';
-import '../screen/request/invite_screen.dart';
-import '../screen/profile/profilesetup_screen.dart';
-import '../screen/profile/profilesetup_location_screen.dart';
-import '../screen/profile/edit_profile_gender_screen.dart';
-import '../screen/request/request_received_tab_container_screen.dart';
-import '../screen/request/app_navigation_screen.dart';
-
 class AppRoutes {
   static const String splashscreenScreen = '/splashscreen_screen';
 
@@ -72,18 +59,16 @@ class AppRoutes {
 
   static const String initialRoute = '/initialRoute';
 
-  static Map<String, WidgetBuilder> get routes => {
-        authWidget: PhoneAuthScreen.builder,
-        profilesetupTwoScreen: ProfilesetupTwoScreen.builder,
-        accountDeleteScreen: AccountDeleteScreen.builder,
-        companionSNameUnfriendScreen: CompanionSNameUnfriendScreen.builder,
-        searchhistoryScreen: SearchhistoryScreen.builder,
-        inviteScreen: InviteScreen.builder,
-        profilesetupScreen: ProfilesetupScreen.builder,
-        profilesetupLocationScreen: ProfilesetupLocationScreen.builder,
-        editProfileGenderScreen: EditProfileGenderScreen.builder,
-        requestReceivedTabContainerScreen:
-            RequestReceivedTabContainerScreen.builder,
-        appNavigationScreen: AppNavigationScreen.builder,
-      };
+  // static Map<String, WidgetBuilder> get routes => {
+  //       authWidget: PhoneAuthScreen.builder,
+  //       accountDeleteScreen: AccountDeleteScreen.builder,
+  //       searchhistoryScreen: SearchhistoryScreen.builder,
+  //       inviteScreen: InviteScreen.builder,
+  //       profilesetupScreen: ProfilesetupScreen.builder,
+  //       profilesetupLocationScreen: ProfilesetupLocationScreen.builder,
+  //       editProfileGenderScreen: EditProfileGenderScreen.builder,
+  //       requestReceivedTabContainerScreen:
+  //           RequestReceivedTabContainerScreen.builder,
+  //       appNavigationScreen: AppNavigationScreen.builder,
+  //     };
 }

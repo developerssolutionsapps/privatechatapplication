@@ -7,7 +7,7 @@ import '../../../logic/request/request_cubit.dart';
 import '../../../logic/user/user_cubit.dart';
 import '../../dialogs/generic_dialog.dart';
 import '../../widgets/custom_overlayentry.dart';
-import '../companion/companion_s_name_when_accepted_page.dart';
+import '../companion/companion_home.dart';
 import '../profile/mine_page.dart';
 import 'cubit/home_cubit.dart';
 import 'request_sent_been_rjected_do_nothing_page.dart';
@@ -111,7 +111,7 @@ class RequestReceivedTabContainerScreenState
             }
             if (state is RequestAmConnected) {
               CustomOverlayEntry.instance.hideOverlay();
-              context.pushNamed(RoutePath.routeName(RoutePath.companion),
+              context.goNamed(RoutePath.routeName(RoutePath.companion),
                   extra: state.request);
             }
           },
