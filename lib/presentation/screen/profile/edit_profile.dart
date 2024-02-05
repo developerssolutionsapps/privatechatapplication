@@ -203,21 +203,11 @@ class _EditProfileState extends State<EditProfile> {
                         setState(() {
                           nameValue = nameController.text;
                         });
+                        Navigator.pop(context);
                       },
                     ),
                     Spacer(
                       flex: 56,
-                    ),
-                    Expanded(
-                      child: CupertinoDatePicker(
-                        mode: CupertinoDatePickerMode.date,
-                        initialDateTime: DateTime.now(),
-                        onDateTimeChanged: (DateTime newDate) {
-                          // setState(() {
-                          //   picked = newDate;
-                          // });
-                        },
-                      ),
                     ),
                   ],
                 ),
@@ -329,6 +319,7 @@ class _EditProfileState extends State<EditProfile> {
                       setState(() {
                         if (gender == Gender.male) genderValue = "male";
                         if (gender == Gender.female) genderValue = "female";
+                        Navigator.pop(context);
                       });
                     },
                   ),
@@ -392,7 +383,6 @@ class _EditProfileState extends State<EditProfile> {
                       onDateTimeChanged: (DateTime newDate) {
                         setState(() {
                           birthday = DateFormat('yyyy-MM-dd').format(newDate);
-                          ;
                         });
                       },
                     ),
@@ -411,6 +401,7 @@ class _EditProfileState extends State<EditProfile> {
                     onPressed: () {
                       setState(() {
                         birthdayValue = birthday;
+                        Navigator.pop(context);
                       });
                     },
                   ),
