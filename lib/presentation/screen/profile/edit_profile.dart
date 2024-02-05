@@ -1,12 +1,15 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:country_picker/country_picker.dart';
+import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:private_chat/logic/user/user_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:csc_picker/csc_picker.dart';
+
+import 'package:private_chat/logic/user/user_cubit.dart';
+
 import '../../../core/app_export.dart';
 import '../../../core/enums/gender.dart';
 import '../../../core/utils/pick_files_utils.dart';
@@ -28,6 +31,7 @@ class EditProfile extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfile> {
   final nameController = TextEditingController();
+  final genderController = TextEditingController();
   String countryValue = "";
   String nameValue = "";
   String genderValue = "";
@@ -43,6 +47,7 @@ class _EditProfileState extends State<EditProfile> {
   @override
   void dispose() {
     nameController.dispose();
+    genderController.dispose();
     super.dispose();
   }
 
@@ -264,7 +269,10 @@ class _EditProfileState extends State<EditProfile> {
                                       ? ImageConstant.imgGroup26
                                       : ImageConstant.imgGroup27),
                               onTap: () {
-                                gender = Gender.female;
+                                genderController.text = "female";
+                                setState(() {
+                                  gender = Gender.female;
+                                });
                               }),
                           SizedBox(height: 8.v),
                           Text("female",
@@ -288,7 +296,10 @@ class _EditProfileState extends State<EditProfile> {
                                       ? ImageConstant.imgGroup28
                                       : ImageConstant.imgGroup29),
                               onTap: () {
-                                gender = Gender.male;
+                                genderController.text = "male";
+                                setState(() {
+                                  gender = Gender.male;
+                                });
                               },
                             ),
                             SizedBox(height: 8.v),
@@ -304,25 +315,32 @@ class _EditProfileState extends State<EditProfile> {
                     ),
                   ),
                   SizedBox(height: 64.v),
-                  CustomElevatedButton(
-                    width: 226.h,
-                    text: "Submit",
-                    margin: EdgeInsets.symmetric(horizontal: 32),
-                    buttonStyle: nameController.text == ""
-                        ? CustomButtonStyles.fillGray
-                        : null,
-                    buttonTextStyle: nameController.text == ""
-                        ? CustomTextStyles.titleMediumGray500
-                        : theme.textTheme.titleLarge,
-                    alignment: Alignment.center,
-                    onPressed: () {
-                      setState(() {
-                        if (gender == Gender.male) genderValue = "male";
-                        if (gender == Gender.female) genderValue = "female";
-                        Navigator.pop(context);
-                      });
-                    },
-                  ),
+                  Builder(builder: (context) {
+                    genderController.addListener(
+                      () {
+                        setState(() {});
+                      },
+                    );
+                    return CustomElevatedButton(
+                      width: 226.h,
+                      text: "Submit",
+                      margin: EdgeInsets.symmetric(horizontal: 32),
+                      buttonStyle: genderController.text == ""
+                          ? CustomButtonStyles.fillGray
+                          : null,
+                      buttonTextStyle: genderController.text == ""
+                          ? CustomTextStyles.titleMediumGray500
+                          : theme.textTheme.titleLarge,
+                      alignment: Alignment.center,
+                      onPressed: () {
+                        setState(() {
+                          if (gender == Gender.male) genderValue = "male";
+                          if (gender == Gender.female) genderValue = "female";
+                          Navigator.pop(context);
+                        });
+                      },
+                    );
+                  }),
                 ],
               ),
             );
@@ -405,27 +423,6 @@ class _EditProfileState extends State<EditProfile> {
                       });
                     },
                   ),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  //   children: [
-
-                  //     ElevatedButton(
-                  //       onPressed: () {
-                  //         Navigator.of(context).pop();
-                  //       },
-                  //       child: Text('Cancel'),
-                  //     ),
-                  //     ElevatedButton(
-                  //       onPressed: () {
-                  //         Navigator.of(context).pop();
-                  //         setState(() {
-                  //           birthdayValue = birthday;
-                  //         });
-                  //       },
-                  //       child: Text('OK'),
-                  //     ),
-                  //   ],
-                  // ),
                 ],
               ),
             );
@@ -451,44 +448,12 @@ class _EditProfileState extends State<EditProfile> {
     return Padding(
       padding: EdgeInsets.only(left: 1.h, right: 20.h),
       child: GestureDetector(
-        onTap: () => showModalBottomSheet(
+        onTap: () => showCountryPicker(
           context: context,
-          builder: (BuildContext builderContext) {
-            return Padding(
-              padding: const EdgeInsets.all(20),
-              child: CSCPicker(
-                flagState: CountryFlag.ENABLE,
-                disabledDropdownDecoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(30)),
-                  color: Colors.white,
-                  border: Border.all(
-                    color: Colors.grey.shade300,
-                    width: 1,
-                  ),
-                ),
-                dropdownDecoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(30)),
-                  color: Colors.white,
-                  border: Border.all(
-                    color: Colors.grey.shade300,
-                    width: 1,
-                  ),
-                ),
-                dropdownHeadingStyle: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-                showCities: false,
-                showStates: false,
-                searchBarRadius: 50,
-                defaultCountry: CscCountry.Pakistan,
-                countryDropdownLabel: countryValue,
-                onCountryChanged: (value) {
-                  setState(() {
-                    countryValue = value;
-                  });
-                },
-              ),
-            );
+          onSelect: (Country country) {
+            setState(() {
+              countryValue = "${country.flagEmoji}\t${country.name}";
+            });
           },
         ),
         child: Row(
