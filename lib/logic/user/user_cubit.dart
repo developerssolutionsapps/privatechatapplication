@@ -165,4 +165,21 @@ class UserCubit extends Cubit<UserState> {
       }
     }
   }
+
+  updateMyProfilePic(
+    File? image,
+  ) async {
+    UserModel? user = await _userRepository.me();
+    if (user != null) {
+      bool isupdated = await _userRepository.updateProfile(
+        user: user,
+        file: image,
+      );
+      if (isupdated) {
+        emit(UserProfileSetUpSuccess(user));
+      } else {
+        emit(UserErrorState("There  is an error updating your profile"));
+      }
+    }
+  }
 }

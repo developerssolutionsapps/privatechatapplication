@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:csc_picker/csc_picker.dart';
 import '../../../core/app_export.dart';
 import '../../../core/enums/gender.dart';
+import '../../../core/utils/pick_files_utils.dart';
 import '../../../domain/models/user_model.dart';
 import '../../widgets/app_bar/appbar_leading_image.dart';
 import '../../widgets/app_bar/appbar_title.dart';
@@ -86,10 +89,12 @@ class _EditProfileState extends State<EditProfile> {
                               : CachedNetworkImageProvider(user.avatar),
                         ),
                         CustomImageView(
-                            imagePath: ImageConstant.imgCamera,
-                            height: 50.adaptSize,
-                            width: 50.adaptSize,
-                            alignment: Alignment.bottomRight)
+                          imagePath: ImageConstant.imgCamera,
+                          height: 50.adaptSize,
+                          width: 50.adaptSize,
+                          alignment: Alignment.bottomRight,
+                          onTap: () => _pickAndUpdateProfilePic(context),
+                        )
                       ],
                     ),
                   ),
@@ -147,6 +152,13 @@ class _EditProfileState extends State<EditProfile> {
         ),
       ],
     );
+  }
+
+  void _pickAndUpdateProfilePic(BuildContext context) async {
+    File? imageFile = await pickImageFromGallery(context);
+    if (imageFile != null) {
+      context.read<UserCubit>().updateMyProfilePic(imageFile);
+    }
   }
 
   /// Section Widget
