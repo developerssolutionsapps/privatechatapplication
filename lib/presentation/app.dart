@@ -9,9 +9,10 @@ import 'package:private_chat/logic/user/user_cubit.dart';
 import 'package:private_chat/presentation/routes/path.dart';
 import 'package:private_chat/presentation/screen/auth/otp_screen.dart';
 import 'package:private_chat/presentation/screen/auth/sign_in.dart';
+import 'package:private_chat/presentation/screen/chat/video_call_screen.dart';
 import 'package:private_chat/presentation/screen/common/splash_screen.dart';
 import 'package:private_chat/presentation/screen/companion/companion_home.dart';
-import 'package:private_chat/presentation/screen/entertainment/chat_screen.dart';
+import 'package:private_chat/presentation/screen/chat/chat_screen.dart';
 import 'package:private_chat/presentation/screen/entertainment/entertainment_screen.dart';
 import 'package:private_chat/presentation/screen/profile/mine_page.dart';
 import 'package:private_chat/presentation/screen/profile/edit_profile.dart';
@@ -93,6 +94,10 @@ class App extends StatelessWidget {
                 builder: (_, state) => ChatScreen(
                       request: (state.extra) as Request,
                     )),
+            GoRoute(
+                name: RoutePath.routeName(RoutePath.videoCall),
+                path: RoutePath.videoCall,
+                builder: (_, state) => VideoCallScreen()),
             GoRoute(
                 name: RoutePath.routeName(RoutePath.entertainment),
                 path: RoutePath.entertainment,

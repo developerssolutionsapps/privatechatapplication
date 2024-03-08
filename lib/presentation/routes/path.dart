@@ -14,6 +14,7 @@ class RoutePath {
   static const String entertainment = 'main/entertainment';
   static const String mine = 'main/mine';
   static const String editProfile = 'main/edit_profile';
+  static const String videoCall = 'main/video_call';
 
   static routeName(String path) => path.substring(5);
 }

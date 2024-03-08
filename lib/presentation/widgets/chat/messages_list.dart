@@ -38,13 +38,13 @@ class _MessagesListState extends State<MessagesList> {
     context.read<UserCubit>().getMyProfile();
     return StreamBuilder<List<Message>>(
       builder: (context, snapshot) {
-        // if (!snapshot.hasData) {
-        //   return const Center(
-        //     child: CircularProgressIndicator(
-        //       color: Colors.black,
-        //     ),
-        //   );
-        // }
+        if (!snapshot.hasData) {
+          return const Center(
+            child: CircularProgressIndicator(
+              color: Colors.black,
+            ),
+          );
+        }
 
         // // adding callback to new message to scroll to bottom.
         SchedulerBinding.instance.addPostFrameCallback((_) {

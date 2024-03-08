@@ -1,11 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:private_chat/core/enums/message_type.dart';
 import 'package:private_chat/domain/models/request.dart';
 import '../../../core/app_export.dart';
 import '../../../core/utils/pick_files_utils.dart';
 import '../../../logic/chat/chat_cubit.dart';
+import '../../routes/path.dart';
 import '../../widgets/app_bar/appbar_leading_image.dart';
 import '../../widgets/app_bar/appbar_title.dart';
 import '../../widgets/app_bar/appbar_trailing_image.dart';
@@ -159,7 +161,12 @@ class _ChatScreenState extends State<ChatScreen> {
               height: 40.adaptSize,
               width: 40.adaptSize,
               padding: EdgeInsets.all(9.h),
-              child: CustomImageView(imagePath: ImageConstant.imgVideocall),
+              child: CustomImageView(
+                imagePath: ImageConstant.imgVideocall,
+                onTap: () {
+                  context.pushNamed(RoutePath.routeName(RoutePath.videoCall));
+                },
+              ),
             ),
           ),
           Spacer(),
